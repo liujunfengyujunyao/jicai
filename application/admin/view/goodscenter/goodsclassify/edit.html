@@ -1,0 +1,58 @@
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Name')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-name" data-rule="required" class="form-control" name="row[name]" type="text" value="{$row.name|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Higherlevel')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-higherlevel" data-rule="required" class="form-control" name="row[higherlevel]" type="text" value="{$row.higherlevel|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Number')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-number" data-rule="required" class="form-control" name="row[number]" type="number" value="{$row.number|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Status')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-status" data-rule="required" class="form-control" name="row[status]" type="text" value="{$row.status|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Goodscreater')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-goodscreater" data-rule="required" class="form-control" name="row[goodscreater]" type="text" value="{$row.goodscreater|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Goodscreattimeintdatesuffix')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-goodscreattimeintdatesuffix" data-rule="required" class="form-control datetimepicker" data-date-format="YYYY-MM-DD" data-use-current="true" name="row[goodscreattimeintdatesuffix]" type="text" value="{$row.goodscreattimeintdatesuffix}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Goodsupdater')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-goodsupdater" data-rule="required" class="form-control" name="row[goodsupdater]" type="text" value="{$row.goodsupdater|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Goodsupdatertimeintdatesuffix')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-goodsupdatertimeintdatesuffix" data-rule="required" class="form-control datetimepicker" data-date-format="YYYY-MM-DD" data-use-current="true" name="row[goodsupdatertimeintdatesuffix]" type="text" value="{$row.goodsupdatertimeintdatesuffix}">
+        </div>
+    </div>
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>
