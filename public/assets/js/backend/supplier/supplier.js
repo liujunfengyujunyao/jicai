@@ -37,6 +37,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                             field: 'buttons',
                             width: "120px",
                             title: __('价格维护'),
+                            operate:false,
                             table: table,
                             events: Table.api.events.operate,
                             buttons: [
