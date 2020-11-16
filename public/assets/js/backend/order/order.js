@@ -80,26 +80,29 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {checkbox: true},
                         {field: 'index_id', title: __('序号'), formatter: function(value, row, index){
                                 return ++index;
-                            }},
-                        {field: 'id', title: __('Id'),visible:false},
-                        {field: 'goods_sn', title: __('商品编号')},
-                        {field: 'goods_name', title: __('商品名称')},
-                        {field: 'spec', title: __('规格')},
-                        {field: 'unit', title: __('单位')},
-                        {field: 'price', title: __('单价')},
-                        {field: 'department.id', title: __('Department.id'),visible:false},
+                            },operate:false},
+                        {field: 'id', title: __('Id'),visible:false,operate:false},
+                        {field: 'goods_sn', title: __('商品编号'),operate:false},
+                        {field: 'goods_name', title: __('商品名称'),operate: 'LIKE %...%'},
+                        {field: 'spec', title: __('规格'),operate:false},
+                        {field: 'unit', title: __('单位'),operate:false},
+                        {field: 'price', title: __('单价'),operate:false},
+                        {field: 'department.id', title: __('Department.id'),visible:false,operate:false},
                         {field: 'supplier.id', title: __('Supplier.id'),visible:false},
                         {
                             field: 'order_count',
-                            title: '下单数量'
+                            title: '下单数量',
+                            operate:false
                         },
                         {
                             field: 'order_amount',
-                            title: '下单金额'
+                            title: '下单金额',
+                            operate:false
                         },
                         {
                             field: 'remark',
-                            title: '备注'
+                            title: '备注',
+                            operate:false
                         },
                         {
                             field: '添加',
@@ -114,7 +117,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                                     classname: 'btn btn-xs btn-success btn-magic btn-ajax',
                                     icon: 'fa fa-magic',
                                     confirm: '确认发送Ajax请求？',
-                                    url: 'example/bootstraptable/detail',
+                                    url: 'order/order/ajax_update',
                                     success: function (data, ret) {
                                         Layer.alert(ret.msg + ",返回数据：" + JSON.stringify(data));
                                         //如果需要阻止成功提示，则必须使用return false;
@@ -130,7 +133,11 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                             operate:false
                         }
                     ]
-                ]
+                ],
+                search:false,
+                showToggle: false,
+                showColumns: false,
+                searchFormVisible: true
             });
 
             // 为表格绑定事件

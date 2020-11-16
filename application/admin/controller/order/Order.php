@@ -147,13 +147,17 @@ class Order extends Backend
     {
         $params = $this->request->param();
 
+
         //当前是否为关联查询
         $this->relationSearch = true;
         //设置过滤方法
         $this->request->filter(['strip_tags', 'trim']);
         if ($this->request->isAjax())
         {
-
+            @$goods_name = json_decode($params['filter'],true)['goods_name'];
+//            $goods_name ?$like = ['t2.goods_name','like', '%' . $goods_name . '%']:$like="1=1";
+//            $like = $goods_name?['t2.goods_name'=>['like', $goods_name]]:'1=1';
+            $like = $goods_name?['t2.goods_name'=>['like', '%'.$goods_name.'%']]:'1=1';
             //如果发送的来源是Selectpage，则转发到Selectpage
             if ($this->request->request('keyField'))
             {
@@ -168,13 +172,14 @@ class Order extends Backend
                 ->alias('t1')
                 ->join('__GOODS__ t2','t1.goods_id=t2.id','LEFT')
                 ->where(['t1.supplier_id'=>$params['supplier.id'],'t2.status'=>'1'])
+                ->where($like)
                 ->limit($offset, $limit)
                 ->select();
-//halt($list);
             $total = DB::name('supplier_goods')
                 ->alias('t1')
                 ->join('__GOODS__ t2','t1.goods_id=t2.id','LEFT')
                 ->where(['t1.supplier_id'=>$params['supplier.id'],'t2.status'=>'1'])
+                ->where($like)
                 ->count();
 
 //            foreach ($list as $row) {

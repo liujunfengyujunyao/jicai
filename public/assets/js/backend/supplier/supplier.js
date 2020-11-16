@@ -51,8 +51,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                                     //url: "supplier/price/index"
                                 }
                             ],
-                            formatter: Table.api.formatter.buttons,
-                            operate:false
+
                         },
                         {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}
                     ]
