@@ -11,8 +11,8 @@ return [
     'Status 0'               => '待收货',
     'Status 1'               => '已收货',
     'Status 2'               => '已取消',
+    'Department.name'        => '部门名称',
     'Supplier.supplier_name' => '供应商名称',
     'Supplier.linkman'       => '联系人',
-    'Supplier.mobile'        => '联系电话',
-    'Department.name'        => '部门名称'
+    'Supplier.mobile'        => '联系电话'
 ];

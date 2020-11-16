@@ -57,14 +57,14 @@ class Order extends Model
     }
 
 
-    public function supplier()
-    {
-        return $this->belongsTo('app\admin\model\supplier\Supplier', 'supplier_id', 'id', [], 'LEFT')->setEagerlyType(0);
-    }
-
-
     public function department()
     {
         return $this->belongsTo('app\admin\model\auth\Department', 'department_id', 'id', [], 'LEFT')->setEagerlyType(0);
+    }
+
+
+    public function supplier()
+    {
+        return $this->belongsTo('app\admin\model\supplier\Supplier', 'supplier_id', 'id', [], 'LEFT')->setEagerlyType(0);
     }
 }

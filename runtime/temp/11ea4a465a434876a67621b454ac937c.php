@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:65:"D:\WWW\zbjg\public/../application/admin\view\order\order\add.html";i:1605341749;s:54:"D:\WWW\zbjg\application\admin\view\layout\default.html";i:1604979994;s:51:"D:\WWW\zbjg\application\admin\view\common\meta.html";i:1604979993;s:53:"D:\WWW\zbjg\application\admin\view\common\script.html";i:1604979993;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:64:"D:\WWW\zbjg\public/../application/admin\view\command\detail.html";i:1604979993;s:54:"D:\WWW\zbjg\application\admin\view\layout\default.html";i:1604979994;s:51:"D:\WWW\zbjg\application\admin\view\common\meta.html";i:1604979993;s:53:"D:\WWW\zbjg\application\admin\view\common\script.html";i:1604979993;}*/ ?>
 <!DOCTYPE html>
 <html lang="<?php echo $config['language']; ?>">
     <head>
@@ -50,39 +50,48 @@
                             <!-- END RIBBON -->
                             <?php endif; ?>
                             <div class="content">
-                                <form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
-
-
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2"><?php echo __('Department_id'); ?>:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-department_id" data-rule="required" data-source="auth/department/select_list" class="form-control selectpage" name="row[department_id]" type="text" value="">
-        </div>
+                                <table class="table table-striped">
+    <thead>
+    <tr>
+        <th><?php echo __('Title'); ?></th>
+        <th><?php echo __('Content'); ?></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td><?php echo __('Type'); ?></td>
+        <td><?php echo $row['type']; ?>(<?php echo $row['type_text']; ?>)</td>
+    </tr>
+    <tr>
+        <td><?php echo __('Params'); ?></td>
+        <td><?php echo $row['params']; ?></td>
+    </tr>
+    <tr>
+        <td><?php echo __('Command'); ?></td>
+        <td><?php echo $row['command']; ?></td>
+    </tr>
+    <tr>
+        <td><?php echo __('Content'); ?></td>
+        <td>
+            <textarea class="form-control" name="" id="" cols="60" rows="10"><?php echo $row['content']; ?></textarea>
+        </td>
+    </tr>
+    <tr>
+        <td><?php echo __('Executetime'); ?></td>
+        <td><?php echo datetime($row['executetime']); ?></td>
+    </tr>
+    <tr>
+        <td><?php echo __('Status'); ?></td>
+        <td><?php echo $row['status_text']; ?></td>
+    </tr>
+    </tbody>
+</table>
+<div class="hide layer-footer">
+    <label class="control-label col-xs-12 col-sm-2"></label>
+    <div class="col-xs-12 col-sm-8">
+        <button type="reset" class="btn btn-primary btn-embossed btn-close" onclick="Layer.closeAll();"><?php echo __('Close'); ?></button>
     </div>
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2"><?php echo __('Supplier_id'); ?>:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-supplier_id" data-rule="required" data-source="supplier/supplier/select_list" class="form-control selectpage" name="row[supplier_id]" type="text" value="">
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2"><?php echo __('Sendtime'); ?>:</label>
-        <div class="col-xs-12 col-sm-8">
-            <input id="c-sendtime" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[sendtime]" type="text" value="<?php echo date('Y-m-d H:i:s'); ?>">
-        </div>
-    </div>
-
-    <div class="form-group layer-footer">
-        <label class="control-label col-xs-12 col-sm-2"></label>
-        <div class="col-xs-12 col-sm-8">
-<!--            <button  class="btn btn-success btn-embossed"><?php echo __('OK'); ?></button>-->
-            <button type="submit" id="next" class="btn btn-success btn-embossed disabled"><?php echo __('OK'); ?></button>
-<!--            <button type="reset" class="btn btn-default btn-embossed"><?php echo __('Reset'); ?></button>-->
-        </div>
-    </div>
-</form>
-
+</div>
                             </div>
                         </div>
                     </div>

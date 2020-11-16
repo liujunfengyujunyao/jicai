@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:65:"D:\WWW\zbjg\public/../application/admin\view\order\order\add.html";i:1605341749;s:54:"D:\WWW\zbjg\application\admin\view\layout\default.html";i:1604979994;s:51:"D:\WWW\zbjg\application\admin\view\common\meta.html";i:1604979993;s:53:"D:\WWW\zbjg\application\admin\view\common\script.html";i:1604979993;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:68:"D:\WWW\zbjg\public/../application/admin\view\goods\category\add.html";i:1605059693;s:54:"D:\WWW\zbjg\application\admin\view\layout\default.html";i:1604979994;s:51:"D:\WWW\zbjg\application\admin\view\common\meta.html";i:1604979993;s:53:"D:\WWW\zbjg\application\admin\view\common\script.html";i:1604979993;}*/ ?>
 <!DOCTYPE html>
 <html lang="<?php echo $config['language']; ?>">
     <head>
@@ -52,33 +52,50 @@
                             <div class="content">
                                 <form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
 
-
     <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2"><?php echo __('Department_id'); ?>:</label>
+        <label class="control-label col-xs-12 col-sm-2"><?php echo __('Category_name'); ?>:</label>
         <div class="col-xs-12 col-sm-8">
-            <input id="c-department_id" data-rule="required" data-source="auth/department/select_list" class="form-control selectpage" name="row[department_id]" type="text" value="">
+            <input id="c-category_name" data-rule="required" class="form-control" name="row[category_name]" type="text">
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2"><?php echo __('Supplier_id'); ?>:</label>
+        <label class="control-label col-xs-12 col-sm-2">上级分类:</label>
         <div class="col-xs-12 col-sm-8">
-            <input id="c-supplier_id" data-rule="required" data-source="supplier/supplier/select_list" class="form-control selectpage" name="row[supplier_id]" type="text" value="">
+            <!--<input type="hidden" class="operate" data-name="category_id1" value="category_id2"/>-->
+            <input id="c-pid" data-source="goods/category/first_cate" data-primary-key="id"
+                   data-field="category_name" class="form-control selectpage" name="row[pid]" type="text"
+                   value="" style="display:block;">
         </div>
     </div>
-
     <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2"><?php echo __('Sendtime'); ?>:</label>
+        <label class="control-label col-xs-12 col-sm-2"><?php echo __('Status'); ?>:</label>
         <div class="col-xs-12 col-sm-8">
-            <input id="c-sendtime" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[sendtime]" type="text" value="<?php echo date('Y-m-d H:i:s'); ?>">
+            
+            <div class="radio">
+            <?php if(is_array($statusList) || $statusList instanceof \think\Collection || $statusList instanceof \think\Paginator): if( count($statusList)==0 ) : echo "" ;else: foreach($statusList as $key=>$vo): ?>
+            <label for="row[status]-<?php echo $key; ?>"><input id="row[status]-<?php echo $key; ?>" name="row[status]" type="radio" value="<?php echo $key; ?>" <?php if(in_array(($key), explode(',',"1"))): ?>checked<?php endif; ?> /> <?php echo $vo; ?></label> 
+            <?php endforeach; endif; else: echo "" ;endif; ?>
+            </div>
+
         </div>
     </div>
-
+    <!--<div class="form-group">-->
+        <!--<label class="control-label col-xs-12 col-sm-2"><?php echo __('Create_admin'); ?>:</label>-->
+        <!--<div class="col-xs-12 col-sm-8">-->
+            <!--<input id="c-create_admin" data-rule="required" class="form-control" name="row[create_admin]" type="number">-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--<div class="form-group">-->
+        <!--<label class="control-label col-xs-12 col-sm-2"><?php echo __('Update_admin'); ?>:</label>-->
+        <!--<div class="col-xs-12 col-sm-8">-->
+            <!--<input id="c-update_admin" data-rule="required" class="form-control" name="row[update_admin]" type="number">-->
+        <!--</div>-->
+    <!--</div>-->
     <div class="form-group layer-footer">
         <label class="control-label col-xs-12 col-sm-2"></label>
         <div class="col-xs-12 col-sm-8">
-<!--            <button  class="btn btn-success btn-embossed"><?php echo __('OK'); ?></button>-->
-            <button type="submit" id="next" class="btn btn-success btn-embossed disabled"><?php echo __('OK'); ?></button>
-<!--            <button type="reset" class="btn btn-default btn-embossed"><?php echo __('Reset'); ?></button>-->
+            <button type="submit" class="btn btn-success btn-embossed disabled"><?php echo __('OK'); ?></button>
+            <button type="reset" class="btn btn-default btn-embossed"><?php echo __('Reset'); ?></button>
         </div>
     </div>
 </form>

@@ -57,7 +57,7 @@ class Goods extends Backend
                     ->where($where)
                     ->order($sort, $order)
                     ->count();
-halt($where);
+
             $list = $this->model
                     ->with(['goodscategory'])
                     ->where($where)
