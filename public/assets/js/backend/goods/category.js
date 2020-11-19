@@ -25,6 +25,9 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                     [
                         //{checkbox: true},
                         //{field: 'category_id', title: __('Category_id')},
+                        {field: 'id', title: __('序号'), formatter: function(value, row, index){
+                                return ++index;
+                            }},
                         {field: 'category_name', title: __('Category_name'),operate: 'LIKE %...%'},
                         {field: 'pid', title: __('一级分类'),searchList: $.getJSON("goods/category/source1")},
                         {field: 'status', title: __('Status'), searchList: {"0":__('Status 0'),"1":__('Status 1')}, formatter: Table.api.formatter.status},

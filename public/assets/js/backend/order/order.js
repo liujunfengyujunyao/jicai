@@ -24,12 +24,12 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                 columns: [
                     [
                         {checkbox: true},
-                        {field: 'id', title: __('Id')},
-                        {field: 'order_sn', title: __('Order_sn')},
-                        {field: 'department.name', title: __('Department.name')},
-                        {field: 'supplier.supplier_name', title: __('Supplier.supplier_name')},
-                        {field: 'supplier.linkman', title: __('Supplier.linkman')},
-                        {field: 'supplier.mobile', title: __('Supplier.mobile')},
+                        {field: 'id', title: __('Id'),operate:false},
+                        {field: 'order_sn', title: __('Order_sn'),operate:false},
+                        {field: 'department.name', title: __('Department.name'),operate: 'LIKE %...%'},
+                        {field: 'supplier.supplier_name', title: __('Supplier.supplier_name'),operate:false},
+                        {field: 'supplier.linkman', title: __('Supplier.linkman'),operate:false},
+                        {field: 'supplier.mobile', title: __('Supplier.mobile'),operate:false},
                         {field: 'order_amount', title: __('Order_amount'), operate:'BETWEEN'},
                         {field: 'createtime', title: __('Createtime'), operate:'RANGE', addclass:'datetimerange', formatter: Table.api.formatter.datetime},
                         {field: 'sendtime', title: __('Sendtime'), operate:'RANGE', addclass:'datetimerange', formatter: Table.api.formatter.datetime,datetimeFormat:'YYYY-MM-DD'},
@@ -42,21 +42,47 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                             field: 'buttons',
                             width: "120px",
                             title: "操作",
+                            operate:false,
                             table: table,
                             events: Table.api.events.operate,
                             buttons: [
                                 {
-                                    name: 'ajax',
+                                    name: 'confirm_order',
+                                    text: __('确认收货'),
+                                    hidden:function(row){
+                                        return row.status=="2" || row.status=="1" ? true : false;
+                                    },
+                                    title: __('确认收货'),
+                                    classname: 'btn btn-xs btn-success btn-magic btn-ajax',
+                                    icon: 'fa fa-leaf',
+                                    url: 'order/order/confirm_order',
+                                    confirm: '确认收货',
+                                    success: function (data, ret) {
+                                        table.bootstrapTable('refresh');//局部刷新
+                                        // Layer.alert(ret.msg);
+                                        //如果需要阻止成功提示，则必须使用return false;
+                                        // return false;
+                                    },
+                                    error: function (data, ret) {
+                                        console.log(data, ret);
+                                        Layer.alert(ret.msg);
+                                        return false;
+                                    }
+                                },
+                                {
+                                    name: 'cancel_order',
                                     text: __('取消订单'),
+                                    hidden:function(row){
+                                        return row.status=="2" || row.status=="1" ? true : false;
+                                    },
                                     title: __('取消订单'),
                                     classname: 'btn btn-xs btn-success btn-magic btn-ajax',
                                     icon: 'fa fa-magic',
-                                    url: 'example/bootstraptable/detail',
+                                    url: 'order/order/cancel_order',
                                     confirm: '确认取消',
                                     success: function (data, ret) {
-                                        Layer.alert(ret.msg + ",返回数据：" + JSON.stringify(data));
-                                        //如果需要阻止成功提示，则必须使用return false;
-                                        //return false;
+                                        table.bootstrapTable('refresh');//局部刷新
+
                                     },
                                     error: function (data, ret) {
                                         console.log(data, ret);
@@ -67,20 +93,41 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                                 {
                                     name: 'addtabs',
                                     text: __('编辑'),
+                                    hidden:function(row){
+                                        return row.status=="2" || row.status=="1" ? true : false;
+                                    },
                                     title: __('编辑'),
                                     classname: 'btn btn-xs btn-warning btn-addtabs',
                                     icon: 'fa fa-folder-o',
                                     url: 'order/order/next2',
                                 }
                             ],
-                            formatter: Table.api.formatter.buttons
+                            formatter: Table.api.formatter.buttons,
+                            // formatter:function(value,row,index){
+                            //     var that = $.extend({},this);
+                            //     var table = $(that.table).clone(true);
+                            //     if(row.status=="2"){
+                            //         $(table).data("")
+                            //     }
+                            // }
                         }
                         // {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}
                     ]
-                ]
+                ],
+
+                search:false,
+                showToggle: false,
+                showColumns: false,
+                searchFormVisible: true,
+                showExport:false
 
             });
-
+            $(document).on("click", ".btn-myexcel-export", function () { //监听刚刚的按钮btn-myexcel-export的动作
+                var myexceldata=table.bootstrapTable('getSelections');//获取选中的项目的数据 格式是json
+                myexceldata=JSON.stringify(myexceldata);//数据转成字符串作为参数
+                //直接url访问，不能使用ajax，因为ajax要求返回数据，和PHPExcel一会浏览器输出冲突！将数据作为参数
+                top.location.href="order/exportOrderExcel?data="+myexceldata;
+            });
             // 为表格绑定事件
             Table.api.bindevent(table);
         },
@@ -127,8 +174,11 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'spec', title: __('规格'),operate:false},
                         {field: 'unit', title: __('单位'),operate:false},
                         {field: 'price', title: __('单价'),operate:false,class:"price"},
+                        // {field: 'order_count', title: '下单数量'},
+                        // {field: 'order_amount', title: '下单金额'},
+                        // {field: 'remark', title: '备注'},
                         {field: 'department.id', title: __('Department.id'),visible:false,operate:false},
-                        {field: 'supplier.id', title: __('Supplier.id'),visible:false},
+                        {field: 'supplier.id', title: __('Supplier.id'),visible:false,operate:false},
                         {
                             field: 'order_count',
                             title: '下单数量',
@@ -212,6 +262,20 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         }
                     ]
                 ],
+                queryParams: function (params) {
+                    // 自定义搜索条件
+                    var filter = params.filter ? JSON.parse(params.filter) : {};
+                    var op = params.op ? JSON.parse(params.op) : {};
+                    //filter.后跟的是在ajax里使用的名称只需修改这两行
+                    filter.order_id = $("#order_id").val();
+                    filter.supplier_id = Config.supplier_id
+                    //opop后跟的也是ajax里使用的名称，后面是条件
+                    op.order_id = '=';
+                    params.filter = JSON.stringify(filter);
+                    params.op = JSON.stringify(op);
+                    // console.log(params);
+                    return params;
+                },
                 search:false,
                 showToggle: false,
                 showColumns: false,

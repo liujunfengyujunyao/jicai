@@ -29,6 +29,9 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                     [
                         //{checkbox: true},
                         //{field: 'id', title: __('Id')},
+                        {field: 'id', title: __('序号'), formatter: function(value, row, index){
+                                return ++index;
+                            }},
                         {field: 'goods_name', title: __('Goods_name'),operate: 'LIKE %...%'},
                         {field: 'goods_sn', title: __('Goods_sn'),operate: 'LIKE %...%'},
                         {field: 'spec', title: __('Spec'),operate:false},

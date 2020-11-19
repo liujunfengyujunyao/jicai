@@ -18,6 +18,7 @@
                     <div id="toolbar" class="toolbar">
                         <a href="javascript:;" class="btn btn-primary btn-refresh" title="{:__('Refresh')}" ><i class="fa fa-refresh"></i> </a>
                         <a href="javascript:;" class="btn btn-success btn-add {:$auth->check('order/order/add')?'':'hide'}" title="{:__('Add')}" ><i class="fa fa-plus"></i> 新增订单</a>
+                        <a class="btn btn-success btn-myexcel-export  btn-disabled disabled {:$auth->check('lvtotals1/exportOrderExcel')?'':'hide'}" href="javascript:;"><i class="fa fa-user"></i> 导出</a><!--添加一个类名称btn-myexcel-export给监听事件用，检查下当前登录的选手有没有控制中对应导出方法 exportOrderExcel的权限，没有就隐藏-->
 <!--                        <a href="javascript:;" class="btn btn-success btn-next {:$auth->check('order/order/next')?'':'hide'}" title="{:__('Add')}" ><i class="fa fa-plus"></i> 下一步</a>-->
 <!--                        <a href="javascript:;" class="btn btn-success btn-edit btn-disabled disabled {:$auth->check('order/order/edit')?'':'hide'}" title="{:__('Edit')}" ><i class="fa fa-pencil"></i> {:__('Edit')}</a>-->
 <!--                        <a href="javascript:;" class="btn btn-danger btn-del btn-disabled disabled {:$auth->check('order/order/del')?'':'hide'}" title="{:__('Delete')}" ><i class="fa fa-trash"></i> {:__('Delete')}</a>-->

@@ -4,6 +4,8 @@ namespace app\admin\controller\order;
 
 use app\common\controller\Backend;
 use think\Db;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 /**
  * 订单管理
  *
@@ -26,7 +28,7 @@ class Order extends Backend
     }
 
     /**
-     * 默认生成的控制器所继承的父类中有index/add/edit/del/multi五个基础方法、destroy/restore/recyclebin三个回收站方法
+     * 默认生成的控制器所继承的父类中有inde/add/edit/del/multi五个基础方法、destroy/restore/recyclebin三个回收站方法
      * 因此在当前控制器中可不用编写增删改查的代码,除非需要自己控制这部分逻辑
      * 需要将application/admin/library/traits/Backend.php中对应的方法复制到当前控制器,然后进行修改
      */
@@ -106,13 +108,18 @@ class Order extends Backend
     public function next()
     {
         $params = $this->request->param();
-
+        @$this->assignconfig('supplier_id',$params['supplier_id']);
 
         //当前是否为关联查询
         $this->relationSearch = true;
         //设置过滤方法
         $this->request->filter(['strip_tags', 'trim']);
         if ($this->request->isAjax()) {
+            if(isset(json_decode($params['filter'], true)['order_id'])){
+                $order_id = json_decode($params['filter'], true)['order_id'];
+//                $this->assignconfig('order_id',$order_id);
+            }
+//dump(json_decode($params['filter'], true));
 
             @$goods_name = json_decode($params['filter'], true)['goods_name'];
 //            $goods_name ?$like = ['t2.goods_name','like', '%' . $goods_name . '%']:$like="1=1";
@@ -125,19 +132,20 @@ class Order extends Backend
 
             $send_time = $params['_'];
             $params = json_decode($params['filter'], true);//搜索条件
+
             list($where, $sort, $order, $offset, $limit) = $this->buildparams();
             $list = DB::name('supplier_goods')
                 ->field('t1.goods_id,t1.supplier_id,t2.goods_name,t2.status,t1.price')
                 ->alias('t1')
                 ->join('__GOODS__ t2', 't1.goods_id=t2.id', 'LEFT')
-                ->where(['t1.supplier_id' => $params['supplier.id'], 't2.status' => '1'])
+                ->where(['t1.supplier_id' => $params['supplier_id'], 't2.status' => '1'])
                 ->where($like)
                 ->limit($offset, $limit)
                 ->select();
             $total = DB::name('supplier_goods')
                 ->alias('t1')
                 ->join('__GOODS__ t2', 't1.goods_id=t2.id', 'LEFT')
-                ->where(['t1.supplier_id' => $params['supplier.id'], 't2.status' => '1'])
+                ->where(['t1.supplier_id' => $params['supplier_id'], 't2.status' => '1'])
                 ->where($like)
                 ->count();
 
@@ -151,13 +159,24 @@ class Order extends Backend
                 $value['goods_sn'] = $goods['goods_sn'];
                 $value['spec'] = $goods['spec'];
                 $value['unit'] = $goods['unit'];
+                if(isset($order_id)){
+                    $value['order_count'] = DB::name('order_goods')
+                        ->where(['order_id'=>$order_id,'goods_id'=>$value['goods_id']])
+                        ->value('needqty');
+                    $price = DB::name('supplier_goods')->where(['goods_id'=>$value['goods_id'],'supplier_id'=>$params['supplier_id']])->value('price');
+                    $value['order_amount'] = $price * $value['order_count'];
+                    $value['remark'] = DB::name('order_goods')
+                        ->where(['order_id'=>$order_id,'goods_id'=>$value['goods_id']])
+                        ->value('remark');
+                }
+
             }
             $list = collection($list)->toArray();
-
             $result = array("total" => $total, "rows" => $list);
 
             return json($result);
         }
+
         return $this->view->fetch();
     }
 
@@ -232,6 +251,8 @@ class Order extends Backend
 
             return json($result);
         }
+
+        //需要ajax返回回来的参数
         $this->assignconfig('supplier_id',$supplier_order['supplier_id']);
         $this->assignconfig('send_time',$supplier_order['supplier_id']);
         $this->assignconfig('department_id',$supplier_order['department_id']);
@@ -240,6 +261,8 @@ class Order extends Backend
         return $this->view->fetch();
 
     }
+
+
 
 
     /*
@@ -255,10 +278,12 @@ class Order extends Backend
             $this->error('下单数量不能为空');
         }
         $order_id = $params['order_id'];
+        $goods = DB::name('goods')->find($params['goods_id']);
+        $price = DB::name('supplier_goods')
+            ->where(['supplier_id'=>$params['supplier_id'],'goods_id'=>$params['goods_id']])
+            ->value('price');
+
         if($order_id == 0){
-            $price = DB::name('supplier_goods')
-                ->where(['supplier_id'=>$params['supplier_id'],'goods_id'=>$params['goods_id']])
-                ->value('price');
             $order_amount = $price * $params['order_count'];
             //新建订单
             $insert = [
@@ -276,7 +301,21 @@ class Order extends Backend
                 'goods_id' => $params['goods_id'],
                 'needqty' => $params['order_count'],
                 'remark' => $params['remark'],
+                'goods_name' => $goods['goods_name'],
+                'spec' => $goods['spec'],
+                'unit' => $goods['unit'],
+                'price' => $price,
+                'order_price' => $price * $params['order_count'],
+                'goods_sn' => $goods['goods_sn'],
+                'status' => 0,
+                'back_price' => 0,
+                'send_price' => 0,
+                'cate_id' => $goods['cate_id'],
+                'scate_id' => $goods['scate_id'],
+                'cate_name' => DB::name('goodscategory')->find($goods['cate_id'])['category_name'],
+                'scate_name' => DB::name('goodscategory')->find($goods['scate_id'])['category_name']
             ];
+
             $result = DB::name('order_goods')->insert($supplier_goods);
 
 
@@ -295,7 +334,20 @@ class Order extends Backend
                     'order_id' => $params['order_id'],
                     'goods_id' => $params['goods_id'],
                     'needqty' => $params['order_count'],
-                    'remark' => $params['remark']
+                    'remark' => $params['remark'],
+                    'goods_name' => $goods['goods_name'],
+                    'spec' => $goods['spec'],
+                    'unit' => $goods['unit'],
+                    'price' => $price,
+                    'order_price' => $price * $params['order_count'],
+                    'goods_sn' => $goods['goods_sn'],
+                    'status' => 0,
+                    'back_price' => 0,
+                    'send_price' => 0,
+                    'cate_id' => $goods['cate_id'],
+                    'scate_id' => $goods['scate_id'],
+                    'cate_name' => DB::name('goodscategory')->find($goods['cate_id'])['category_name'],
+                    'scate_name' => DB::name('goodscategory')->find($goods['scate_id'])['category_name']
                 ];
                 $result = DB::name('order_goods')->insert($insert);
             }
@@ -320,5 +372,93 @@ class Order extends Backend
             $this->error('网络错误');
         }
 
+    }
+
+
+    /*
+     * 确认订单
+     * */
+    public function confirm_order()
+    {
+        $order_id = $this->request->param('ids');
+        $result = DB::name('order')
+            ->where(['id'=>$order_id])
+            ->update(['status'=>"1"]);
+        if($result !== false){
+            $this->success('已确认');
+        }else{
+            $this->error('网路错误');
+        }
+    }
+
+    /*
+     * 取消订单
+     * */
+    public function cancel_order()
+    {
+        $order_id = $this->request->param('ids');
+        $result = DB::name('order')
+            ->where(['id'=>$order_id])
+            ->update(['status'=>'2']);
+        if($result !== false){
+            $this->success('已取消');
+        }else{
+            $this->error('网络错误');
+        }
+    }
+
+
+
+
+    /*
+     *  导出excel
+     * */
+    public function exportOrderExcel($data)
+    {
+
+        header("Content-type:application/vnd.ms-excel");
+        header("Content-Disposition:filename="."订单导出".".xls");
+        $head = ['序号','一级分类','二级分类','商品编号','商品名称','规格','单位','下单数量','收货数量','单价','订单金额','收货金额','备注'];
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $data = json_decode($data,true);
+        $info = $this->model->getOrderInfo($data);
+//        $sheet->fromArray(['客户订单'],null,'G1');
+        $sheet->fromArray(['客户订单'],null,'G1');
+//        $sheet->fromArray($data,null,'A1');
+        $top = 2;//第一行为1  +  G1
+        $next = 0;//上边距初始值
+        for($a=1;$a<=count($info);$a++){
+            $top_margin = count($info[$a-1]);//上间距
+            if($a == 1){
+                $sheet->fromArray(['收货部门:'.$data[$a-1]['department']['name']],null,'A3');
+                $sheet->fromArray(['下单时间:'.date('Y-m-d H:i:s',$data[$a-1]['createtime'])],null,'F3');
+                $sheet->fromArray(['送货时间:'.date('Y-m-d H:i:s',$data[$a-1]['sendtime'])],null,'I3');
+                $sheet->fromArray(['供应商名称:'.$data[$a-1]['supplier']['supplier_name']],null,'A4');
+                $sheet->fromArray(['联系人:'.$data[$a-1]['supplier']['linkman']],null,'F4');
+                $sheet->fromArray(['联系电话:'.$data[$a-1]['supplier']['mobile']],null,'I4');
+                $sheet->fromArray($head,null,'A6');
+                $sheet->fromArray($info[$a-1], "0", 'A7');
+                $next = 6+$top_margin+1+1+2;//11 +2是为了美观  与逻辑无关
+                $sheet->fromArray(['合计:'],null,'J'.(7+$top_margin));
+                $sheet->fromArray([$data[$a-1]['order_amount']],"0",'K'.(7+$top_margin));
+            }else{
+                $sheet->fromArray(['收货部门:'.$data[$a-1]['department']['name']],null,'A'.($next+1));
+                $sheet->fromArray(['下单时间:'.date('Y-m-d H:i:s',$data[$a-1]['createtime'])],null,'F'.($next+1));
+                $sheet->fromArray(['送货时间:'.date('Y-m-d H:i:s',$data[$a-1]['sendtime'])],null,'I'.($next+1));
+                $sheet->fromArray(['供应商名称:'.$data[$a-1]['supplier']['supplier_name']],null,'A'.($next+1+1));
+                $sheet->fromArray(['联系人:'.$data[$a-1]['supplier']['linkman']],null,'F'.($next+1+1));
+                $sheet->fromArray(['联系电话:'.$data[$a-1]['supplier']['mobile']],null,'I'.($next+1+1));
+                $sheet->fromArray($head,null,'A'.($next+4));
+                $sheet->fromArray($info[$a-1], "0", 'A'.($next+5));
+                $sheet->fromArray(['合计:'],null,'J'.($next+4+$top_margin+1));
+                $sheet->fromArray([$data[$a-1]['order_amount']],"0",'K'.($next+4+$top_margin+1));
+
+                $next += 4+$top_margin+1+1+2;
+            }
+        }
+        $writer = IOFactory::createWriter($spreadsheet, "Xls");
+        ob_end_clean();//解决乱码
+        $writer->save("php://output");
     }
 }

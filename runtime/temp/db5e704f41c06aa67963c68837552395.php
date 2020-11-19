@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:67:"D:\WWW\zbjg\public/../application/admin\view\order\order\index.html";i:1605519381;s:54:"D:\WWW\zbjg\application\admin\view\layout\default.html";i:1604979994;s:51:"D:\WWW\zbjg\application\admin\view\common\meta.html";i:1604979993;s:53:"D:\WWW\zbjg\application\admin\view\common\script.html";i:1604979993;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:67:"D:\WWW\zbjg\public/../application/admin\view\order\order\index.html";i:1605747686;s:54:"D:\WWW\zbjg\application\admin\view\layout\default.html";i:1604979994;s:51:"D:\WWW\zbjg\application\admin\view\common\meta.html";i:1604979993;s:53:"D:\WWW\zbjg\application\admin\view\common\script.html";i:1604979993;}*/ ?>
 <!DOCTYPE html>
 <html lang="<?php echo $config['language']; ?>">
     <head>
@@ -70,6 +70,7 @@
                     <div id="toolbar" class="toolbar">
                         <a href="javascript:;" class="btn btn-primary btn-refresh" title="<?php echo __('Refresh'); ?>" ><i class="fa fa-refresh"></i> </a>
                         <a href="javascript:;" class="btn btn-success btn-add <?php echo $auth->check('order/order/add')?'':'hide'; ?>" title="<?php echo __('Add'); ?>" ><i class="fa fa-plus"></i> 新增订单</a>
+                        <a class="btn btn-success btn-myexcel-export  btn-disabled disabled <?php echo $auth->check('lvtotals1/exportOrderExcel')?'':'hide'; ?>" href="javascript:;"><i class="fa fa-user"></i> 导出</a><!--添加一个类名称btn-myexcel-export给监听事件用，检查下当前登录的选手有没有控制中对应导出方法 exportOrderExcel的权限，没有就隐藏-->
 <!--                        <a href="javascript:;" class="btn btn-success btn-next <?php echo $auth->check('order/order/next')?'':'hide'; ?>" title="<?php echo __('Add'); ?>" ><i class="fa fa-plus"></i> 下一步</a>-->
 <!--                        <a href="javascript:;" class="btn btn-success btn-edit btn-disabled disabled <?php echo $auth->check('order/order/edit')?'':'hide'; ?>" title="<?php echo __('Edit'); ?>" ><i class="fa fa-pencil"></i> <?php echo __('Edit'); ?></a>-->
 <!--                        <a href="javascript:;" class="btn btn-danger btn-del btn-disabled disabled <?php echo $auth->check('order/order/del')?'':'hide'; ?>" title="<?php echo __('Delete'); ?>" ><i class="fa fa-trash"></i> <?php echo __('Delete'); ?></a>-->
