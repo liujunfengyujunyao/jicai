@@ -452,7 +452,6 @@ $("#table").on("blur",".change-input",function(e){
         case 'order_count':
             parents.find("td.order_amount").text((Number(value)*parents.find("td.price").text()).toFixed(2));
             break;
-
     }
 });
 function loadLoaction(local){

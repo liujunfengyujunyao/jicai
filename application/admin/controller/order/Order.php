@@ -376,18 +376,56 @@ class Order extends Backend
 
 
     /*
+     * 需要先安卓端回填goods_order中sendqty发货数量 send_price收货金额 status 1已收货
      * 确认订单
+     * 如果订单内商品  is_stock==1 存入到stock表
      * */
     public function confirm_order()
     {
         $order_id = $this->request->param('ids');
+        $order_goods = DB::name('order_goods')->where(['order_id'=>$order_id])->select();
+        $result = DB::name('order_goods')
+            ->field('t1.goods_id,t2.goods_name,t1.sendqty,t1.price,t1.status')
+            ->alias('t1')
+            ->join('__GOODS__ t2','t1.goods_id=t2.id','LEFT')
+            ->where(['t1.order_id'=>$order_id])
+            ->where(['t2.is_stock'=>"1"])
+//                ->group('t1.goods_id')
+            ->select();
+
+
+        foreach($result as $k => $v){
+            if($v['status'] != "1"){
+                $this->error('存在未完成收货,不允许修改状态');
+            }
+            $stock = DB::name('stock')->where(['goods_id'=>$v['goods_id']])->find();
+            if($stock){
+                $update = [
+                    'stock_number' => $stock['stock_number'] + $v['sendqty'],
+                    'unit_price' => (($stock['unit_price'] + $stock['stock_number']) + ($v['sendqty']*$v['price'])) / ($stock['stock_number'] + $v['sendqty']),
+                ];
+                DB::name('stock')->where(['goods_id'=>$stock['goods_id']])->update($update);
+            }else{
+                $insert = [
+                    'goods_id' => $v['goods_id'],
+                    'unit_price' => $v['price'],
+                    'stock_number' => $v['sendqty']
+                ];
+                DB::name('stock')->insert($insert);
+            }
+
+        }
+
+
+
+
         $result = DB::name('order')
             ->where(['id'=>$order_id])
             ->update(['status'=>"1"]);
         if($result !== false){
             $this->success('已确认');
         }else{
-            $this->error('网路错误');
+            $this->error('网络错误');
         }
     }
 
