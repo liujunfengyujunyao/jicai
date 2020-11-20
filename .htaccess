@@ -1,0 +1,17 @@
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews
+    </IfModule>
+ 
+    RewriteEngine On
+ 
+    # Handle Front Controller...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+ 
+    # 更改主域名要指向的子目录
+    RewriteRule ^(.*)$ /public/$1
+ 
+    RewriteRule ^(/)?$ public/index.php [L]
+ 
+</IfModule>

@@ -133,14 +133,27 @@ class Admin extends Backend
 //                if (!Validate::is($params['password'], '\S{6,16}')) {
 //                    $this->error(__("Please input correct password"));
 //                }
+
                 $params['salt'] = Random::alnum();
                 $params['password'] = "123456";
                 $params['password'] = md5(md5($params['password']) . $params['salt']);
                 $params['avatar'] = '/assets/img/avatar.png'; //设置新管理员默认头像。
                 $result = $this->model->validate('Admin.add')->save($params);
+
                 if ($result === false) {
+
                     $this->error($this->model->getError());
                 }
+                $insert = [
+                    'username' => $params['username'],
+                    'nickname' => $params['nickname'],
+                    'password' => $params['password'],
+                    'mobile' => $params['username'],
+                    'status' => "normal",
+                    'salt' => $params['salt'],
+                    'email' => $params['email']
+                ];
+                DB::name('user')->insert($insert);
 //                $group = $this->request->post("group/a");
 //
 //                //过滤不允许的组别,避免越权

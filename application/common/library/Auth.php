@@ -54,6 +54,9 @@ class Auth
      * 获取User模型
      * @return User
      */
+
+
+
     public function getUser()
     {
         return $this->_user;
