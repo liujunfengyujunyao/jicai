@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:66:"D:\WWW\zbjg\public/../application/admin\view\auth\admin\index.html";i:1604979994;s:54:"D:\WWW\zbjg\application\admin\view\layout\default.html";i:1604979994;s:51:"D:\WWW\zbjg\application\admin\view\common\meta.html";i:1604979993;s:53:"D:\WWW\zbjg\application\admin\view\common\script.html";i:1604979993;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:68:"D:\WWW\zbjg\public/../application/admin\view\stock\delivery\add.html";i:1606187696;s:54:"D:\WWW\zbjg\application\admin\view\layout\default.html";i:1604979994;s:51:"D:\WWW\zbjg\application\admin\view\common\meta.html";i:1604979993;s:53:"D:\WWW\zbjg\application\admin\view\common\script.html";i:1604979993;}*/ ?>
 <!DOCTYPE html>
 <html lang="<?php echo $config['language']; ?>">
     <head>
@@ -50,27 +50,33 @@
                             <!-- END RIBBON -->
                             <?php endif; ?>
                             <div class="content">
-                                <div class="panel panel-default panel-intro">
-    <?php echo build_heading(); ?>
+                                <form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
 
-    <div class="panel-body">
-        <div id="myTabContent" class="tab-content">
-            <div class="tab-pane fade active in" id="one">
-                <div class="widget-body no-padding">
-                    <div id="toolbar" class="toolbar">
-                        <?php echo build_toolbar('refresh,add,delete'); ?>
-                    </div>
-                    <table id="table" class="table table-striped table-bordered table-hover"
-                           data-operate-edit="<?php echo $auth->check('auth/admin/edit'); ?>"
-                           data-operate-del="<?php echo $auth->check('auth/admin/del'); ?>"
-                           width="100%">
-                    </table>
-                </div>
-            </div>
 
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"><?php echo __('部门'); ?>:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-department_id" data-rule="required" data-source="auth/department/select_list" class="form-control selectpage" name="row[department_id]" type="text" value="">
         </div>
     </div>
-</div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"><?php echo __('领料人'); ?>:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-apply_admin" data-rule="required" data-source="auth/admin/select_list" class="form-control selectpage" name="row[apply_admin]" type="text" value="">
+        </div>
+    </div>
+
+
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <!--            <button  class="btn btn-success btn-embossed"><?php echo __('OK'); ?></button>-->
+            <button type="submit" id="next" class="btn btn-success btn-embossed disabled"><?php echo __('OK'); ?></button>
+            <!--            <button type="reset" class="btn btn-default btn-embossed"><?php echo __('Reset'); ?></button>-->
+        </div>
+    </div>
+</form>
 
                             </div>
                         </div>

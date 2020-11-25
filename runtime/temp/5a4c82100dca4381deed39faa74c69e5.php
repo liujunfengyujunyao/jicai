@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:70:"D:\WWW\zbjg\public/../application/admin\view\goods\category\index.html";i:1605142580;s:54:"D:\WWW\zbjg\application\admin\view\layout\default.html";i:1604979994;s:51:"D:\WWW\zbjg\application\admin\view\common\meta.html";i:1604979993;s:53:"D:\WWW\zbjg\application\admin\view\common\script.html";i:1604979993;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:83:"D:\WWW\zbjg\public/../application/admin\view\stock\deliverygoods\delivery_edit.html";i:1606266361;s:54:"D:\WWW\zbjg\application\admin\view\layout\default.html";i:1604979994;s:51:"D:\WWW\zbjg\application\admin\view\common\meta.html";i:1604979993;s:53:"D:\WWW\zbjg\application\admin\view\common\script.html";i:1604979993;}*/ ?>
 <!DOCTYPE html>
 <html lang="<?php echo $config['language']; ?>">
     <head>
@@ -51,17 +51,7 @@
                             <?php endif; ?>
                             <div class="content">
                                 <div class="panel panel-default panel-intro">
-    
-    <div class="panel-heading">
-        <?php echo build_heading(null,FALSE); ?>
-        <ul class="nav nav-tabs" data-field="status">
-            <li class="active"><a href="#t-all" data-value="" data-toggle="tab"><?php echo __('All'); ?></a></li>
-            <?php if(is_array($statusList) || $statusList instanceof \think\Collection || $statusList instanceof \think\Paginator): if( count($statusList)==0 ) : echo "" ;else: foreach($statusList as $key=>$vo): ?>
-            <li><a href="#t-<?php echo $key; ?>" data-value="<?php echo $key; ?>" data-toggle="tab"><?php echo $vo; ?></a></li>
-            <?php endforeach; endif; else: echo "" ;endif; ?>
-        </ul>
-    </div>
-
+    <?php echo build_heading(); ?>
 
     <div class="panel-body">
         <div id="myTabContent" class="tab-content">
@@ -69,24 +59,26 @@
                 <div class="widget-body no-padding">
                     <div id="toolbar" class="toolbar">
                         <a href="javascript:;" class="btn btn-primary btn-refresh" title="<?php echo __('Refresh'); ?>" ><i class="fa fa-refresh"></i> </a>
-                        <a href="javascript:;" class="btn btn-success btn-add <?php echo $auth->check('goods/category/add')?'':'hide'; ?>" title="新增分类" ><i class="fa fa-plus"></i> 新增分类</a>
-                        <!--<a href="javascript:;" class="btn btn-success btn-edit btn-disabled disabled <?php echo $auth->check('goods/category/edit')?'':'hide'; ?>" title="<?php echo __('Edit'); ?>" ><i class="fa fa-pencil"></i> <?php echo __('Edit'); ?></a>-->
-                        <!--<a href="javascript:;" class="btn btn-danger btn-del btn-disabled disabled <?php echo $auth->check('goods/category/del')?'':'hide'; ?>" title="<?php echo __('Delete'); ?>" ><i class="fa fa-trash"></i> <?php echo __('Delete'); ?></a>-->
-                        <!--<a href="javascript:;" class="btn btn-danger btn-import <?php echo $auth->check('goods/category/import')?'':'hide'; ?>" title="<?php echo __('Import'); ?>" id="btn-import-file" data-url="ajax/upload" data-mimetype="csv,xls,xlsx" data-multiple="false"><i class="fa fa-upload"></i> <?php echo __('Import'); ?></a>-->
+                        <!--                        <a href="javascript:;" class="btn btn-success btn-add <?php echo $auth->check('stock/delivery_goods/add')?'':'hide'; ?>" title="<?php echo __('Add'); ?>" ><i class="fa fa-plus"></i> <?php echo __('Add'); ?></a>-->
+                        <!--                        <a href="javascript:;" class="btn btn-success btn-edit btn-disabled disabled <?php echo $auth->check('stock/delivery_goods/edit')?'':'hide'; ?>" title="<?php echo __('Edit'); ?>" ><i class="fa fa-pencil"></i> <?php echo __('Edit'); ?></a>-->
+                        <!--                        <a href="javascript:;" class="btn btn-danger btn-del btn-disabled disabled <?php echo $auth->check('stock/delivery_goods/del')?'':'hide'; ?>" title="<?php echo __('Delete'); ?>" ><i class="fa fa-trash"></i> <?php echo __('Delete'); ?></a>-->
+                        <!--                        <a href="javascript:;" class="btn btn-danger btn-import <?php echo $auth->check('stock/delivery_goods/import')?'':'hide'; ?>" title="<?php echo __('Import'); ?>" id="btn-import-file" data-url="ajax/upload" data-mimetype="csv,xls,xlsx" data-multiple="false"><i class="fa fa-upload"></i> <?php echo __('Import'); ?></a>-->
 
-                        <!--<div class="dropdown btn-group <?php echo $auth->check('goods/category/multi')?'':'hide'; ?>">-->
-                            <!--<a class="btn btn-primary btn-more dropdown-toggle btn-disabled disabled" data-toggle="dropdown"><i class="fa fa-cog"></i> <?php echo __('More'); ?></a>-->
-                            <!--<ul class="dropdown-menu text-left" role="menu">-->
-                                <!--<li><a class="btn btn-link btn-multi btn-disabled disabled" href="javascript:;" data-params="status=normal"><i class="fa fa-eye"></i> <?php echo __('Set to normal'); ?></a></li>-->
-                                <!--<li><a class="btn btn-link btn-multi btn-disabled disabled" href="javascript:;" data-params="status=hidden"><i class="fa fa-eye-slash"></i> <?php echo __('Set to hidden'); ?></a></li>-->
-                            <!--</ul>-->
-                        <!--</div>-->
+                        <!--                        <div class="dropdown btn-group <?php echo $auth->check('stock/delivery_goods/multi')?'':'hide'; ?>">-->
+                        <!--                            <a class="btn btn-primary btn-more dropdown-toggle btn-disabled disabled" data-toggle="dropdown"><i class="fa fa-cog"></i> <?php echo __('More'); ?></a>-->
+                        <!--                            <ul class="dropdown-menu text-left" role="menu">-->
+                        <!--                                <li><a class="btn btn-link btn-multi btn-disabled disabled" href="javascript:;" data-params="status=normal"><i class="fa fa-eye"></i> <?php echo __('Set to normal'); ?></a></li>-->
+                        <!--                                <li><a class="btn btn-link btn-multi btn-disabled disabled" href="javascript:;" data-params="status=hidden"><i class="fa fa-eye-slash"></i> <?php echo __('Set to hidden'); ?></a></li>-->
+                        <!--                            </ul>-->
+                        <!--                        </div>-->
 
-                        
+
                     </div>
+
+                    <input type="hidden" id="delivery_id" value="<?php echo $delivery_id; ?>">
                     <table id="table" class="table table-striped table-bordered table-hover table-nowrap"
-                           data-operate-edit="<?php echo $auth->check('goods/category/edit'); ?>" 
-                           data-operate-del="<?php echo $auth->check('goods/category/del'); ?>" 
+                           data-operate-edit="<?php echo $auth->check('stock/delivery_goods/edit'); ?>"
+                           data-operate-del="<?php echo $auth->check('stock/delivery_goods/del'); ?>"
                            width="100%">
                     </table>
                 </div>

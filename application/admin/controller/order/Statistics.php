@@ -65,6 +65,7 @@ class Statistics extends Backend
                 ->limit($offset, $limit)
                 ->select();
             foreach($order_goods as $key => &$value){
+//                halt($value);
                 $value['mean'] = round($value['send_price'] / $value['sendqty'],2);
             }
             $result = array("total" => count($order_goods), "rows" => $order_goods);

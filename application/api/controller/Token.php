@@ -1,7 +1,10 @@
 <?php
 
 namespace app\api\controller;
-
+header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Methods", "*");//允许任何method
+header("Access-Control-Allow-Headers", "*");//允许任何自定义header
+header("Access-Control-Allow-Credentials", "true");//允许跨域cookie
 use app\common\controller\Api;
 use fast\Random;
 

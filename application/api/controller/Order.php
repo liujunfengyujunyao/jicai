@@ -1,7 +1,10 @@
 <?php
 
 namespace app\api\controller;
-
+header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Methods", "*");//允许任何method
+header("Access-Control-Allow-Headers", "*");//允许任何自定义header
+header("Access-Control-Allow-Credentials", "true");//允许跨域cookie
 use app\common\controller\Api;
 use think\Db;
 use think\Validate;
@@ -60,8 +63,8 @@ class Order extends Api
         $end_time = strtotime(date('Y-m-d',time()))+60*60*24-1;
 //        halt([$start_time,$end_time]);
         isset($params['send_time']) ? $where['sendtime'] = ['between',[strtotime($params['send_time']),strtotime($params['send_time'])+60*60*24-1]]:$where['sendtime'] = ['between',[$start_time, $end_time]];
-        isset($params['department_id']) ? $where['department_id'] = $params['department_id'] : $where['department_id'] = "1=1";
-        isset($params['supplier_id']) ? $where['supplier_id'] = $params['supplier_id'] : $where['supplier_id'] = "1=1";
+        isset($params['department_id']) ? $where['department_id'] = $params['department_id'] : NULL;
+        isset($params['supplier_id']) ? $where['supplier_id'] = $params['supplier_id'] : NULL;
 
         //部门,供应商,送货时间(date),订单金额,商品总数,收货进度10/20
         $result = DB::name('order')
@@ -72,6 +75,9 @@ class Order extends Api
         foreach($result as $key => &$value){
             $value['goods_count'] = DB::name('order_goods')->field('sum(needqty) as good_count')->where(['order_id'=>$value['order_id']])->select()[0]['good_count'];
             $value['progress'] = DB::name('order_goods')->field('sum(sendqty) as progess')->where(['order_id'=>$value['order_id']])->select()[0]['progess'];
+            if(is_null($value['progress'])){
+                $value['progress'] = "0";
+            }
             $value['department_name'] = DB::name('department')->find($value['department_id'])['name'];
             $value['supplier_name'] = DB::name('supplier')->find($value['supplier_id'])['supplier_name'];
             $value['sendtime'] = date('Y-m-d',$value['sendtime']);
@@ -97,11 +103,29 @@ class Order extends Api
             ->join('__SUPPLIER__ t3','t1.supplier_id=t3.id','LEFT')
             ->where(['t1.id'=>$order_id])
             ->find();
-
+        if($result['info']['status'] == "0"){
+            $result['info']['status'] = "待收货";
+        }elseif($result['info']['status'] == "1"){
+            $result['info']['status'] = "已收货";
+        }else{
+            $result['info']['status']  = "已取消";
+        }
+//        foreach($result['info'] as $key => &$value){
+//            if($value['status'] == "0"){
+//                $value['status'] = '待收货';
+//            }elseif($value['status'] == "1"){
+//                $value['status'] = "已收货";
+//            }else{
+//                $value['status'] = "已取消";
+//            }
+//        }
         $result['list'] = DB::name('order_goods')
             ->field('id,goods_sn,goods_name,spec,unit,price,needqty,order_price,sendqty,send_price,remark')
             ->where(['order_id'=>$order_id])
             ->select();
+        foreach($result['list'] as $k => &$v){
+            if(is_null($v['sendqty'])) $v['sendqty'] = "0";
+        }
         $this->success('',$result);
     }
 
@@ -135,6 +159,7 @@ class Order extends Api
      * */
     public function delivery_number()
     {
+        $this->error(__('Please login first'), null, 401);
         $params = $this->request->param();
         $order_id = $params['id'];
         if(isset($params['remark']))  $update['remark'] = $params['remark'];

@@ -33,13 +33,30 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'status', title: __('Status'), searchList: {"0":__('Status 0'),"1":__('Status 1'),"2":__('Status 2')}, formatter: Table.api.formatter.status},
                         {field: 'remark', title: __('Remark'),operate:false,visible:false},
                         {field: 'weigh', title: __('Weigh'),operate:false,visible:false},
+                        // {
+                        //     field: 'buttons',
+                        //     width: "120px",
+                        //     title: __('价格维护'),
+                        //     operate:false,
+                        //     table: table,
+                        //     events: Table.api.events.operate,
+                        //     buttons: [
+                        //         {
+                        //             name: 'addtabs',
+                        //             text: __('价格维护'),
+                        //             title: __('价格维护'),
+                        //             classname: 'btn btn-xs btn-warning btn-addtabs',
+                        //             icon: 'fa fa-folder-o',
+                        //             //url: 'example/bootstraptable/detail'
+                        //             url: "supplier/price/index?supplier_id="+Fast.api.query("")
+                        //             //url: "supplier/price/index"
+                        //         }
+                        //     ],
+                        //
+                        // },
                         {
-                            field: 'buttons',
-                            width: "120px",
-                            title: __('价格维护'),
-                            operate:false,
-                            table: table,
-                            events: Table.api.events.operate,
+                            field: 'operate',
+                            title: __('Operate'),
                             buttons: [
                                 {
                                     name: 'addtabs',
@@ -52,9 +69,10 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                                     //url: "supplier/price/index"
                                 }
                             ],
-
-                        },
-                        {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}
+                            table: table,
+                            events: Table.api.events.operate,
+                            formatter: Table.api.formatter.operate
+                        }
                     ]
                 ],
                 search:false,

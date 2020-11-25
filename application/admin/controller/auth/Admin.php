@@ -380,4 +380,12 @@ class Admin extends Backend
         $this->success();
     }
 
+    public function select_list()
+    {
+
+        $list = DB::name('admin')->field('id,nickname as name')->where(['status'=>'normal'])->select();
+
+        return json(['list'=>$list,'total'=>count($list)]);
+    }
+
 }
