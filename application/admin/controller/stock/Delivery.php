@@ -67,6 +67,7 @@ class Delivery extends Backend
                 $value['fa_admin.nickname'] = DB::name('admin')->find($value['apply_admin'])['nickname'];
                 $value['fa_delivery.createtime'] = $value['createtime'];
                 $value['fa_delivery.status'] = $value['status'];
+                $value['fa_delivery.audit_admin'] = DB::name('admin')->where(['id'=>$value['audit_admin']])->find()['nickname'];
             }
 
             $result = array("total" => $total, "rows" => $list);
@@ -96,6 +97,75 @@ class Delivery extends Backend
             $this->success('', url("stock/deliverygoods/delivery_add"), $data);
         }
         return $this->view->fetch();
+    }
+
+
+    /*
+     * 同意出库
+     * */
+    public function through()
+    {
+        $delivery_id = $this->request->param('ids');
+        $delivery = DB::name('delivery')->find($delivery_id);
+        try {
+            Db::startTrans();
+            $delivery_goods = DB::name('delivery_goods')
+                ->where(['delivery_id'=>$delivery_id])
+                ->select();
+            foreach($delivery_goods as $key => $value){
+                $stock = DB::name('stock')->where(['goods_id'=>$value['goods_id']])->find();
+                if($stock['stock_number'] < $value['delivery_number']){
+                    Db::rollback();
+                    $this->error('库存不足');
+                }
+                $result = DB::name('stock')->where(['goods_id'=>$value['goods_id']])->setDec('stock_number',$value['delivery_number']);
+                $goods = DB::name('goods')->where(['id'=>$value['goods_id']])->find();
+                $insert_log = [
+                    'department_name' => DB::name('department')->where(['id'=>$delivery['department_id']])->find()['name'],
+                    'apply_name' => DB::name('admin')->where(['id'=>$delivery['apply_admin']])->find()['nickname'],
+                    'createtime' => time(),
+                    'goods_sn' => $goods['goods_sn'],
+                    'goods_name' => $goods['goods_name'],
+                    'spec' => $goods['spec'],
+                    'unit' => $goods['unit'],
+                    'unit_price' => $stock['unit_price'],
+                    'delivery_number' => $value['delivery_number'],
+                    'delivery_amount' => $value['delivery_amount'],
+                    'remark' => $value['remark']
+                ];
+                DB::name('delivery_log')->insert($insert_log);
+                if (!$result) {
+                    throw new Exception('中途错误');
+                }
+            }
+            $audit_admin = $this->auth->id;
+            DB::name('delivery')->where(['id'=>$delivery_id])->update(['status'=>"1","audittime"=>time(),'audit_admin'=>$audit_admin]);
+            //记录领取日志
+
+
+            //任意一个表写入失败都会抛出异常：
+            Db::commit();
+            $this->success('操作完成');
+        } catch (Exception $e) {
+            //如获取到异常信息，对所有表的删、改、写操作，都会回滚至操作前的状态：
+            Db::rollback();
+            $this->error($e);
+        }
+    }
+
+    /*
+     * 取消出库
+     * */
+    public function reject()
+    {
+        $delivery_id = $this->request->param('ids');
+        $audit_admin = $this->auth->id;
+        $result = DB::name('delivery')->where(['id'=>$delivery_id])->update(['status'=>"2","audittime"=>time(),'audit_admin'=>$audit_admin]);
+        if($result !== false){
+            $this->success('已取消');
+        }else{
+            $this->error('网络错误');
+        }
     }
 
 

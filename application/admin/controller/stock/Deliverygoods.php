@@ -227,15 +227,16 @@ class Deliverygoods extends Backend
                 $this->error('库存不足');
             }
             $delivery_id = $params['delivery_id']; //如果有申请单ID证明提交过数据 已经生成了申请单
-
+            $delivery_amount = $stock['unit_price'] * $params['delivery_number'];
             if($delivery_id == '0'){
-                $delivery_amount = $stock['unit_price'] * $params['delivery_number'];
+
                 $insert = [
                     'department_id' => $params['department_id'],
                     'apply_admin' => $params['apply_admin'],
                     'delivery_amount' => $delivery_amount,
                     'createtime' => time(),
-                    'status' => "0"
+                    'status' => "0",
+
                 ];
                 $delivery_id = DB::name('delivery')->insertGetId($insert);
                 $delivery_goods = [
@@ -243,7 +244,8 @@ class Deliverygoods extends Backend
                     'goods_id' => $stock['goods_id'],
                     'stock_id' => $stock['id'],
                     'delivery_number' => $params['delivery_number'],
-                    'remark' => $params['remark']
+                    'remark' => $params['remark'],
+                    'delivery_amount' => $delivery_amount
                 ];
                 $result = DB::name('delivery_goods')->insert($delivery_goods);
             }else{
@@ -254,7 +256,7 @@ class Deliverygoods extends Backend
                     //领料商品表存在此商品(修改)
                     $result = DB::name('delivery_goods')
                         ->where(['id'=>$is_isset['id']])
-                        ->update(['delivery_number'=>$params['delivery_number'],'remark'=>$params['remark']]);
+                        ->update(['delivery_number'=>$params['delivery_number'],'remark'=>$params['remark'],'delivery_amount'=>$delivery_amount]);
                 }else{
                     //领料商品表不存在此商品(新增)
                     $insert = [
@@ -263,7 +265,7 @@ class Deliverygoods extends Backend
                         'stock_id' => $stock['id'],
                         'delivery_number' => $params['delivery_number'],
                         'remark' => $params['remark'],
-
+                        'delivery_amount' => $delivery_amount
                     ];
                     $result = DB::name('delivery_goods')->insert($insert);
                 }

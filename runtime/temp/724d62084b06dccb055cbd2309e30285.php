@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:70:"D:\WWW\zbjg\public/../application/admin\view\stock\delivery\index.html";i:1606290996;s:54:"D:\WWW\zbjg\application\admin\view\layout\default.html";i:1604979994;s:51:"D:\WWW\zbjg\application\admin\view\common\meta.html";i:1604979993;s:53:"D:\WWW\zbjg\application\admin\view\common\script.html";i:1604979993;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:73:"D:\WWW\zbjg\public/../application/admin\view\stock\deliverylog\index.html";i:1606355331;s:54:"D:\WWW\zbjg\application\admin\view\layout\default.html";i:1604979994;s:51:"D:\WWW\zbjg\application\admin\view\common\meta.html";i:1604979993;s:53:"D:\WWW\zbjg\application\admin\view\common\script.html";i:1604979993;}*/ ?>
 <!DOCTYPE html>
 <html lang="<?php echo $config['language']; ?>">
     <head>
@@ -51,9 +51,7 @@
                             <?php endif; ?>
                             <div class="content">
                                 <div class="panel panel-default panel-intro">
-    
-
-
+    <?php echo build_heading(); ?>
 
     <div class="panel-body">
         <div id="myTabContent" class="tab-content">
@@ -61,14 +59,12 @@
                 <div class="widget-body no-padding">
                     <div id="toolbar" class="toolbar">
                         <a href="javascript:;" class="btn btn-primary btn-refresh" title="<?php echo __('Refresh'); ?>" ><i class="fa fa-refresh"></i> </a>
-                        <a href="javascript:;" class="btn btn-success btn-add <?php echo $auth->check('stock/delivery/add')?'':'hide'; ?>" title="<?php echo __('领料出库'); ?>" ><i class="fa fa-plus"></i> <?php echo __('领料出库'); ?></a>
-
 
                         
                     </div>
                     <table id="table" class="table table-striped table-bordered table-hover table-nowrap"
-                           data-operate-edit="<?php echo $auth->check('stock/delivery/edit'); ?>" 
-                           data-operate-del="<?php echo $auth->check('stock/delivery/del'); ?>" 
+                           data-operate-edit="<?php echo $auth->check('stock/deliverylog/edit'); ?>" 
+                           data-operate-del="<?php echo $auth->check('stock/deliverylog/del'); ?>" 
                            width="100%">
                     </table>
                 </div>

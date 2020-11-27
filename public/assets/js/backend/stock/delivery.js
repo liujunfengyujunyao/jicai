@@ -7,8 +7,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                 extend: {
                     index_url: 'stock/delivery/index' + location.search,
                     add_url: 'stock/delivery/add',
-                    edit_url: 'stock/delivery/edit',
-                    del_url: 'stock/delivery/del',
+
                     multi_url: 'stock/delivery/multi',
                     table: 'delivery',
                 }
@@ -28,7 +27,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'fa_delivery.department_id', title: __('部门'),searchList: $.getJSON("order/statistics/department_list")},
                         {field: 'fa_admin.nickname', title: __('Apply_admin'),operate: 'LIKE %...%'},
                         {field: 'delivery_amount', title: __('Delivery_amount'), operate:false},
-                        {field: 'audit_admin', title: __('Audit_admin'),operate:false},
+                        {field: 'fa_delivery.audit_admin', title: __('Audit_admin'),operate:false},
                         {field: 'fa_delivery.createtime', title: __('出库时间'), operate:'RANGE', addclass:'datetimerange', formatter: Table.api.formatter.datetime},
                         {field: 'audittime', title: __('Audittime'), operate:'RANGE', addclass:'datetimerange', formatter: Table.api.formatter.datetime,operate:false},
                         {field: 'fa_delivery.status', title: __('Status'), searchList: {"0":__('Status 0'),"1":__('Status 1'),"2":__('Status 2')}, formatter: Table.api.formatter.status},
@@ -40,6 +39,9 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                                     name: 'addtabs',
                                     title: __('添加领料商品'),
                                     text:'编辑',
+                                    hidden:function(row){
+                                        return row.status=="2" || row.status=="1" ? true : false;
+                                    },
                                     classname: 'btn btn-xs btn-warning btn-addtabs',
                                     icon: 'fa fa-folder-o',
 
@@ -47,11 +49,59 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                                     url: "stock/deliverygoods/delivery_edit"
                                     // url: "stock/deliverygoods/index?delivery_id="+Fast.api.query("")
                                     //url: "supplier/price/index"
-                                }
+                                },
+                                {
+                                    name: 'ajax',
+                                    title: __('发送Ajax'),
+                                    text:"确认出库",
+                                    hidden:function(row){
+                                        return row.status=="2" || row.status=="1" ? true : false;
+                                    },
+                                    classname: 'btn btn-xs btn-success btn-magic btn-ajax',
+                                    icon: 'fa fa-leaf',
+                                    confirm: '确认出库？',
+                                    url: 'stock/delivery/through',
+                                    success: function (data, ret) {
+                                        // Layer.alert(ret.msg);
+                                        table.bootstrapTable('refresh');//局部刷新
+                                        //如果需要阻止成功提示，则必须使用return false;
+                                        //return false;
+                                    },
+                                    error: function (data, ret) {
+                                        console.log(data, ret);
+                                        Layer.alert(ret.msg);
+                                        return false;
+                                    }
+                                },
+                                {
+                                    name: 'ajax',
+                                    title: __('发送Ajax'),
+                                    text:"取消出库",
+                                    hidden:function(row){
+                                        return row.status=="2" || row.status=="1" ? true : false;
+                                    },
+                                    classname: 'btn btn-xs btn-success btn-magic btn-ajax',
+                                    icon: 'fa fa-magic',
+                                    confirm: '确认取消出库？',
+                                    url: 'stock/delivery/reject',
+                                    success: function (data, ret) {
+                                        // Layer.alert(ret.msg);
+                                        table.bootstrapTable('refresh');//局部刷新
+                                        //如果需要阻止成功提示，则必须使用return false;
+                                        //return false;
+                                    },
+                                    error: function (data, ret) {
+                                        console.log(data, ret);
+                                        Layer.alert(ret.msg);
+                                        return false;
+                                    }
+                                },
                             ],
+
                             table: table,
                             events: Table.api.events.operate,
-                            formatter: Table.api.formatter.operate}
+                            formatter: Table.api.formatter.operate
+                        }
                     ]
                 ],
                 search:false,

@@ -69,12 +69,15 @@ class Order extends Api
         //部门,供应商,送货时间(date),订单金额,商品总数,收货进度10/20
         $result = DB::name('order')
             ->field('id as order_id,department_id,supplier_id,sendtime,order_amount')
+            ->where(['status'=>"0"])
             ->where($where)
             ->select();
 
         foreach($result as $key => &$value){
-            $value['goods_count'] = DB::name('order_goods')->field('sum(needqty) as good_count')->where(['order_id'=>$value['order_id']])->select()[0]['good_count'];
-            $value['progress'] = DB::name('order_goods')->field('sum(sendqty) as progess')->where(['order_id'=>$value['order_id']])->select()[0]['progess'];
+//            $value['goods_count'] = DB::name('order_goods')->field('sum(needqty) as good_count')->where(['order_id'=>$value['order_id']])->select()[0]['good_count'];
+            $value['goods_count'] = DB::name('order_goods')->where(['order_id'=>$value['order_id']])->count();
+//            $value['progress'] = DB::name('order_goods')->field('sum(sendqty) as progess')->where(['order_id'=>$value['order_id']])->select()[0]['progess'];
+            $value['progress'] = DB::name('order_goods')->where(['order_id'=>$value['order_id'],'status'=>"1"])->count();
             if(is_null($value['progress'])){
                 $value['progress'] = "0";
             }
@@ -145,11 +148,13 @@ class Order extends Api
         isset($params['packaging_type']) ? $where['t2.packaging_type'] = strval($params['packaging_type']) : NULL;
         $result = DB::name('order_goods')
             ->alias('t1')
-            ->field('t1.id,t1.goods_name,t1.spec,t1.unit,t1.needqty,t1.sendqty')
+            ->field('t1.id,t1.goods_name,t1.spec,t1.unit,t1.needqty,t1.sendqty,t1.status,t1.remark,t2.packaging_type,t2.cate_id,t2.scate_id')
             ->join('__GOODS__ t2','t1.goods_id=t2.id','LEFT')
             ->where($where)
             ->select();
-
+        foreach($result as $k => &$v){
+            if(is_null($v['sendqty'])) $v['sendqty'] = "0";
+        }
         $this->success('',$result);
     }
 
@@ -159,19 +164,19 @@ class Order extends Api
      * */
     public function delivery_number()
     {
-        $this->error(__('Please login first'), null, 401);
+//        $this->error(__('Please login first'), null, 401);
         $params = $this->request->param();
         $order_id = $params['id'];
         if(isset($params['remark']))  $update['remark'] = $params['remark'];
         $order_goods = DB::name('order_goods')->find($order_id);
-        if($order_goods['needqty'] < $params['sendqty']){
-            $this->error('提交数量大于订单数量');
-        }else{
+//        if($order_goods['needqty'] < $params['sendqty']){
+//            $this->error('提交数量大于订单数量');
+//        }else{
             $update['sendqty'] = $params['sendqty'];
             $update['status'] = 1;
             $update['send_price'] = $params['sendqty'] * $order_goods['price'];
             $result = DB::name('order_goods')->where(['id'=>$order_id])->update($update);
-        }
+//        }
         if($result !== false){
             $this->success('提交成功');
         }else{

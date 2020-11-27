@@ -394,10 +394,14 @@ class Order extends Backend
             ->select();
 
 
-        foreach($result as $k => $v){
-            if($v['status'] != "1"){
+        foreach($result as $k => $v) {
+            if ($v['status'] != "1") {
                 $this->error('存在未完成收货,不允许修改状态');
             }
+        }
+        foreach($result as $k => $v) {
+
+
             $stock = DB::name('stock')->where(['goods_id'=>$v['goods_id']])->find();
             if($stock){
                 $update = [
