@@ -80,30 +80,48 @@ class Check extends Backend
      */
     public function add()
     {
+
         $params = $this->request->param();
-        $this->view->assign("check_id",0);
+
+        if(!empty($params['check_id'])){
+            $this->view->assign("check_id",$params['check_id']);
+        }else{
+            $this->view->assign("check_id",0);
+        }
+
         if ($this->request->isAjax()) {
             //如果发送的来源是Selectpage，则转发到Selectpage
             if ($this->request->request('keyField')) {
                 return $this->selectpage();
             }
+            $params = $this->request->param();
+
             list($where, $sort, $order, $offset, $limit) = $this->buildparams();
-            $total = $this->model
-                ->where($where)
-                ->order($sort, $order)
-                ->count();
+//            $total = $this->model
+//                ->where($where)
+//                ->order($sort, $order)
+//                ->count();
             $list = DB::name('stock')
                 ->field("fa_stock.id,fa_goods.goods_sn,fa_goods.goods_name,fa_goods.spec,fa_goods.unit,fa_stock.unit_price,fa_stock.stock_number")
                 ->join("__GOODS__","fa_stock.goods_id=fa_goods.id",'LEFT')
+                ->where($where)
+                ->order($sort, $order)
+                ->limit($offset, $limit)
                 ->select();
-
-//            $list = $this->model
-//                ->where($where)
-//                ->order($sort, $order)
-//                ->limit($offset, $limit)
-//                ->select();
-
             $list = collection($list)->toArray();
+            foreach($list as $key => &$value){
+                $value['fa_goods.goods_name'] = $value['goods_name'];
+                if(!empty($params['check_id'])){
+                    //从编辑页面进入的add页面
+                    $check_goods = DB::name('check_goods')
+                        ->where(['stock_id'=>$value['id'],'check_id'=>$params['check_id']])
+                        ->find();
+                    $value['check_number'] = $check_goods['check_number'];
+                    $value['remark'] = $check_goods['remark'];
+                }
+            }
+
+
 
             $result = array("total" => count($list), "rows" => $list);
 
@@ -119,34 +137,19 @@ class Check extends Backend
     public function edit($ids = null)
     {
         $row = $this->model->get($ids);
-
-
-
         $this->view->assign("check_id",$row['id']);
         if ($this->request->isAjax()) {
             list($where, $sort, $order, $offset, $limit) = $this->buildparams();
-
-            $total = $this->model
-                ->where($where)
-                ->order($sort, $order)
-                ->count();
-            $list = DB::name('stock')
-                ->field("fa_stock.id,fa_goods.goods_sn,fa_goods.goods_name,fa_goods.spec,fa_goods.unit,fa_stock.unit_price,fa_stock.stock_number")
-                ->join("__GOODS__","fa_stock.goods_id=fa_goods.id",'LEFT')
+            $params = $this->request->param();
+            $check_id = json_decode($params['filter'],true)['check_id'];
+            $list = DB::name('check_goods')
+                ->where(['check_id'=>$check_id])
                 ->select();
-//halt($list);
-//            $list = $this->model
-//                ->where($where)
-//                ->order($sort, $order)
-//                ->limit($offset, $limit)
-//                ->select();
-
             $list = collection($list)->toArray();
-
             $result = array("total" => count($list), "rows" => $list);
-
             return json($result);
         }
+        $this->assignConfig('check_id',$row['id']);//传给queryParams
         return $this->view->fetch();
     }
 
@@ -155,6 +158,7 @@ class Check extends Backend
     public function ajax_add()
     {
         $params = $this->request->param();
+
         $stock_id = $params['id'];
         $stock = DB::name('stock')->find($stock_id);
         $goods = DB::name('goods')->where(['id'=>$stock['goods_id']])->find();
@@ -167,6 +171,7 @@ class Check extends Backend
             $this->error('存在未处理的领料单里有该商品');
         }
         $amount = $params['check_number'] * $stock['unit_price'];
+
         if($params['check_id'] == '0'){
 
             //新增
@@ -206,6 +211,7 @@ class Check extends Backend
                     ->where(['id'=>$is_isset['id']])
                     ->update(['check_number'=>$params['check_number'],'remark'=>$params['remark'],'createtime'=>time()]);
             }else{
+
 //              领料商品表不存在此商品(新增)
                 $check_goods = [
                     'stock_id' => $params['id'],
@@ -221,27 +227,115 @@ class Check extends Backend
                     'check_id' => $params['check_id'],
                     'createtime' => time()
                 ];
+
                 $result = DB::name('check_goods')->insert($check_goods);
             }
-            $stock = DB::name('check_goods')
-                ->where(['check_id'=>$params['id']])
+//            $stock = DB::name('check_goods')
+//                ->where(['check_id'=>$params['id']])
+//                ->select();
+//            $amount = 0;
+//            foreach($stock as $key => $value){
+//                $unit_price = DB::name('stock')
+//                    ->where(['goods_id'=>$value['goods_id']])
+//                    ->value('unit_price');
+//                $amount += $unit_price * $value['check_number'];
+//            }
+//            DB::name('check')
+//                ->where(['id'=>$params['check_id']])
+//                ->update(['amount'=>$amount]);
+            $check_goods = DB::name('check_goods')
+                ->where(['check_id'=>$params['check_id']])
                 ->select();
+
             $amount = 0;
-            foreach($stock as $key => $value){
-                $unit_price = DB::name('stock')
-                    ->where(['goods_id'=>$value['goods_id']])
-                    ->value('unit_price');
-                $amount += $unit_price * $value['check_number'];
+            foreach($check_goods as $key => $value){
+                $amount += $value['unit_price'] * $value['check_number'];
             }
-            DB::name('check')
+
+            $result = DB::name('check')
                 ->where(['id'=>$params['check_id']])
-                ->update(['amount'=>$amount]);
+                ->update(['amount'=>$amount,'count'=>count($check_goods)]);
 
         }
         if($result !== false){
             $this->success('操作成功','',['check_id'=>$check_id]);
         }else{
             $this->error('网络错误');
+        }
+    }
+
+    /*
+     * 编辑盘点明细
+     * */
+    public function ajax_edit()
+    {
+        $params = $this->request->param();
+        $update = [
+            'remark' => $params['remark'],
+            'check_number' => $params['check_number'],
+        ];
+        $check_goods = DB::name('check_goods')->where(['id'=>$params['id']])->find();
+        $result = DB::name('check_goods')
+            ->where(['id'=>$params['id']])
+            ->update($update);
+
+
+        $data = DB::name('check_goods')
+            ->where(['check_id'=>$check_goods['check_id']])
+            ->select();
+
+        $amount = 0;
+        foreach($data as $key => $value){
+            $amount += $value['unit_price'] * $value['check_number'];
+        }
+
+
+        $check_update = [
+            'amount' => $amount,
+            'count' => count($data),
+            'createtime' => time()
+        ];
+        DB::name('check')->where(['id'=>$check_goods['check_id']])->update($check_update);
+        if($result !== false){
+            $this->success('编辑完成');
+        }else{
+            $this->error('网络错误');
+        }
+    }
+
+    /*
+     * 删除盘点明细
+     * 全部相同check_id的明细被删除是否删除check
+     * */
+    public function ajax_del()
+    {
+        $params = $this->request->param();
+        $check_goods = DB::name('check_goods')->where(['id'=>$params['id']])->find();
+        $count = DB::name('check_goods')->where(['check_id'=>$check_goods['check_id']])->count();
+        if($count<=1){
+            $this->error('不得少于一条');
+        }
+        $result = DB::name('check_goods')->where(['id'=>$params['id']])->delete();
+        $data = DB::name('check_goods')
+            ->where(['check_id'=>$check_goods['check_id']])
+            ->select();
+        $amount = 0;
+        foreach($data as $key => $value){
+            $amount += $value['unit_price'] * $value['check_number'];
+        }
+
+
+        $check_update = [
+            'amount' => $amount,
+            'count' => count($data),
+            'createtime' => time()
+        ];
+        DB::name('check')->where(['id'=>$check_goods['check_id']])->update($check_update);
+
+        if($result !== false){
+            $this->success('删除完成');
+        }else{
+            $this->error('删除失败');
         }
     }
 }

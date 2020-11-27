@@ -1,14 +1,5 @@
 <div class="panel panel-default panel-intro">
 
-    <div class="panel-heading">
-        {:build_heading(null,FALSE)}
-        <ul class="nav nav-tabs" data-field="status">
-            <li class="active"><a href="#t-all" data-value="" data-toggle="tab">{:__('All')}</a></li>
-            {foreach name="statusList" item="vo"}
-            <li><a href="#t-{$key}" data-value="{$key}" data-toggle="tab">{$vo}</a></li>
-            {/foreach}
-        </ul>
-    </div>
 
 
     <div class="panel-body">
@@ -17,9 +8,9 @@
                 <div class="widget-body no-padding">
                     <div id="toolbar" class="toolbar">
                         <a href="javascript:;" class="btn btn-primary btn-refresh" title="{:__('Refresh')}" ><i class="fa fa-refresh"></i> </a>
+                        <a href="/admin.php/stock/check/add?check_id={$check_id}"  data-area='["100%","100%"]' class="btn btn-success btn-add {:$auth->check('stock/check/add')?'':'hide'}" title="{:__('Add')}" ><i class="fa fa-plus"></i> {:__('新增')}</a>
 
-
-
+<!--                        <a class="btn btn-success btn-myexcel-export {:$auth->check('lvtotals1/exportOrderExcel')?'':'hide'}" href="javascript:;"><i class="fa fa-user"></i> 导出</a>-->
                     </div>
                     <input type="hidden" id="check_id" value="{$check_id}">
                     <table id="table" class="table table-striped table-bordered table-hover table-nowrap"

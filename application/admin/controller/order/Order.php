@@ -108,6 +108,13 @@ class Order extends Backend
     public function next()
     {
         $params = $this->request->param();
+
+        if(!empty($params['order_id'])){
+            $this->view->assign("order_id",$params['order_id']);
+        }else{
+            $this->view->assign('order_id',"0");
+        }
+
         @$this->assignconfig('supplier_id',$params['supplier_id']);
 
         //当前是否为关联查询
@@ -119,12 +126,12 @@ class Order extends Backend
                 $order_id = json_decode($params['filter'], true)['order_id'];
 //                $this->assignconfig('order_id',$order_id);
             }
-//dump(json_decode($params['filter'], true));
+
 
             @$goods_name = json_decode($params['filter'], true)['goods_name'];
 //            $goods_name ?$like = ['t2.goods_name','like', '%' . $goods_name . '%']:$like="1=1";
 //            $like = $goods_name?['t2.goods_name'=>['like', $goods_name]]:'1=1';
-            $like = $goods_name ? ['t2.goods_name' => ['like', '%' . $goods_name . '%']] : '1=1';
+            $like = $goods_name ? ['t2.goods_name' => ['like', '%' . $goods_name . '%']] : NULL;
             //如果发送的来源是Selectpage，则转发到Selectpage
 //            if ($this->request->request('keyField')) {
 //                return $this->selectpage();
@@ -134,6 +141,7 @@ class Order extends Backend
             $params = json_decode($params['filter'], true);//搜索条件
 
             list($where, $sort, $order, $offset, $limit) = $this->buildparams();
+
             $list = DB::name('supplier_goods')
                 ->field('t1.goods_id,t1.supplier_id,t2.goods_name,t2.status,t1.price')
                 ->alias('t1')
@@ -180,10 +188,13 @@ class Order extends Backend
         return $this->view->fetch();
     }
 
+
+    /*
+     * 编辑订单
+     * */
     public function next2()
     {
         $params = $this->request->param();
-//        halt($params);
         if(isset($params['ids'])){
             $order_id = $params['ids'];
             $supplier_order = DB::name('order')->find($order_id);
@@ -263,6 +274,59 @@ class Order extends Backend
     }
 
 
+    public function next3()
+    {
+        $params = $this->request->param();
+        //当前是否为关联查询
+        $this->relationSearch = true;
+        //设置过滤方法
+        $this->request->filter(['strip_tags', 'trim']);
+        if ($this->request->isAjax()) {
+            //如果发送的来源是Selectpage，则转发到Selectpage
+            if ($this->request->request('keyField')) {
+                return $this->selectpage();
+            }
+            $order_id = json_decode($params['filter'],true)['order_id'];
+            $supplier_order = DB::name('order')->where(['id'=>$order_id])->find();
+            list($where, $sort, $order, $offset, $limit) = $this->buildparams();
+            $list = DB::name('supplier_goods')
+                ->field('t1.goods_id,t1.supplier_id,t2.goods_name,t2.status,t1.price')
+                ->alias('t1')
+                ->join('__GOODS__ t2','t1.goods_id=t2.id','LEFT')
+                ->where(['t1.supplier_id'=>$supplier_order['supplier_id'],'t2.status'=>'1'])
+//                ->where($like)
+                ->limit($offset, $limit)
+                ->select();
+
+            $list = collection($list)->toArray();
+            $array = DB::name('order_goods')
+                ->where(['order_id'=>$order_id])
+                ->column('goods_id');
+
+            foreach($list as $key => &$value){
+//                $value['order_count'] = $value['order_amount'] = null;
+                foreach($array as $k => $v){
+                    if($value['goods_id'] == $v){
+                        $data = DB::name('order_goods')
+                            ->where(['goods_id'=>$v,'order_id'=>$order_id])
+                            ->find();
+                        $value['order_count'] = $data['needqty'];
+                        $value['order_amount'] = $data['order_price'];
+                    }
+                }
+            }
+
+            $result = array("total" => count($list), "rows" => $list);
+
+            return json($result);
+        }
+        $this->assignConfig('order_id',$params['order_id']);//传给queryParams
+        $this->assign('order_id',$params['order_id']);
+        return $this->view->fetch();
+    }
+
+
+
 
 
     /*
@@ -278,10 +342,16 @@ class Order extends Backend
             $this->error('下单数量不能为空');
         }
         $order_id = $params['order_id'];
+
         $goods = DB::name('goods')->find($params['goods_id']);
-        $price = DB::name('supplier_goods')
-            ->where(['supplier_id'=>$params['supplier_id'],'goods_id'=>$params['goods_id']])
-            ->value('price');
+        if(empty($params['supplier_id'])){
+            $params['supplier_id'] = DB::name('order')->where(['id'=>$order_id])->value('supplier_id');
+        }
+            $price = DB::name('supplier_goods')
+                ->where(['supplier_id'=>$params['supplier_id'],'goods_id'=>$params['goods_id']])
+                ->value('price');
+
+
 
         if($order_id == 0){
             $order_amount = $price * $params['order_count'];
@@ -325,9 +395,10 @@ class Order extends Backend
                 ->find();
             if($is_isset){
                 //订单商品表存在此商品(修改)
+                $order_price = $is_isset['price'] * $params['order_count'];
                 $result = DB::name('order_goods')
                     ->where(['id'=>$is_isset['id']])
-                    ->update(['needqty'=>$params['order_count'],'remark'=>$params['remark']]);
+                    ->update(['needqty'=>$params['order_count'],'remark'=>$params['remark'],'order_price'=>$order_price]);
             }else{
                 //订单商品表不存在此商品(新增)
                 $insert = [
@@ -372,6 +443,20 @@ class Order extends Backend
             $this->error('网络错误');
         }
 
+    }
+
+    /*
+     * ajax删除next2中行
+     * */
+    public function ajax_del()
+    {
+        $params = $this->request->param();
+        halt($params);
+        $order_goods = DB::name('order_goods')->where(['id'=>$params['id']])->find();
+        $count = DB::name('order_goods')->where(['order_id'=>$order_goods['order_id']])->count();
+        if($count <= 1){
+            $this->error('不得小于一条');
+        }
     }
 
 
