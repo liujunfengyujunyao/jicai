@@ -47,7 +47,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'send_price', title: '收货金额',operate:false},
                         // {field: 'order_amount', title: __('Order_amount'), operate:'BETWEEN'},
                         {field: 'createtime', title: '下单时间', operate:'RANGE', addclass:'datetimerange', formatter: Table.api.formatter.datetime,defaultValue:this.today(0)+' 00:00:00 - '+this.today(0)+' 23:59:59',visible:false},
-                        {field: 'sendtime', title: '送货时间', operate:'RANGE', addclass:'datetimerange', formatter: Table.api.formatter.datetime,datetimeFormat:'YYYY-MM-DD',defaultValue:this.today(1)+' 00:00:00 - '+this.today(1)+' 23:59:59',visible:false},
+                        {field: 'sendtime', title: '送货时间', operate:'RANGE', addclass:'datetimerange', formatter: Table.api.formatter.datetime,datetimeFormat:'YYYY-MM-DD',visible:false},
                         // {field: 'status', title: __('Status'), searchList: {"0":__('Status 0'),"1":__('Status 1'),"2":__('Status 2')}, formatter: Table.api.formatter.status},
                         {field: 'department_id', title: '部门',visible:false,searchList: $.getJSON("order/statistics/department_list")},
                         {field: 'supplier_id', title: '供货商',visible:false,searchList: $.getJSON("order/statistics/supplier_list")},

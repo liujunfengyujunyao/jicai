@@ -192,9 +192,91 @@ class Order extends Backend
     /*
      * 编辑订单
      * */
+//    public function next2()
+//    {
+//        $params = $this->request->param();
+//        if(isset($params['ids'])){
+//            $order_id = $params['ids'];
+//            $supplier_order = DB::name('order')->find($order_id);
+//        }
+//
+//
+//        //当前是否为关联查询
+//        $this->relationSearch = true;
+//        //设置过滤方法
+//        $this->request->filter(['strip_tags', 'trim']);
+//        if ($this->request->isAjax())
+//        {
+//
+//            $order_id = json_decode($params['filter'],true)['order_id'];
+//            $supplier_order = DB::name('order')->find($order_id);
+//
+//            @$goods_name = json_decode($params['filter'],true)['goods_name'];
+//            $like = $goods_name?['t2.goods_name'=>['like', '%'.$goods_name.'%']]:'1=1';
+//            //如果发送的来源是Selectpage，则转发到Selectpage
+//            if ($this->request->request('keyField'))
+//            {
+//                return $this->selectpage();
+//            }
+//
+//            $send_time = $params['_'];
+//            $params = json_decode($params['filter'],true);//搜索条件
+//            list($where, $sort, $order, $offset, $limit) = $this->buildparams();
+//            $list = DB::name('supplier_goods')
+//                ->field('t1.goods_id,t1.supplier_id,t2.goods_name,t2.status,t1.price')
+//                ->alias('t1')
+//                ->join('__GOODS__ t2','t1.goods_id=t2.id','LEFT')
+//                ->where(['t1.supplier_id'=>$supplier_order['supplier_id'],'t2.status'=>'1'])
+//                ->where($like)
+//                ->limit($offset, $limit)
+//                ->select();
+//            $total = DB::name('supplier_goods')
+//                ->alias('t1')
+//                ->join('__GOODS__ t2','t1.goods_id=t2.id','LEFT')
+//                ->where(['t1.supplier_id'=>$supplier_order['supplier_id'],'t2.status'=>'1'])
+//                ->where($like)
+//                ->count();
+////            foreach ($list as $row) {
+////
+//////                $row->getRelation('department')->visible(['id','name']);
+////                $row->getRelation('supplier')->visible(['supplier_id','supplier_name','linkman','mobile']);
+////            }
+//            foreach($list as $key => &$value){
+//                $goods = DB::name('goods')->find($value['goods_id']);
+//                $value['goods_sn'] = $goods['goods_sn'];
+//                $value['spec'] = $goods['spec'];
+//                $value['unit'] = $goods['unit'];
+//                $value['order_count'] = DB::name('order_goods')
+//                    ->where(['order_id'=>$order_id,'goods_id'=>$value['goods_id']])
+//                    ->value('needqty');
+//                $price = DB::name('supplier_goods')->where(['goods_id'=>$value['goods_id'],'supplier_id'=>$supplier_order['supplier_id']])->value('price');
+//                $value['order_amount'] = $price * $value['order_count'];
+//                $value['remark'] = DB::name('order_goods')
+//                    ->where(['order_id'=>$order_id,'goods_id'=>$value['goods_id']])
+//                    ->value('remark');
+//                if(is_null($value['order_count'])) unset($list[$key]);
+//
+//            }
+//            $list = collection($list)->toArray();
+//            $result = array("total" => $total, "rows" => $list);
+//            return json($result);
+//        }
+//
+//        //需要ajax返回回来的参数
+//        $this->assignconfig('supplier_id',$supplier_order['supplier_id']);
+//        $this->assignconfig('send_time',$supplier_order['supplier_id']);
+//        $this->assignconfig('department_id',$supplier_order['department_id']);
+//        $this->assignConfig('order_id',$order_id);//传给queryParams
+////        $info = DB::name('')
+//        $this->assign('order_id',$order_id);
+//        return $this->view->fetch();
+//
+//    }
+
     public function next2()
     {
         $params = $this->request->param();
+
         if(isset($params['ids'])){
             $order_id = $params['ids'];
             $supplier_order = DB::name('order')->find($order_id);
@@ -210,69 +292,44 @@ class Order extends Backend
 
             $order_id = json_decode($params['filter'],true)['order_id'];
             $supplier_order = DB::name('order')->find($order_id);
-
-            @$goods_name = json_decode($params['filter'],true)['goods_name'];
-            $like = $goods_name?['t2.goods_name'=>['like', '%'.$goods_name.'%']]:'1=1';
-            //如果发送的来源是Selectpage，则转发到Selectpage
-            if ($this->request->request('keyField'))
-            {
-                return $this->selectpage();
-            }
-
-            $send_time = $params['_'];
-            $params = json_decode($params['filter'],true);//搜索条件
             list($where, $sort, $order, $offset, $limit) = $this->buildparams();
-            $list = DB::name('supplier_goods')
-                ->field('t1.goods_id,t1.supplier_id,t2.goods_name,t2.status,t1.price')
-                ->alias('t1')
-                ->join('__GOODS__ t2','t1.goods_id=t2.id','LEFT')
-                ->where(['t1.supplier_id'=>$supplier_order['supplier_id'],'t2.status'=>'1'])
-                ->where($like)
+            $list = DB::name('order_goods')
+                ->field('id,goods_sn,goods_name,spec,unit,price,needqty as order_count,order_price as order_amount,sendqty as takeorder_count,send_price as takeorder_amount,remark,status')
+                ->where(['order_id'=>$order_id])
                 ->limit($offset, $limit)
                 ->select();
-            $total = DB::name('supplier_goods')
-                ->alias('t1')
-                ->join('__GOODS__ t2','t1.goods_id=t2.id','LEFT')
-                ->where(['t1.supplier_id'=>$supplier_order['supplier_id'],'t2.status'=>'1'])
-                ->where($like)
-                ->count();
-//            foreach ($list as $row) {
-//
-////                $row->getRelation('department')->visible(['id','name']);
-//                $row->getRelation('supplier')->visible(['supplier_id','supplier_name','linkman','mobile']);
-//            }
-            foreach($list as $key => &$value){
-                $goods = DB::name('goods')->find($value['goods_id']);
-                $value['goods_sn'] = $goods['goods_sn'];
-                $value['spec'] = $goods['spec'];
-                $value['unit'] = $goods['unit'];
-                $value['order_count'] = DB::name('order_goods')
-                    ->where(['order_id'=>$order_id,'goods_id'=>$value['goods_id']])
-                    ->value('needqty');
-                $price = DB::name('supplier_goods')->where(['goods_id'=>$value['goods_id'],'supplier_id'=>$supplier_order['supplier_id']])->value('price');
-                $value['order_amount'] = $price * $value['order_count'];
-                $value['remark'] = DB::name('order_goods')
-                    ->where(['order_id'=>$order_id,'goods_id'=>$value['goods_id']])
-                    ->value('remark');
 
-            }
             $list = collection($list)->toArray();
-
-            $result = array("total" => $total, "rows" => $list);
-
+            $result = array("total" => count($list), "rows" => $list);
             return json($result);
         }
-
         //需要ajax返回回来的参数
         $this->assignconfig('supplier_id',$supplier_order['supplier_id']);
-        $this->assignconfig('send_time',$supplier_order['supplier_id']);
+        $this->assignconfig('send_time',$supplier_order['sendtime']);
         $this->assignconfig('department_id',$supplier_order['department_id']);
         $this->assignConfig('order_id',$order_id);//传给queryParams
+//        $info = DB::name('')
+        $department = DB::name('department')->where(['id'=>$supplier_order['department_id']])->find();
+        $supplier = DB::name('supplier')->where(['id'=>$supplier_order['supplier_id']])->find();
+        $order = DB::name('order')->where(['id'=>$order_id])->find();
+        if($order['status'] == '0'){
+            $status = "未收货";
+        }elseif($order['status'] == "1"){
+            $status = "已收货";
+        }else{
+            $status = "已取消";
+        }
+        $send_time = date("Y-m-d",$order['sendtime']);
+        $this->assign('department_name',$department['name']);
+        $this->assign('supplier_name',$supplier['supplier_name']);
+        $this->assign("linkman",$supplier['linkman']);
+        $this->assign('mobile',$supplier['mobile']);
+        $this->assign('status',$status);
+        $this->assign('send_time',$send_time);
         $this->assign('order_id',$order_id);
         return $this->view->fetch();
 
     }
-
 
     public function next3()
     {
@@ -289,12 +346,15 @@ class Order extends Backend
             $order_id = json_decode($params['filter'],true)['order_id'];
             $supplier_order = DB::name('order')->where(['id'=>$order_id])->find();
             list($where, $sort, $order, $offset, $limit) = $this->buildparams();
+            @$goods_name = json_decode($params['filter'], true)['goods_name'];
+            $like = $goods_name ? ['t2.goods_name' => ['like', '%' . $goods_name . '%']] : NULL;
+
             $list = DB::name('supplier_goods')
-                ->field('t1.goods_id,t1.supplier_id,t2.goods_name,t2.status,t1.price')
+                ->field('t1.goods_id,t1.supplier_id,t2.goods_name,t2.goods_sn,t2.spec,t2.unit,t2.status,t1.price')
                 ->alias('t1')
                 ->join('__GOODS__ t2','t1.goods_id=t2.id','LEFT')
                 ->where(['t1.supplier_id'=>$supplier_order['supplier_id'],'t2.status'=>'1'])
-//                ->where($like)
+                ->where($like)
                 ->limit($offset, $limit)
                 ->select();
 
@@ -304,7 +364,11 @@ class Order extends Backend
                 ->column('goods_id');
 
             foreach($list as $key => &$value){
-//                $value['order_count'] = $value['order_amount'] = null;
+                $value['order_count'] = $value['order_amount'] = null;
+                $is_send = DB::name('order_goods')->where(['order_id'=>$order_id,'goods_id'=>$value['goods_id'],'status'=>1])->find();
+                if($is_send){
+                    $value['send_status'] = 1;
+                }
                 foreach($array as $k => $v){
                     if($value['goods_id'] == $v){
                         $data = DB::name('order_goods')
@@ -312,6 +376,8 @@ class Order extends Backend
                             ->find();
                         $value['order_count'] = $data['needqty'];
                         $value['order_amount'] = $data['order_price'];
+                        $value['remark'] = $data['remark'];
+                        $value['price'] = $data['price'];
                     }
                 }
             }
@@ -325,7 +391,75 @@ class Order extends Backend
         return $this->view->fetch();
     }
 
+    /*
+     *
+     * 编辑页面->新增
+     * */
+    public function next_add()
+    {
+        $params = $this->request->param();
 
+        if(empty($params['order_count'])){
+            $this->error('下单数量不能为空');
+        }
+        $order = DB::name('order')->where(['id'=>$params['order_id']])->find();
+        $supplier_goods = DB::name('supplier_goods')->where(['supplier_id'=>$order['supplier_id'],'goods_id'=>$params['goods_id']])->find();
+        $order_goods = DB::name('order_goods')
+            ->where(['order_id'=>$params['order_id'],'goods_id'=>$params['goods_id']])
+            ->find();
+        if($order_goods){
+            //存在,修改
+            $order_price = $order_goods['price'] * $params['order_count'];
+            $update = [
+                'needqty' => $params['order_count'],
+                'order_price' => $order_price
+            ];
+            DB::name('order_goods')
+                ->where(['goods_id'=>$params['goods_id'],'order_id'=>$params['order_id']])
+                ->update($update);
+        }else{
+            //不存在,新增
+            $order_price = $supplier_goods['price'] * $params['order_count'];
+            $goods = DB::name('goods')
+                ->where(['id'=>$params['goods_id']])
+                ->find();
+            $insert = [
+                'order_id' => $params['order_id'],
+                'goods_id' => $goods['id'],
+                'cate_id' => $goods['cate_id'],
+                'cate_name' => DB::name('goodscategory')->where(['id'=>$goods['cate_id']])->value('category_name'),
+                'scate_id' => $goods['scate_id'],
+                'scate_name' => DB::name('goodscategory')->where(['id'=>$goods['scate_id']])->value('category_name'),
+                'needqty' => $params['order_count'],
+                'remark' => $params['remark'],
+                'goods_name' => $goods['goods_name'],
+                'spec' => $goods['spec'],
+                'unit' => $goods['unit'],
+                'price' => $supplier_goods['price'],
+                'goods_sn' => $goods['goods_sn'],
+                'status' => 0,
+                'order_price' => $order_price
+            ];
+            DB::name('order_goods')->insert($insert);
+        }
+
+        $data = DB::name('order_goods')
+            ->where(['order_id'=>$params['order_id']])
+            ->select();
+        $order_amount = 0;
+        foreach($data as $key => $value){
+            $order_amount += $value['price'] * $value['needqty'];
+        }
+        $result = DB::name('order')
+            ->where(['id'=>$params['order_id']])
+            ->update(['order_amount'=>$order_amount]);
+        if($result !== false){
+            $this->success('操作完成');
+        }else{
+            $this->error('网络错误');
+        }
+
+    }
 
 
 
@@ -445,17 +579,108 @@ class Order extends Backend
 
     }
 
+    //这个收货数量如果更改  变不变订单状态
+    public function ajax_edit()
+    {
+        $params = $this->request->param();
+        $order_goods = DB::name('order_goods')->where(['id'=>$params['id']])->find();
+        $order_id = $order_goods['order_id'];
+        if($order_goods['status'] != 0){
+            $this->error('此条详情不能修改');
+        }
+        if(!is_numeric($params['order_count'])||!is_numeric($params['price'])||!is_numeric($params['sendqty'])){
+            $this->error('非法字符');
+        }
+        if($params['sendqty'] > 0){
+            $status = 1;
+            $order_price = $params['price'] * $params['order_count'];
+            $send_price = $params['price'] * $params['sendqty'];
+        }else{
+            $status = 0;
+            $order_price = $params['price'] * $params['order_count'];
+            $send_price = 0;
+        }
+        $update = [
+            'needqty' => $params['order_count'],
+            'remark' => $params['remark'],
+            'sendqty' => $params['sendqty'],
+            'price' => $params['price'],
+            'order_price' => $order_price,
+            'status' => $status,
+            'send_price' => $send_price
+        ];
+        DB::name('order_goods')->where(['id'=>$params['id']])->update($update);
+        $goods = DB::name('order_goods')
+            ->where(['order_id'=>$order_id])
+            ->select();
+
+        $order_amount = 0;
+        foreach($goods as $key => $value){
+            $order_amount += $value['price'] * $value['needqty'];
+
+        }
+        $result = DB::name('order')
+            ->where(['id'=>$order_id])
+            ->update(['order_amount'=>$order_amount]);
+        if($result !== false){
+            $this->success('编辑完成','',['order_id'=>$order_id]);
+        }else{
+            $this->error('网络错误');
+        }
+
+    }
+
+    /*
+     * next2修改送货日期
+     * */
+    public function ajax_time()
+    {
+        $params = $this->request->param();
+        $send_time = strtotime($params['send_time']);
+        $order = DB::name('order')->where(['id'=>$params['order_id']])->find();
+        if($order['status'] != "0"){
+            $this->error('该订单状态不允许修改');
+        }
+        $result = DB::name('order')
+            ->where(['id'=>$params['order_id']])
+            ->update(['sendtime'=>$send_time]);
+        if($result !== false){
+            $this->success('送货日期修改完成');
+        }else{
+            $this->error('网络错误');
+        }
+
+    }
+
     /*
      * ajax删除next2中行
      * */
     public function ajax_del()
     {
         $params = $this->request->param();
-        halt($params);
+
         $order_goods = DB::name('order_goods')->where(['id'=>$params['id']])->find();
         $count = DB::name('order_goods')->where(['order_id'=>$order_goods['order_id']])->count();
         if($count <= 1){
             $this->error('不得小于一条');
+        }
+        DB::name('order_goods')->where(['id'=>$params['id']])->delete();
+        $goods = DB::name('order_goods')
+            ->where(['order_id'=>$order_goods['order_id']])
+            ->select();
+
+        $order_amount = 0;
+        foreach($goods as $key => $value){
+            $order_amount += $value['price'] * $value['needqty'];
+
+        }
+        $result = DB::name('order')
+            ->where(['id'=>$order_goods['order_id']])
+            ->update(['order_amount'=>$order_amount]);
+        if($result !== false){
+            $this->success('删除完成');
+        }else{
+            $this->error('网络错误');
         }
     }
 
@@ -527,6 +752,9 @@ class Order extends Backend
         $result = DB::name('order')
             ->where(['id'=>$order_id])
             ->update(['status'=>'2']);
+        DB::name('order_goods')
+            ->where(['order_id'=>$order_id])
+            ->update(['status'=>2]);
         if($result !== false){
             $this->success('已取消');
         }else{

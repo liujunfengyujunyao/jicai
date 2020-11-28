@@ -7,8 +7,6 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                 extend: {
                     index_url: 'stock/check/index' + location.search,
                     add_url: 'stock/check/add'+ location.search,
-
-
                     table: 'check',
                 }
             });
@@ -134,13 +132,13 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                 columns: [
                     [
 
-                        {field: 'id', title: __('ID'),class:"id"},
-                        {field: 'goods_sn', title: __('商品编号')},
-                        {field: 'goods_name', title: __('商品名称'), operate:false},
-                        {field: 'spec', title: __('规格')},
+                        {field: 'id', title: __('ID'),class:"id",operate:false},
+                        {field: 'goods_sn', title: __('商品编号'),operate:false},
+                        {field: 'fa_goods.goods_name', title: __('商品名称'), operate: 'LIKE %...%'},
+                        {field: 'spec', title: __('规格'),operate:false},
                         {field: 'unit', title: __('单位'),operate:false},
                         {field: 'unit_price', title: __('单价'), operate:false},
-                        {field: 'stock_number', title: __('库存数量')},
+                        {field: 'stock_number', title: __('库存数量'),operate:false},
                         {
                             field: 'check_number',
                             title: '盘后数量',
@@ -214,7 +212,12 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
 
                         }
                     ]
-                ]
+                ],
+                search:false,
+                showToggle: false,
+                showColumns: false,
+                searchFormVisible: true,
+                showExport: false
             });
 
             Controller.api.bindevent(table);
@@ -224,7 +227,8 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
             Table.api.init({
                 extend: {
                     index_url: 'stock/check/edit' + location.search,
-                    table: 'check',
+                    add_url: 'stock/check/add'+ location.search,
+                    table: 'check_goods',
                 }
             });
 
@@ -273,6 +277,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                             buttons: [
                                 {
                                     name: 'click',
+                                    text:'编辑',
                                     title: __('点击执行事件'),
                                     classname: 'btn btn-xs btn-info btn-click',
                                     icon: 'fa fa-leaf',
@@ -286,7 +291,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                                                 const remark = $(ele).find("td .change-input").eq(1).val()
                                                 let check_id = $('#check_id').val();
                                                 Fast.api.ajax({
-                                                    url:'stock/check/ajax_add',
+                                                    url:'stock/check/ajax_edit',
                                                     data:{
                                                         id:id,
                                                         remark:remark,
@@ -311,6 +316,49 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                                             });
 
                                     }
+                                },
+                                {
+                                    name: 'click2',
+                                    title: __('点击执行事件'),
+                                    text:'删除',
+                                    classname: 'btn btn-xs btn-info btn-click',
+                                    icon: 'fa fa-leaf',
+                                    // dropdown: '更多',//如果包含dropdown，将会以下拉列表的形式展示
+                                    click: function (data) {
+                                        layer.confirm("确认删除?",
+                                            {btn: ['确定', '取消']}, function () {
+                                                const ele = $($(data.tableId).find("tr")[data.rowIndex+1]);
+                                                const id = ele.find("td.id").text();
+                                                const check_number = $(ele).find("td .change-input").eq(0).val();
+                                                const remark = $(ele).find("td .change-input").eq(1).val()
+                                                let check_id = $('#check_id').val();
+                                                Fast.api.ajax({
+                                                    url:'stock/check/ajax_del',
+                                                    data:{
+                                                        id:id,
+                                                        remark:remark,
+                                                        check_number:check_number,
+                                                        check_id:check_id
+                                                    }
+                                                }, function(data, ret){
+                                                    //成功的回调
+                                                    alert(ret.msg);
+                                                    console.log(ret);
+                                                    var check_id = ret.data.check_id
+
+                                                    $("#check_id").val(check_id);
+                                                    table.bootstrapTable('refresh');
+                                                    return false;
+                                                }, function(data, ret){
+                                                    //失败的回调
+                                                    alert(ret.msg);
+                                                    return false;
+                                                });
+
+                                                layer.closeAll();
+                                            });
+
+                                    }
                                 }
                             ],
                             formatter: Table.api.formatter.buttons,
@@ -318,7 +366,25 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
 
                         }
                     ]
-                ]
+                ],
+                queryParams: function (params) {
+                    // 自定义搜索条件
+                    var filter = params.filter ? JSON.parse(params.filter) : {};
+                    var op = params.op ? JSON.parse(params.op) : {};
+                    //filter.后跟的是在ajax里使用的名称只需修改这两行
+                    filter.check_id = Config.check_id;
+                    //opop后跟的也是ajax里使用的名称，后面是条件
+                    op.check_id = '=';
+                    params.filter = JSON.stringify(filter);
+                    params.op = JSON.stringify(op);
+                    // console.log(params);
+                    return params;
+                },
+
+            });
+            $(document).on("click", ".btn-myexcel-export", function () { //监听刚刚的按钮btn-myexcel-export的动作
+
+                top.location.href="add";
             });
             Controller.api.bindevent();
         },

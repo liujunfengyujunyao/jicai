@@ -1,15 +1,84 @@
+<style>
+    .panel.panel-default.panel-intro{
+        margin-left: -15px;
+    }
+    .change-input {
+        width: 100px;
+        text-align: center;
+    }
+
+    .commonsearch-table {
+        display: none;
+    }
+    form.form-horizontal .control-label {
+        font-weight: normal;
+        padding-right: 0;
+        padding-left: 0;
+    }
+    input:read-only{
+        background: none!important;
+        border: none;
+    }
+    .datetimepicker{
+        border: 1px solid #ccc!important;
+    }
+</style>
 <div class="panel panel-default panel-intro">
-
-<!--    <div class="panel-heading">-->
-<!--        {:build_heading(null,FALSE)}-->
-<!--        <ul class="nav nav-tabs" data-field="status">-->
-<!--            <li class="active"><a href="#t-all" data-value="" data-toggle="tab">{:__('All')}</a></li>-->
-<!--            {foreach name="statusList" item="vo"}-->
-<!--            <li><a href="#t-{$key}" data-value="{$key}" data-toggle="tab">{$vo}</a></li>-->
-<!--            {/foreach}-->
-<!--        </ul>-->
-<!--    </div>-->
-
+    <div class="commonsearch-table" style="display: block;">
+                <form class="form-horizontal form-commonsearch nice-validator n-default n-bootstrap" novalidate="" method="post"
+                    action="">
+                    <div class="row">
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="department.name" class="control-label col-xs-4">
+                                部门
+                            </label>
+                            <div class="col-xs-8">
+                                <input type="text" class="form-control" value="{$department_name}" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="department.name" class="control-label col-xs-4">
+                                供应商名称
+                            </label>
+                            <div class="col-xs-8">
+                                <input type="text" class="form-control" value="{$supplier_name}" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="department.name" class="control-label col-xs-4">
+                                联系人
+                            </label>
+                            <div class="col-xs-8">
+                                <input type="text" class="form-control" value="{$linkman}" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="department.name" class="control-label col-xs-4">
+                                联系电话
+                            </label>
+                            <div class="col-xs-8">
+                                <input type="text" class="form-control" value="{$mobile}" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="department.name" class="control-label col-xs-4">
+                                送货时间
+                            </label>
+                            <div class="col-xs-8">
+                                <input id="c-sendtime2" class="form-control datetimepicker" data-use-current="true" type="text" value="{$send_time}">
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="department.name" class="control-label col-xs-4">
+                                订单状态
+                            </label>
+                            <div class="col-xs-8">
+                                <input id="order_status" type="text" class="form-control" value="{$status}" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+    </div>
 
     <div class="panel-body">
         <div id="myTabContent" class="tab-content">
@@ -18,7 +87,7 @@
                     <div id="toolbar" class="toolbar">
                         <a href="javascript:;" class="btn btn-primary btn-refresh" title="{:__('Refresh')}" ><i class="fa fa-refresh"></i> </a>
 <!--                        <a href="javascript:;" class="btn btn-success btn-add {:$auth->check('order/order/add')?'':'hide'}" title="{:__('Add')}" ><i class="fa fa-plus"></i> {:__('Add')}</a>-->
-                        <a href="/admin.php/order/order/next3?order_id={$order_id}"  data-area='["100%","100%"]' class="btn btn-success btn-add {:$auth->check('stock/check/add')?'':'hide'}" title="{:__('Add')}" ><i class="fa fa-plus"></i> {:__('新增')}</a>
+                        <a href="/admin.php/order/order/next3?order_id={$order_id}"  id="next3" data-area='["100%","100%"]' class="btn btn-success btn-add {:$auth->check('stock/check/add')?'':'hide'}" title="{:__('Add')}" ><i class="fa fa-plus"></i> {:__('新增')}</a>
 
 
                     </div>

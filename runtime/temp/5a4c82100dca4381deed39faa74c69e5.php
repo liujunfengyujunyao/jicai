@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:73:"D:\WWW\zbjg\public/../application/admin\view\stock\deliverylog\index.html";i:1606355331;s:54:"D:\WWW\zbjg\application\admin\view\layout\default.html";i:1604979994;s:51:"D:\WWW\zbjg\application\admin\view\common\meta.html";i:1604979993;s:53:"D:\WWW\zbjg\application\admin\view\common\script.html";i:1604979993;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:83:"D:\WWW\zbjg\public/../application/admin\view\stock\deliverygoods\delivery_edit.html";i:1606266361;s:54:"D:\WWW\zbjg\application\admin\view\layout\default.html";i:1604979994;s:51:"D:\WWW\zbjg\application\admin\view\common\meta.html";i:1604979993;s:53:"D:\WWW\zbjg\application\admin\view\common\script.html";i:1604979993;}*/ ?>
 <!DOCTYPE html>
 <html lang="<?php echo $config['language']; ?>">
     <head>
@@ -59,12 +59,26 @@
                 <div class="widget-body no-padding">
                     <div id="toolbar" class="toolbar">
                         <a href="javascript:;" class="btn btn-primary btn-refresh" title="<?php echo __('Refresh'); ?>" ><i class="fa fa-refresh"></i> </a>
+                        <!--                        <a href="javascript:;" class="btn btn-success btn-add <?php echo $auth->check('stock/delivery_goods/add')?'':'hide'; ?>" title="<?php echo __('Add'); ?>" ><i class="fa fa-plus"></i> <?php echo __('Add'); ?></a>-->
+                        <!--                        <a href="javascript:;" class="btn btn-success btn-edit btn-disabled disabled <?php echo $auth->check('stock/delivery_goods/edit')?'':'hide'; ?>" title="<?php echo __('Edit'); ?>" ><i class="fa fa-pencil"></i> <?php echo __('Edit'); ?></a>-->
+                        <!--                        <a href="javascript:;" class="btn btn-danger btn-del btn-disabled disabled <?php echo $auth->check('stock/delivery_goods/del')?'':'hide'; ?>" title="<?php echo __('Delete'); ?>" ><i class="fa fa-trash"></i> <?php echo __('Delete'); ?></a>-->
+                        <!--                        <a href="javascript:;" class="btn btn-danger btn-import <?php echo $auth->check('stock/delivery_goods/import')?'':'hide'; ?>" title="<?php echo __('Import'); ?>" id="btn-import-file" data-url="ajax/upload" data-mimetype="csv,xls,xlsx" data-multiple="false"><i class="fa fa-upload"></i> <?php echo __('Import'); ?></a>-->
 
-                        
+                        <!--                        <div class="dropdown btn-group <?php echo $auth->check('stock/delivery_goods/multi')?'':'hide'; ?>">-->
+                        <!--                            <a class="btn btn-primary btn-more dropdown-toggle btn-disabled disabled" data-toggle="dropdown"><i class="fa fa-cog"></i> <?php echo __('More'); ?></a>-->
+                        <!--                            <ul class="dropdown-menu text-left" role="menu">-->
+                        <!--                                <li><a class="btn btn-link btn-multi btn-disabled disabled" href="javascript:;" data-params="status=normal"><i class="fa fa-eye"></i> <?php echo __('Set to normal'); ?></a></li>-->
+                        <!--                                <li><a class="btn btn-link btn-multi btn-disabled disabled" href="javascript:;" data-params="status=hidden"><i class="fa fa-eye-slash"></i> <?php echo __('Set to hidden'); ?></a></li>-->
+                        <!--                            </ul>-->
+                        <!--                        </div>-->
+
+
                     </div>
+
+                    <input type="hidden" id="delivery_id" value="<?php echo $delivery_id; ?>">
                     <table id="table" class="table table-striped table-bordered table-hover table-nowrap"
-                           data-operate-edit="<?php echo $auth->check('stock/deliverylog/edit'); ?>" 
-                           data-operate-del="<?php echo $auth->check('stock/deliverylog/del'); ?>" 
+                           data-operate-edit="<?php echo $auth->check('stock/delivery_goods/edit'); ?>"
+                           data-operate-del="<?php echo $auth->check('stock/delivery_goods/del'); ?>"
                            width="100%">
                     </table>
                 </div>

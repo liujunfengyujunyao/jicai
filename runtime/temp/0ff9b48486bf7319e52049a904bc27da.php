@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:67:"D:\WWW\zbjg\public/../application/admin\view\order\order\next2.html";i:1605575724;s:54:"D:\WWW\zbjg\application\admin\view\layout\default.html";i:1604979994;s:51:"D:\WWW\zbjg\application\admin\view\common\meta.html";i:1604979993;s:53:"D:\WWW\zbjg\application\admin\view\common\script.html";i:1604979993;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:67:"D:\WWW\zbjg\public/../application/admin\view\order\order\next2.html";i:1606555236;s:54:"D:\WWW\zbjg\application\admin\view\layout\default.html";i:1604979994;s:51:"D:\WWW\zbjg\application\admin\view\common\meta.html";i:1604979993;s:53:"D:\WWW\zbjg\application\admin\view\common\script.html";i:1604979993;}*/ ?>
 <!DOCTYPE html>
 <html lang="<?php echo $config['language']; ?>">
     <head>
@@ -50,31 +50,100 @@
                             <!-- END RIBBON -->
                             <?php endif; ?>
                             <div class="content">
-                                <div class="panel panel-default panel-intro">
+                                <style>
+    .panel.panel-default.panel-intro{
+        margin-left: -15px;
+    }
+    .change-input {
+        width: 100px;
+        text-align: center;
+    }
 
-<!--    <div class="panel-heading">-->
-<!--        <?php echo build_heading(null,FALSE); ?>-->
-<!--        <ul class="nav nav-tabs" data-field="status">-->
-<!--            <li class="active"><a href="#t-all" data-value="" data-toggle="tab"><?php echo __('All'); ?></a></li>-->
-<!--            <?php if(is_array($statusList) || $statusList instanceof \think\Collection || $statusList instanceof \think\Paginator): if( count($statusList)==0 ) : echo "" ;else: foreach($statusList as $key=>$vo): ?>-->
-<!--            <li><a href="#t-<?php echo $key; ?>" data-value="<?php echo $key; ?>" data-toggle="tab"><?php echo $vo; ?></a></li>-->
-<!--            <?php endforeach; endif; else: echo "" ;endif; ?>-->
-<!--        </ul>-->
-<!--    </div>-->
-
+    .commonsearch-table {
+        display: none;
+    }
+    form.form-horizontal .control-label {
+        font-weight: normal;
+        padding-right: 0;
+        padding-left: 0;
+    }
+    input:read-only{
+        background: none!important;
+        border: none;
+    }
+    .datetimepicker{
+        border: 1px solid #ccc!important;
+    }
+</style>
+<div class="panel panel-default panel-intro">
+    <div class="commonsearch-table" style="display: block;">
+                <form class="form-horizontal form-commonsearch nice-validator n-default n-bootstrap" novalidate="" method="post"
+                    action="">
+                    <div class="row">
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="department.name" class="control-label col-xs-4">
+                                部门
+                            </label>
+                            <div class="col-xs-8">
+                                <input type="text" class="form-control" value="<?php echo $department_name; ?>" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="department.name" class="control-label col-xs-4">
+                                供应商名称
+                            </label>
+                            <div class="col-xs-8">
+                                <input type="text" class="form-control" value="<?php echo $supplier_name; ?>" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="department.name" class="control-label col-xs-4">
+                                联系人
+                            </label>
+                            <div class="col-xs-8">
+                                <input type="text" class="form-control" value="<?php echo $linkman; ?>" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="department.name" class="control-label col-xs-4">
+                                联系电话
+                            </label>
+                            <div class="col-xs-8">
+                                <input type="text" class="form-control" value="<?php echo $mobile; ?>" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="department.name" class="control-label col-xs-4">
+                                送货时间
+                            </label>
+                            <div class="col-xs-8">
+                                <input id="c-sendtime2" class="form-control datetimepicker" data-use-current="true" type="text" value="<?php echo $send_time; ?>">
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label for="department.name" class="control-label col-xs-4">
+                                订单状态
+                            </label>
+                            <div class="col-xs-8">
+                                <input id="order_status" type="text" class="form-control" value="<?php echo $status; ?>" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+    </div>
 
     <div class="panel-body">
         <div id="myTabContent" class="tab-content">
             <div class="tab-pane fade active in" id="one">
                 <div class="widget-body no-padding">
                     <div id="toolbar" class="toolbar">
-                        <input type="hidden" id="order_id" value="<?php echo $order_id; ?>">
-<!--                        <a href="javascript:;" class="btn btn-primary btn-refresh" title="<?php echo __('Refresh'); ?>" ><i class="fa fa-refresh"></i> </a>-->
+                        <a href="javascript:;" class="btn btn-primary btn-refresh" title="<?php echo __('Refresh'); ?>" ><i class="fa fa-refresh"></i> </a>
 <!--                        <a href="javascript:;" class="btn btn-success btn-add <?php echo $auth->check('order/order/add')?'':'hide'; ?>" title="<?php echo __('Add'); ?>" ><i class="fa fa-plus"></i> <?php echo __('Add'); ?></a>-->
-
+                        <a href="/admin.php/order/order/next3?order_id=<?php echo $order_id; ?>"  id="next3" data-area='["100%","100%"]' class="btn btn-success btn-add <?php echo $auth->check('stock/check/add')?'':'hide'; ?>" title="<?php echo __('Add'); ?>" ><i class="fa fa-plus"></i> <?php echo __('新增'); ?></a>
 
 
                     </div>
+                    <input type="hidden" id="order_id" value="<?php echo $order_id; ?>">
                     <table id="table" class="table table-striped table-bordered table-hover table-nowrap"
                            data-operate-edit="<?php echo $auth->check('order/order/edit'); ?>"
                            data-operate-del="<?php echo $auth->check('order/order/del'); ?>"

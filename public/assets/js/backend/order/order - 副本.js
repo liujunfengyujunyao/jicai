@@ -1,4 +1,4 @@
-define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepicker'], function ($, undefined, Backend, Table, Form,datetimepicker) {
+define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefined, Backend, Table, Form) {
 
     var Controller = {
         index: function () {
@@ -93,6 +93,9 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
                                 {
                                     name: 'addtabs',
                                     text: __('编辑'),
+                                    hidden:function(row){
+                                        return row.status=="2" || row.status=="1" ? true : false;
+                                    },
                                     title: __('编辑'),
                                     classname: 'btn btn-xs btn-warning btn-addtabs',
                                     icon: 'fa fa-folder-o',
@@ -119,7 +122,6 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
                 showExport:false
 
             });
-
             $(document).on("click", ".btn-myexcel-export", function () { //监听刚刚的按钮btn-myexcel-export的动作
                 var myexceldata=table.bootstrapTable('getSelections');//获取选中的项目的数据 格式是json
                 myexceldata=JSON.stringify(myexceldata);//数据转成字符串作为参数
@@ -254,7 +256,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
 
                                     }
                                 }
-                            ],
+                                ],
                             formatter: Table.api.formatter.buttons,
                             operate:false
                         }
@@ -289,16 +291,16 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
             Table.api.init({
                 extend: {
                     index_url: 'order/order/index' + location.search,
+                    // index_url:'order/order/index' + loadLoaction.supplier_id,
+                    // loadLoaction
+                    // add_url: 'order/order/add',
+                    // edit_url: 'order/order/edit',
+                    // del_url: 'order/order/del',
+                    // multi_url: 'order/order/multi',
                     next_url:'order/order/next2',
                     table: 'order',
                 }
             });
-            let order_status = $("#order_status").val();
-            if(order_status == '已收货' || order_status == '已取消'){
-                console.log(order_status);
-                $("#c-sendtime2").attr({"disabled":"disabled"});
-                $("#next3").hide();
-            }
 
             var table = $("#table");
 
@@ -313,20 +315,16 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
                         // {field: 'index_id', title: __('序号'), formatter: function(value, row, index){
                         //         return ++index;
                         //     },operate:false,class:"index_id"},
-                        {field: 'id', title: __('ID'),operate:false,class:"id"},
+                        {field: 'goods_id', title: __('Id'),operate:false,class:"goods_id"},
                         {field: 'goods_sn', title: __('商品编号'),operate:false},
-                        {field: 'goods_name', title: __('商品名称'),operate: false},
+                        {field: 'goods_name', title: __('商品名称'),operate: 'LIKE %...%'},
                         {field: 'spec', title: __('规格'),operate:false},
                         {field: 'unit', title: __('单位'),operate:false},
-                        {field: 'price', title: __('单价'),operate:false,class:"price",formatter:(value)=>{
-                                return `<input value='${!value?"":value}' 
-                                           type="text" class="change-input" data-type='price'>`
-                            }},
+                        {field: 'price', title: __('单价'),operate:false,class:"price"},
                         {field: 'department.id', title: __('Department.id'),visible:false,operate:false},
                         {field: 'supplier.id', title: __('Supplier.id'),visible:false,operate:false},
                         {
                             field: 'order_count',
-                            class:"order_count",
                             title: '下单数量',
                             operate:false,
                             formatter:(value)=>{
@@ -338,21 +336,6 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
                             field: 'order_amount',
                             class:"order_amount",
                             title: '下单金额',
-                            operate:false
-                        },
-                        {
-                            field: 'takeorder_count',
-                            title: '收货数量',
-                            operate:false,
-                            formatter:(value)=>{
-                                return `<input value='${!value?"":value}' 
-                                               type="text" class="change-input" data-type='takeorder_count'>`
-                            }
-                        },
-                        {
-                            field: 'takeorder_amount',
-                            class:"takeorder_amount",
-                            title: '收货金额',
                             operate:false
                         },
                         {
@@ -375,45 +358,40 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
                                     name: 'click',
                                     text:"编辑",
                                     hidden:function(row){
-                                        return row.status==1 || row.status==2 ? true : false;
+                                        return row.status=="2" || row.status=="1" ? true : false;
                                     },
                                     title: __('点击执行事件'),
                                     classname: 'btn btn-xs btn-info btn-click',
                                     icon: 'fa fa-leaf',
                                     // dropdown: '更多',//如果包含dropdown，将会以下拉列表的形式展示
                                     click: function (data) {
+
                                         layer.confirm("确认更新数据",
                                             {btn: ['确定', '取消']}, function () {
                                                 const locatinObj = loadLoaction(); //地址数据
                                                 const ele = $($(data.tableId).find("tr")[data.rowIndex+1]);
-                                                const price = $(ele).find("td .change-input").eq(0).val();
-                                                const sendqty = $(ele).find("td .change-input").eq(2).val();
-                                                const order_count = $(ele).find("td .change-input").eq(1).val();
-                                                const remark = $(ele).find("td .change-input").eq(3).val()
-                                                const id = ele.find("td.id").text();
+                                                const order_count = $(ele).find("td .change-input").eq(0).val();
+                                                const remark = $(ele).find("td .change-input").eq(1).val()
+                                                const goods_id = ele.find("td.goods_id").text();
                                                 let order_id = $('#order_id').val();
                                                 Fast.api.ajax({
-                                                    url:'order/order/ajax_edit',
+                                                    url:'order/order/ajax_add',
                                                     data:{
                                                         order_count:order_count,
                                                         remark:remark,
                                                         supplier_id:Config.supplier_id,
                                                         send_time:Config.send_time,
                                                         department_id:Config.department_id,
-                                                        id:id,
-                                                        order_id:order_id,
-                                                        price:price,
-                                                        sendqty:sendqty
+                                                        goods_id:goods_id,
+                                                        order_id:order_id
                                                     }
                                                 }, function(data, ret){
                                                     //成功的回调
-
                                                     alert(ret.msg);
                                                     console.log(ret);
                                                     var order_id = ret.data.order_id
                                                     console.log(order_id);
                                                     $("#order_id").val(order_id);
-
                                                     return false;
                                                 }, function(data, ret){
                                                     //失败的回调
@@ -429,9 +407,6 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
                                 {
                                     name: 'click2',
                                     text:"删除",
-                                    hidden:function(row){
-                                        return row.status==1 || row.status==2 ? true : false;
-                                    },
                                     title: __('点击执行事件'),
                                     classname: 'btn btn-xs btn-info btn-click',
                                     icon: 'fa fa-leaf',
@@ -442,12 +417,11 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
                                                 const locatinObj = loadLoaction(); //地址数据
                                                 const ele = $($(data.tableId).find("tr")[data.rowIndex+1]);
                                                 const goods_id = ele.find("td.goods_id").text();
-                                                const id = ele.find("td.id").text();
                                                 let order_id = $('#order_id').val();
                                                 Fast.api.ajax({
-                                                    url:'order/order/ajax_del',
+                                                    url:'order/order/ajax_add',
                                                     data:{
-                                                        id:id,
+
                                                         supplier_id:Config.supplier_id,
                                                         send_time:Config.send_time,
                                                         goods_id:goods_id,
@@ -474,7 +448,6 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
                         }
                     ]
                 ],
-
                 queryParams: function (params) {
                     // 自定义搜索条件
                     var filter = params.filter ? JSON.parse(params.filter) : {};
@@ -488,13 +461,11 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
                     // console.log(params);
                     return params;
                 },
-
                 search:false,
                 showToggle: false,
                 showColumns: false,
                 searchFormVisible: true,
-                showExport: false,
-                commonSearch:false,
+                showExport: false
             });
             Controller.api.bindevent();
         },
@@ -522,11 +493,11 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
                 sortName: 'id',
                 columns: [
                     [
-                        // {checkbox: true},
-                        // {field: 'index_id', title: __('序号'), formatter: function(value, row, index){
-                        //         return ++index;
-                        //     },operate:false,class:"index_id"},
-                        {field: 'goods_id', title: __('ID'),operate:false,class:"goods_id"},
+                        {checkbox: true},
+                        {field: 'index_id', title: __('序号'), formatter: function(value, row, index){
+                                return ++index;
+                            },operate:false,class:"index_id"},
+                        {field: 'goods_id', title: __('Id'),operate:false,class:"goods_id"},
                         {field: 'goods_sn', title: __('商品编号'),operate:false},
                         {field: 'goods_name', title: __('商品名称'),operate: 'LIKE %...%'},
                         {field: 'spec', title: __('规格'),operate:false},
@@ -568,10 +539,6 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
                                 {
                                     name: 'click',
                                     title: __('点击执行事件'),
-                                    text:'点击添加',
-                                    hidden:function(row){
-                                        return row.send_status==1? true : false;
-                                    },
                                     classname: 'btn btn-xs btn-info btn-click',
                                     icon: 'fa fa-leaf',
                                     // dropdown: '更多',//如果包含dropdown，将会以下拉列表的形式展示
@@ -585,7 +552,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
                                                 const goods_id = ele.find("td.goods_id").text();
                                                 let order_id = $('#order_id').val();
                                                 Fast.api.ajax({
-                                                    url:'order/order/next_add',
+                                                    url:'order/order/ajax_add',
                                                     data:{
                                                         order_count:order_count,
                                                         remark:remark,
@@ -655,58 +622,18 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
             }
         }
     };
-    var day = new Date();
-    day.setTime(day.getTime()+24*60*60*1000);
-    day = day.getFullYear()+"-" + (day.getMonth()+1) + "-" + day.getDate()+" 00:00";
-    $("#c-sendtime").attr("data-date-min-date",day);
-    $("#c-sendtime").datetimepicker({
-        format: 'YYYY-MM-DD HH:mm'
-    });
-
-    $("#c-sendtime2").datetimepicker({
-        format: 'YYYY-MM-DD',
-    });
-    $('#c-sendtime2').on('dp.change',function(e){
-        console.log($(this).val());
-        let order_id = $('#order_id').val();
-        let send_time = $(this).val();
-        console.log(order_id);
-        Fast.api.ajax({
-            url:'order/order/ajax_time',
-            data:{
-                send_time:send_time,
-                order_id:order_id
-            }
-        }, function(data, ret){
-            //成功的回调
-            alert(ret.msg);
-            return false;
-        }, function(data, ret){
-            //失败的回调
-            alert(ret.msg);
-            return false;
-        });
-    });
     return Controller;
 });
 
 $("#table").on("blur",".change-input",function(e){
     const type = $(e.target).attr("data-type");
     const value = $(e.target).val();
-    console.log(value);
     const obj = loadLoaction();
     const parents = $(e.target).parents("tr");
     switch (type){
         case 'order_count':
-            parents.find("td.order_amount").text((Number(value)*parents.find("td.price input").val()));
+            parents.find("td.order_amount").text((Number(value)*parents.find("td.price").text()).toFixed(2));
             break;
-        case 'price':
-            parents.find("td.order_amount").text((Number(value)*parents.find("td.order_count input").val()));
-            break;
-        case 'takeorder_count':
-            parents.find("td.takeorder_amount").text((Number(value)*parents.find("td.price input").val()));
-            break;
-
     }
 });
 function loadLoaction(local){
