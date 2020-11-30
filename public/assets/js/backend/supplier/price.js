@@ -46,7 +46,9 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                 search:false,
                 showToggle: false,
                 showColumns: false,
-                searchFormVisible: true
+                searchFormVisible: true,
+                showExport: false,
+                // commonSearch:false,
             });
             $("#table").on("blur","input",function(e){
                 let supplier_id = $("#supplier").val();

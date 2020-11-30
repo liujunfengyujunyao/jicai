@@ -33,7 +33,15 @@ class Order extends Backend
      * 需要将application/admin/library/traits/Backend.php中对应的方法复制到当前控制器,然后进行修改
      */
 
+    public function department_list()
+    {
 
+
+            $list = DB::name('department')->field('id,name')->where(['status'=>'1'])->select();
+            $json = json($list);
+
+        return $json;
+    }
     /**
      * 查看
      */
@@ -50,6 +58,7 @@ class Order extends Backend
                 return $this->selectpage();
             }
             list($where, $sort, $order, $offset, $limit) = $this->buildparams();
+
             $total = $this->model
                 ->with(['department', 'supplier'])
                 ->where($where)
@@ -69,6 +78,11 @@ class Order extends Backend
                 $row->getRelation('supplier')->visible(['id', 'supplier_name', 'linkman', 'mobile']);
             }
             $list = collection($list)->toArray();
+
+          foreach($list as $key => &$value){
+              $value['department']['id'] = $value['department']['name'];
+          }
+          
             $result = array("total" => $total, "rows" => $list);
 
             return json($result);

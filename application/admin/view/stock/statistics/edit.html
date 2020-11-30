@@ -1,0 +1,76 @@
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Stock_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-stock_id" data-rule="required" data-source="stock/index" class="form-control selectpage" name="row[stock_id]" type="text" value="{$row.stock_id|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Goods_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-goods_id" data-rule="required" data-source="goods/index" class="form-control selectpage" name="row[goods_id]" type="text" value="{$row.goods_id|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Goods_name')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-goods_name" data-rule="required" class="form-control" name="row[goods_name]" type="text" value="{$row.goods_name|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Goods_sn')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-goods_sn" data-rule="required" class="form-control" name="row[goods_sn]" type="text" value="{$row.goods_sn|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Spec')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-spec" data-rule="required" class="form-control" name="row[spec]" type="text" value="{$row.spec|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Unit')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-unit" data-rule="required" class="form-control" name="row[unit]" type="text" value="{$row.unit|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Unit_price')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-unit_price" data-rule="required" class="form-control" step="0.01" name="row[unit_price]" type="number" value="{$row.unit_price|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Stock_number')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-stock_number" data-rule="required" class="form-control" step="0.01" name="row[stock_number]" type="number" value="{$row.stock_number|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Check_number')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-check_number" data-rule="required" class="form-control" step="0.01" name="row[check_number]" type="number" value="{$row.check_number|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Remark')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-remark" data-rule="required" class="form-control" name="row[remark]" type="text" value="{$row.remark|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Check_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-check_id" data-rule="required" data-source="check/index" class="form-control selectpage" name="row[check_id]" type="text" value="{$row.check_id|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>

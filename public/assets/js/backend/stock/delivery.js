@@ -39,9 +39,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                                     name: 'addtabs',
                                     title: __('添加领料商品'),
                                     text:'编辑',
-                                    hidden:function(row){
-                                        return row.status=="2" || row.status=="1" ? true : false;
-                                    },
+
                                     classname: 'btn btn-xs btn-warning btn-addtabs',
                                     icon: 'fa fa-folder-o',
 

@@ -23,7 +23,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                 sortName: 'weigh',
                 columns: [
                     [
-                        {checkbox: true},
+                        // {checkbox: true},
                         {field: 'id', title: __('Id'),operate:false},
                         {field: 'supplier_sn', title: __('Supplier_sn'),operate: 'LIKE %...%'},
                         {field: 'supplier_name', title: __('Supplier_name'),operate: 'LIKE %...%'},

@@ -68,6 +68,7 @@ class Check extends Backend
             foreach($list as $key => &$value){
                 $value['fa_check.status'] = $value['status'];
                 $value['fa_check.createtime'] = $value['createtime'];
+                $value['audit_admin'] = DB::name('admin')->where(['id'=>$value['audit_admin']])->value('nickname');
             }
             $result = array("total" => count($list), "rows" => $list);
             return json($result);
@@ -143,12 +144,28 @@ class Check extends Backend
             $params = $this->request->param();
             $check_id = json_decode($params['filter'],true)['check_id'];
             $list = DB::name('check_goods')
-                ->where(['check_id'=>$check_id])
+                ->field('t1.*,t2.status')
+                ->alias('t1')
+                ->join('__CHECK__ t2','t1.check_id=t2.id','LEFT')
+                ->where(['t1.check_id'=>$check_id])
                 ->select();
+
             $list = collection($list)->toArray();
             $result = array("total" => count($list), "rows" => $list);
             return json($result);
         }
+        $check = DB::name('check')->where(['id'=>$row['id']])->find();
+        if($check['status'] == "0"){
+            $status = '待确认';
+        }elseif($check['status'] == "1"){
+            $status = "已确认";
+        }else{
+            $status = "已取消";
+        }
+        $check_admin = DB::name('admin')->where(['id'=>$check['check_admin']])->value('nickname');
+        $this->view->assign('status',$status);
+        $this->view->assign('check_admin',$check_admin);
+        $this->view->assign('createtime',date('Y-m-d H:i:s',$check['createtime']));
         $this->assignConfig('check_id',$row['id']);//传给queryParams
         return $this->view->fetch();
     }
@@ -337,5 +354,46 @@ class Check extends Backend
         }else{
             $this->error('删除失败');
         }
+    }
+
+    /*
+     *  取消
+     * */
+    public function reject()
+    {
+        $check_id = $this->request->param('ids');
+        $audit_admin = $this->auth->id;
+        $result = DB::name('check')->where(['id'=>$check_id])->update(['status'=>"2","audittime"=>time(),'audit_admin'=>$audit_admin]);
+        if($result !== false){
+            $this->success('已取消');
+        }else{
+            $this->error('网络错误');
+        }
+    }
+
+    /*
+     * 确认
+     * */
+    public function through()
+    {
+        $check_id = $this->request->param('ids');
+        $check_goods = DB::name('check_goods')
+            ->where(['check_id'=>$check_id])
+            ->select();
+        foreach($check_goods as $key => $value){
+            $result = DB::name('stock')
+                ->where(['id'=>$value['stock_id']])
+                ->update(['stock_number'=>$value['check_number']]);
+        }
+        $audit_admin = $this->auth->id;
+        $result = DB::name('check')
+            ->where(['id'=>$check_id])
+            ->update(['status'=>"1",'audittime'=>time(),'audit_admin'=>$audit_admin]);
+        if($result !== false){
+            $this->success('操作完成');
+        }else{
+            $this->error('网络错误');
+        }
+
     }
 }

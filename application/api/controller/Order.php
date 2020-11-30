@@ -123,7 +123,8 @@ class Order extends Api
 //            }
 //        }
         $result['list'] = DB::name('order_goods')
-            ->field('id,goods_sn,goods_name,spec,unit,price,needqty,order_price,sendqty,send_price,remark')
+            ->field('id,goods_sn,goods_name,spec,unit,price,ne
+            edqty,order_price,sendqty,send_price,remark')
             ->where(['order_id'=>$order_id])
             ->select();
         foreach($result['list'] as $k => &$v){

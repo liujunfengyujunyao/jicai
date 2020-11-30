@@ -37,9 +37,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                                     name: 'addtabs',
                                     title: __('添加领料商品'),
                                     text:'编辑',
-                                    hidden:function(row){
-                                        return row.status=="2" || row.status=="1" ? true : false;
-                                    },
+
                                     classname: 'btn btn-xs btn-warning btn-addtabs',
                                     icon: 'fa fa-folder-o',
 
@@ -58,7 +56,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                                     classname: 'btn btn-xs btn-success btn-magic btn-ajax',
                                     icon: 'fa fa-leaf',
                                     confirm: '确认？',
-                                    url: 'stock/delivery/through',
+                                    url: 'stock/check/through',
                                     success: function (data, ret) {
                                         // Layer.alert(ret.msg);
                                         table.bootstrapTable('refresh');//局部刷新
@@ -81,7 +79,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                                     classname: 'btn btn-xs btn-success btn-magic btn-ajax',
                                     icon: 'fa fa-magic',
                                     confirm: '确认取消？',
-                                    url: 'stock/delivery/reject',
+                                    url: 'stock/check/reject',
                                     success: function (data, ret) {
                                         // Layer.alert(ret.msg);
                                         table.bootstrapTable('refresh');//局部刷新
@@ -168,6 +166,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                                 {
                                     name: 'click',
                                     title: __('点击执行事件'),
+                                    text:'添加',
                                     classname: 'btn btn-xs btn-info btn-click',
                                     icon: 'fa fa-leaf',
                                     // dropdown: '更多',//如果包含dropdown，将会以下拉列表的形式展示
@@ -231,7 +230,12 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                     table: 'check_goods',
                 }
             });
+            let status = $("#next").val();
+            if(status == '已确认' || status == '已取消'){
 
+                // $("#c-sendtime2").attr({"disabled":"disabled"});
+                $("#next-btn").hide();
+            }
             var table = $("#table");
 
             // 初始化表格
@@ -278,6 +282,9 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                                 {
                                     name: 'click',
                                     text:'编辑',
+                                    hidden:function(row){
+                                        return row.status=='1' || row.status=='2' ? true : false;
+                                    },
                                     title: __('点击执行事件'),
                                     classname: 'btn btn-xs btn-info btn-click',
                                     icon: 'fa fa-leaf',
@@ -320,6 +327,9 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                                 {
                                     name: 'click2',
                                     title: __('点击执行事件'),
+                                    hidden:function(row){
+                                        return row.status=='1' || row.status=='2' ? true : false;
+                                    },
                                     text:'删除',
                                     classname: 'btn btn-xs btn-info btn-click',
                                     icon: 'fa fa-leaf',
@@ -367,6 +377,12 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         }
                     ]
                 ],
+                search:false,
+                showToggle: false,
+                showColumns: false,
+                searchFormVisible: true,
+                showExport: false,
+                commonSearch:false,
                 queryParams: function (params) {
                     // 自定义搜索条件
                     var filter = params.filter ? JSON.parse(params.filter) : {};

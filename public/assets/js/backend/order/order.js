@@ -26,7 +26,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
                         {checkbox: true},
                         {field: 'id', title: __('Id'),operate:false},
                         {field: 'order_sn', title: __('Order_sn'),operate:false},
-                        {field: 'department.name', title: __('Department.name'),operate: 'LIKE %...%'},
+                        {field: 'department.id', title: __('Department.name'),searchList: $.getJSON("order/order/department_list")},
                         {field: 'supplier.supplier_name', title: __('Supplier.supplier_name'),operate:false},
                         {field: 'supplier.linkman', title: __('Supplier.linkman'),operate:false},
                         {field: 'supplier.mobile', title: __('Supplier.mobile'),operate:false},

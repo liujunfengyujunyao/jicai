@@ -65,8 +65,8 @@ class Statistics extends Backend
                 ->limit($offset, $limit)
                 ->select();
             foreach($order_goods as $key => &$value){
-//                halt($value);
-                if(is_null($value['sendqty'])){
+
+                if($value['sendqty']=='0.00'){
                     $value['mean'] = 0;
                 }else{
                     $value['mean'] = round($value['send_price'] / $value['sendqty'],2);
