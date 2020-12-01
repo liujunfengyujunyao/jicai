@@ -14,7 +14,7 @@ use think\exception\ValidateException;
  */
 class Check extends Backend
 {
-    
+    protected $noNeedRight = ['ajax_add','ajax_edit','ajax_del'];
     /**
      * Check模型对象
      * @var \app\admin\model\stock\Check

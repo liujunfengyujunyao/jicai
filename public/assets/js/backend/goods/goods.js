@@ -16,7 +16,12 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
 
             var table = $("#table");
 
-
+            table.on("pre-body.bs.table",function(){
+                var bt=table.data("bootstrap.table");
+                if (bt){
+                    bt.$toolbar.find(".export").find(".icon-share").text("  导出  ");
+                }
+            });
 // 在声明 Controller  之前 请求后台, 然后再循环 处理就可以了
 
 
@@ -53,7 +58,8 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                 search:false,
                 showToggle: false,
                 showColumns: false,
-                searchFormVisible: true
+                searchFormVisible: true,
+                exportTypes:['excel']
             });
 
             // 为表格绑定事件

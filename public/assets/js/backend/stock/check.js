@@ -70,7 +70,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                                     }
                                 },
                                 {
-                                    name: 'ajax',
+                                    name: 'ajax2',
                                     title: __('发送Ajax'),
                                     text:"取消",
                                     hidden:function(row){

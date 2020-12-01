@@ -15,8 +15,9 @@
                         
                     </div>
                     <table id="table" class="table table-striped table-bordered table-hover table-nowrap"
-                           data-operate-edit="{:$auth->check('stock/delivery/edit')}" 
-                           data-operate-del="{:$auth->check('stock/delivery/del')}" 
+                           data-operate-addtabs="{:$auth->check('stock/deliverygoods/delivery_edit')}"
+                           data-operate-ajax="{:$auth->check('stock/delivery/through')}"
+                           data-operate-ajax2="{:$auth->check('stock/delivery/reject')}"
                            width="100%">
                     </table>
                 </div>

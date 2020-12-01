@@ -13634,3 +13634,1442 @@
 [ info ] [ RUN ] app\common\controller\Backend->index[ D:\WWW\zbjg\application\admin\library\traits\Backend.php ]
 [ info ] [ BEHAVIOR ] Run app\admin\behavior\AdminLog @app_end [ RunTime:0.000177s ]
 [ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2020-11-30T17:54:33+08:00 ] 192.168.3.1 POST 192.168.3.1:81/admin.php/ajax/weigh
+[运行时间：0.773482s] [吞吐率：1.29req/s] [内存消耗：4,376.44kb] [文件加载：135]
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.000054s ]
+[ info ] [ CACHE ] INIT File
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.057269s ]
+[ info ] [ LANG ] D:\WWW\zbjg\thinkphp\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @app_dispatch [ RunTime:0.000622s ]
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'ajax',
+    2 => 'weigh',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'keeplogin=1%7C86400%7C1605072779%7Cf41519a194da04be22144653880d28d8; PHPSESSID=j2p1hl2s6god24rq6dhnkq5a5s; Hm_lvt_407473d433e871de861cf818aa1405a1=1606523969; Hm_lpvt_407473d433e871de861cf818aa1405a1=1606555759',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.3.1:81/admin.php/supplier/supplier?addtabs=1',
+  'origin' => 'http://192.168.3.1:81',
+  'content-type' => 'application/x-www-form-urlencoded; charset=UTF-8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'content-length' => '76',
+  'connection' => 'keep-alive',
+  'host' => '192.168.3.1:81',
+)
+[ info ] [ PARAM ] array (
+  'ids' => '2,3,1',
+  'changeid' => '3',
+  'pid' => '',
+  'field' => 'weigh',
+  'orderway' => 'desc',
+  'table' => 'supplier',
+  'pk' => 'id',
+)
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @module_init [ RunTime:0.012668s ]
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin/lang/zh-cn/ajax.php
+[ info ] [ RUN ] app\admin\controller\Ajax->weigh[ D:\WWW\zbjg\application\admin\controller\Ajax.php ]
+[ info ] [ BEHAVIOR ] Run app\admin\behavior\AdminLog @app_end [ RunTime:0.033149s ]
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2020-11-30T17:54:34+08:00 ] 192.168.3.1 GET 192.168.3.1:81/admin.php/supplier/supplier/index?addtabs=1&sort=weigh&order=desc&offset=0&limit=10&filter=%7B%7D&op=%7B%7D&_=1606729581467
+[运行时间：0.385284s] [吞吐率：2.60req/s] [内存消耗：4,368.27kb] [文件加载：136]
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.000043s ]
+[ info ] [ CACHE ] INIT File
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.023802s ]
+[ info ] [ LANG ] D:\WWW\zbjg\thinkphp\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @app_dispatch [ RunTime:0.001061s ]
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'supplier.supplier',
+    2 => 'index',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'keeplogin=1%7C86400%7C1605072779%7Cf41519a194da04be22144653880d28d8; PHPSESSID=j2p1hl2s6god24rq6dhnkq5a5s; Hm_lvt_407473d433e871de861cf818aa1405a1=1606523969; Hm_lpvt_407473d433e871de861cf818aa1405a1=1606555759',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.3.1:81/admin.php/supplier/supplier?addtabs=1',
+  'content-type' => 'application/json',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'connection' => 'keep-alive',
+  'host' => '192.168.3.1:81',
+  'content-length' => '',
+)
+[ info ] [ PARAM ] array (
+  'addtabs' => '1',
+  'sort' => 'weigh',
+  'order' => 'desc',
+  'offset' => '0',
+  'limit' => '10',
+  'filter' => '{}',
+  'op' => '{}',
+  '_' => '1606729581467',
+)
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @module_init [ RunTime:0.006835s ]
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin/lang/zh-cn/supplier/supplier.php
+[ info ] [ RUN ] app\common\controller\Backend->index[ D:\WWW\zbjg\application\admin\library\traits\Backend.php ]
+[ info ] [ BEHAVIOR ] Run app\admin\behavior\AdminLog @app_end [ RunTime:0.000776s ]
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2020-11-30T17:54:35+08:00 ] 192.168.3.1 GET 192.168.3.1:81/admin.php/order/statistics?addtabs=1
+[运行时间：0.249922s] [吞吐率：4.00req/s] [内存消耗：4,367.16kb] [文件加载：133]
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.000028s ]
+[ info ] [ CACHE ] INIT File
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.007570s ]
+[ info ] [ LANG ] D:\WWW\zbjg\thinkphp\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @app_dispatch [ RunTime:0.000591s ]
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'order.statistics',
+    2 => NULL,
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'keeplogin=1%7C86400%7C1605072779%7Cf41519a194da04be22144653880d28d8; PHPSESSID=j2p1hl2s6god24rq6dhnkq5a5s; Hm_lvt_407473d433e871de861cf818aa1405a1=1606523969; Hm_lpvt_407473d433e871de861cf818aa1405a1=1606555759',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.3.1:81/admin.php/order/statistics?ref=addtabs',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'keep-alive',
+  'host' => '192.168.3.1:81',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+  'addtabs' => '1',
+)
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @module_init [ RunTime:0.002952s ]
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\order\Statistics->index[ D:\WWW\zbjg\application\admin\controller\order\Statistics.php ]
+[ info ] [ VIEW ] D:\WWW\zbjg\public/../application/admin\view\order\statistics\index.html [ array (
+  0 => 'breadcrumb',
+  1 => 'site',
+  2 => 'config',
+  3 => 'auth',
+  4 => 'admin',
+  5 => 'statusList',
+) ]
+[ info ] [ BEHAVIOR ] Run app\admin\behavior\AdminLog @app_end [ RunTime:0.000501s ]
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2020-11-30T17:54:36+08:00 ] 192.168.3.1 GET 192.168.3.1:81/admin.php/ajax/lang?callback=define&controllername=order.statistics&v=1606730075
+[运行时间：0.207621s] [吞吐率：4.82req/s] [内存消耗：4,415.02kb] [文件加载：133]
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.000034s ]
+[ info ] [ CACHE ] INIT File
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.005442s ]
+[ info ] [ LANG ] D:\WWW\zbjg\thinkphp\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @app_dispatch [ RunTime:0.001000s ]
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'ajax',
+    2 => 'lang',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'keeplogin=1%7C86400%7C1605072779%7Cf41519a194da04be22144653880d28d8; PHPSESSID=j2p1hl2s6god24rq6dhnkq5a5s; Hm_lvt_407473d433e871de861cf818aa1405a1=1606523969; Hm_lpvt_407473d433e871de861cf818aa1405a1=1606555759',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.3.1:81/admin.php/order/statistics?addtabs=1',
+  'accept' => '*/*',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36',
+  'connection' => 'keep-alive',
+  'host' => '192.168.3.1:81',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+  'callback' => 'define',
+  'controllername' => 'order.statistics',
+  'v' => '1606730075',
+)
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @module_init [ RunTime:0.004931s ]
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin/lang/zh-cn/ajax.php
+[ info ] [ RUN ] app\admin\controller\Ajax->lang[ D:\WWW\zbjg\application\admin\controller\Ajax.php ]
+[ info ] [ BEHAVIOR ] Run app\admin\behavior\AdminLog @app_end [ RunTime:0.000320s ]
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2020-11-30T17:54:37+08:00 ] 192.168.3.1 GET 192.168.3.1:81/admin.php/order/statistics/department_list
+[运行时间：0.224631s] [吞吐率：4.45req/s] [内存消耗：4,364.49kb] [文件加载：133]
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.000021s ]
+[ info ] [ CACHE ] INIT File
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.003769s ]
+[ info ] [ LANG ] D:\WWW\zbjg\thinkphp\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @app_dispatch [ RunTime:0.000344s ]
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'order.statistics',
+    2 => 'department_list',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'keeplogin=1%7C86400%7C1605072779%7Cf41519a194da04be22144653880d28d8; PHPSESSID=j2p1hl2s6god24rq6dhnkq5a5s; Hm_lvt_407473d433e871de861cf818aa1405a1=1606523969; Hm_lpvt_407473d433e871de861cf818aa1405a1=1606555759',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.3.1:81/admin.php/order/statistics?addtabs=1',
+  'x-requested-with' => 'XMLHttpRequest',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'connection' => 'keep-alive',
+  'host' => '192.168.3.1:81',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @module_init [ RunTime:0.001506s ]
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\order\Statistics->department_list[ D:\WWW\zbjg\application\admin\controller\order\Statistics.php ]
+[ info ] [ BEHAVIOR ] Run app\admin\behavior\AdminLog @app_end [ RunTime:0.000201s ]
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2020-11-30T17:54:37+08:00 ] 192.168.3.1 GET 192.168.3.1:81/admin.php/order/statistics/supplier_list
+[运行时间：0.425799s] [吞吐率：2.35req/s] [内存消耗：4,365.37kb] [文件加载：133]
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.000019s ]
+[ info ] [ CACHE ] INIT File
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.002539s ]
+[ info ] [ LANG ] D:\WWW\zbjg\thinkphp\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @app_dispatch [ RunTime:0.000293s ]
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'order.statistics',
+    2 => 'supplier_list',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'keeplogin=1%7C86400%7C1605072779%7Cf41519a194da04be22144653880d28d8; PHPSESSID=j2p1hl2s6god24rq6dhnkq5a5s; Hm_lvt_407473d433e871de861cf818aa1405a1=1606523969; Hm_lpvt_407473d433e871de861cf818aa1405a1=1606555759',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.3.1:81/admin.php/order/statistics?addtabs=1',
+  'x-requested-with' => 'XMLHttpRequest',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'connection' => 'keep-alive',
+  'host' => '192.168.3.1:81',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @module_init [ RunTime:0.001567s ]
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\order\Statistics->supplier_list[ D:\WWW\zbjg\application\admin\controller\order\Statistics.php ]
+[ info ] [ BEHAVIOR ] Run app\admin\behavior\AdminLog @app_end [ RunTime:0.000217s ]
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2020-11-30T17:54:38+08:00 ] 192.168.3.1 GET 192.168.3.1:81/admin.php/order/statistics/index?addtabs=1&sort=id&order=desc&offset=0&limit=10&filter=%7B%22createtime%22%3A%222020-11-30+00%3A00%3A00+-+2020-11-30+23%3A59%3A59%22%7D&op=%7B%22createtime%22%3A%22RANGE%22%7D&_=1606730076094
+[运行时间：1.596441s] [吞吐率：0.63req/s] [内存消耗：4,380.48kb] [文件加载：133]
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.000026s ]
+[ info ] [ CACHE ] INIT File
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.011629s ]
+[ info ] [ LANG ] D:\WWW\zbjg\thinkphp\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @app_dispatch [ RunTime:0.000659s ]
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'order.statistics',
+    2 => 'index',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'keeplogin=1%7C86400%7C1605072779%7Cf41519a194da04be22144653880d28d8; PHPSESSID=j2p1hl2s6god24rq6dhnkq5a5s; Hm_lvt_407473d433e871de861cf818aa1405a1=1606523969; Hm_lpvt_407473d433e871de861cf818aa1405a1=1606555759',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.3.1:81/admin.php/order/statistics?addtabs=1',
+  'content-type' => 'application/json',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'connection' => 'keep-alive',
+  'host' => '192.168.3.1:81',
+  'content-length' => '',
+)
+[ info ] [ PARAM ] array (
+  'addtabs' => '1',
+  'sort' => 'id',
+  'order' => 'desc',
+  'offset' => '0',
+  'limit' => '10',
+  'filter' => '{"createtime":"2020-11-30 00:00:00 - 2020-11-30 23:59:59"}',
+  'op' => '{"createtime":"RANGE"}',
+  '_' => '1606730076094',
+)
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @module_init [ RunTime:0.001507s ]
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\order\Statistics->index[ D:\WWW\zbjg\application\admin\controller\order\Statistics.php ]
+[ info ] [ BEHAVIOR ] Run app\admin\behavior\AdminLog @app_end [ RunTime:0.000926s ]
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2020-11-30T17:54:41+08:00 ] 192.168.3.1 GET 192.168.3.1:81/admin.php/order/order/index?addtabs=1&sort=id&order=desc&offset=0&limit=10&filter=%7B%7D&op=%7B%7D&_=1606729532553
+[运行时间：0.424559s] [吞吐率：2.36req/s] [内存消耗：4,638.92kb] [文件加载：142]
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.000024s ]
+[ info ] [ CACHE ] INIT File
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.037376s ]
+[ info ] [ LANG ] D:\WWW\zbjg\thinkphp\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @app_dispatch [ RunTime:0.000752s ]
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'order.order',
+    2 => 'index',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'keeplogin=1%7C86400%7C1605072779%7Cf41519a194da04be22144653880d28d8; PHPSESSID=j2p1hl2s6god24rq6dhnkq5a5s; Hm_lvt_407473d433e871de861cf818aa1405a1=1606523969; Hm_lpvt_407473d433e871de861cf818aa1405a1=1606555759',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.3.1:81/admin.php/order/order?addtabs=1',
+  'content-type' => 'application/json',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'connection' => 'keep-alive',
+  'host' => '192.168.3.1:81',
+  'content-length' => '',
+)
+[ info ] [ PARAM ] array (
+  'addtabs' => '1',
+  'sort' => 'id',
+  'order' => 'desc',
+  'offset' => '0',
+  'limit' => '10',
+  'filter' => '{}',
+  'op' => '{}',
+  '_' => '1606729532553',
+)
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @module_init [ RunTime:0.001460s ]
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin/lang/zh-cn/order/order.php
+[ info ] [ RUN ] app\admin\controller\order\Order->index[ D:\WWW\zbjg\application\admin\controller\order\Order.php ]
+[ info ] [ BEHAVIOR ] Run app\admin\behavior\AdminLog @app_end [ RunTime:0.001288s ]
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2020-11-30T17:54:45+08:00 ] 192.168.3.1 GET 192.168.3.1:81/admin.php/stock/stock?addtabs=1
+[运行时间：0.221537s] [吞吐率：4.51req/s] [内存消耗：4,326.25kb] [文件加载：134]
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.000030s ]
+[ info ] [ CACHE ] INIT File
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.025655s ]
+[ info ] [ LANG ] D:\WWW\zbjg\thinkphp\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @app_dispatch [ RunTime:0.001769s ]
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'stock.stock',
+    2 => NULL,
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'keeplogin=1%7C86400%7C1605072779%7Cf41519a194da04be22144653880d28d8; PHPSESSID=j2p1hl2s6god24rq6dhnkq5a5s; Hm_lvt_407473d433e871de861cf818aa1405a1=1606523969; Hm_lpvt_407473d433e871de861cf818aa1405a1=1606555759',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.3.1:81/admin.php/stock/stock?ref=addtabs',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'keep-alive',
+  'host' => '192.168.3.1:81',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+  'addtabs' => '1',
+)
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @module_init [ RunTime:0.001553s ]
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin/lang/zh-cn/stock/stock.php
+[ info ] [ RUN ] app\admin\controller\stock\Stock->index[ D:\WWW\zbjg\application\admin\controller\stock\Stock.php ]
+[ info ] [ VIEW ] D:\WWW\zbjg\public/../application/admin\view\stock\stock\index.html [ array (
+  0 => 'breadcrumb',
+  1 => 'site',
+  2 => 'config',
+  3 => 'auth',
+  4 => 'admin',
+) ]
+[ info ] [ BEHAVIOR ] Run app\admin\behavior\AdminLog @app_end [ RunTime:0.000204s ]
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2020-11-30T17:54:45+08:00 ] 192.168.3.1 GET 192.168.3.1:81/admin.php/ajax/lang?callback=define&controllername=stock.stock&v=1606730084
+[运行时间：0.178056s] [吞吐率：5.62req/s] [内存消耗：4,416.98kb] [文件加载：134]
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.000024s ]
+[ info ] [ CACHE ] INIT File
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.003157s ]
+[ info ] [ LANG ] D:\WWW\zbjg\thinkphp\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @app_dispatch [ RunTime:0.001804s ]
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'ajax',
+    2 => 'lang',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'keeplogin=1%7C86400%7C1605072779%7Cf41519a194da04be22144653880d28d8; PHPSESSID=j2p1hl2s6god24rq6dhnkq5a5s; Hm_lvt_407473d433e871de861cf818aa1405a1=1606523969; Hm_lpvt_407473d433e871de861cf818aa1405a1=1606555759',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.3.1:81/admin.php/stock/stock?addtabs=1',
+  'accept' => '*/*',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36',
+  'connection' => 'keep-alive',
+  'host' => '192.168.3.1:81',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+  'callback' => 'define',
+  'controllername' => 'stock.stock',
+  'v' => '1606730084',
+)
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @module_init [ RunTime:0.001488s ]
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin/lang/zh-cn/ajax.php
+[ info ] [ RUN ] app\admin\controller\Ajax->lang[ D:\WWW\zbjg\application\admin\controller\Ajax.php ]
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin/lang/zh-cn/stock/stock.php
+[ info ] [ BEHAVIOR ] Run app\admin\behavior\AdminLog @app_end [ RunTime:0.000233s ]
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2020-11-30T17:54:46+08:00 ] 192.168.3.1 GET 192.168.3.1:81/admin.php/goods/category/source1
+[运行时间：0.199181s] [吞吐率：5.02req/s] [内存消耗：4,353.77kb] [文件加载：134]
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.000021s ]
+[ info ] [ CACHE ] INIT File
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.004223s ]
+[ info ] [ LANG ] D:\WWW\zbjg\thinkphp\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @app_dispatch [ RunTime:0.001301s ]
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'goods.category',
+    2 => 'source1',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'keeplogin=1%7C86400%7C1605072779%7Cf41519a194da04be22144653880d28d8; PHPSESSID=j2p1hl2s6god24rq6dhnkq5a5s; Hm_lvt_407473d433e871de861cf818aa1405a1=1606523969; Hm_lpvt_407473d433e871de861cf818aa1405a1=1606555759',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.3.1:81/admin.php/stock/stock?addtabs=1',
+  'x-requested-with' => 'XMLHttpRequest',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'connection' => 'keep-alive',
+  'host' => '192.168.3.1:81',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @module_init [ RunTime:0.001408s ]
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin/lang/zh-cn/goods/category.php
+[ info ] [ RUN ] app\admin\controller\goods\Category->source1[ D:\WWW\zbjg\application\admin\controller\goods\Category.php ]
+[ info ] [ BEHAVIOR ] Run app\admin\behavior\AdminLog @app_end [ RunTime:0.000494s ]
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2020-11-30T17:54:46+08:00 ] 192.168.3.1 GET 192.168.3.1:81/admin.php/goods/category/source2
+[运行时间：0.391353s] [吞吐率：2.56req/s] [内存消耗：4,352.32kb] [文件加载：134]
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.000022s ]
+[ info ] [ CACHE ] INIT File
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.005636s ]
+[ info ] [ LANG ] D:\WWW\zbjg\thinkphp\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @app_dispatch [ RunTime:0.000378s ]
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'goods.category',
+    2 => 'source2',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'keeplogin=1%7C86400%7C1605072779%7Cf41519a194da04be22144653880d28d8; PHPSESSID=j2p1hl2s6god24rq6dhnkq5a5s; Hm_lvt_407473d433e871de861cf818aa1405a1=1606523969; Hm_lpvt_407473d433e871de861cf818aa1405a1=1606555759',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.3.1:81/admin.php/stock/stock?addtabs=1',
+  'x-requested-with' => 'XMLHttpRequest',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'connection' => 'keep-alive',
+  'host' => '192.168.3.1:81',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @module_init [ RunTime:0.004266s ]
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin/lang/zh-cn/goods/category.php
+[ info ] [ RUN ] app\admin\controller\goods\Category->source2[ D:\WWW\zbjg\application\admin\controller\goods\Category.php ]
+[ info ] [ BEHAVIOR ] Run app\admin\behavior\AdminLog @app_end [ RunTime:0.000191s ]
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2020-11-30T17:54:46+08:00 ] 192.168.3.1 GET 192.168.3.1:81/admin.php/stock/stock/index?addtabs=1&sort=id&order=desc&offset=0&limit=10&filter=%7B%7D&op=%7B%7D&_=1606730085380
+[运行时间：0.623525s] [吞吐率：1.60req/s] [内存消耗：4,331.32kb] [文件加载：134]
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.000023s ]
+[ info ] [ CACHE ] INIT File
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.012009s ]
+[ info ] [ LANG ] D:\WWW\zbjg\thinkphp\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @app_dispatch [ RunTime:0.000368s ]
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'stock.stock',
+    2 => 'index',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'keeplogin=1%7C86400%7C1605072779%7Cf41519a194da04be22144653880d28d8; PHPSESSID=j2p1hl2s6god24rq6dhnkq5a5s; Hm_lvt_407473d433e871de861cf818aa1405a1=1606523969; Hm_lpvt_407473d433e871de861cf818aa1405a1=1606555759',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.3.1:81/admin.php/stock/stock?addtabs=1',
+  'content-type' => 'application/json',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'connection' => 'keep-alive',
+  'host' => '192.168.3.1:81',
+  'content-length' => '',
+)
+[ info ] [ PARAM ] array (
+  'addtabs' => '1',
+  'sort' => 'id',
+  'order' => 'desc',
+  'offset' => '0',
+  'limit' => '10',
+  'filter' => '{}',
+  'op' => '{}',
+  '_' => '1606730085380',
+)
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @module_init [ RunTime:0.001370s ]
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin/lang/zh-cn/stock/stock.php
+[ info ] [ RUN ] app\admin\controller\stock\Stock->index[ D:\WWW\zbjg\application\admin\controller\stock\Stock.php ]
+[ info ] [ BEHAVIOR ] Run app\admin\behavior\AdminLog @app_end [ RunTime:0.000222s ]
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2020-11-30T17:54:48+08:00 ] 192.168.3.1 GET 192.168.3.1:81/admin.php/stock/delivery?addtabs=1
+[运行时间：0.195945s] [吞吐率：5.10req/s] [内存消耗：4,394.92kb] [文件加载：134]
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.000023s ]
+[ info ] [ CACHE ] INIT File
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.002991s ]
+[ info ] [ LANG ] D:\WWW\zbjg\thinkphp\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @app_dispatch [ RunTime:0.000449s ]
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'stock.delivery',
+    2 => NULL,
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'keeplogin=1%7C86400%7C1605072779%7Cf41519a194da04be22144653880d28d8; PHPSESSID=j2p1hl2s6god24rq6dhnkq5a5s; Hm_lvt_407473d433e871de861cf818aa1405a1=1606523969; Hm_lpvt_407473d433e871de861cf818aa1405a1=1606555759',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.3.1:81/admin.php/stock/delivery?ref=addtabs',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'keep-alive',
+  'host' => '192.168.3.1:81',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+  'addtabs' => '1',
+)
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @module_init [ RunTime:0.002005s ]
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin/lang/zh-cn/stock/delivery.php
+[ info ] [ RUN ] app\admin\controller\stock\Delivery->index[ D:\WWW\zbjg\application\admin\controller\stock\Delivery.php ]
+[ info ] [ VIEW ] D:\WWW\zbjg\public/../application/admin\view\stock\delivery\index.html [ array (
+  0 => 'breadcrumb',
+  1 => 'site',
+  2 => 'config',
+  3 => 'auth',
+  4 => 'admin',
+  5 => 'statusList',
+) ]
+[ info ] [ BEHAVIOR ] Run app\admin\behavior\AdminLog @app_end [ RunTime:0.000220s ]
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2020-11-30T17:54:49+08:00 ] 192.168.3.1 GET 192.168.3.1:81/admin.php/ajax/lang?callback=define&controllername=stock.delivery&v=1606730088
+[运行时间：0.170059s] [吞吐率：5.88req/s] [内存消耗：4,417.39kb] [文件加载：134]
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.000026s ]
+[ info ] [ CACHE ] INIT File
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.007954s ]
+[ info ] [ LANG ] D:\WWW\zbjg\thinkphp\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @app_dispatch [ RunTime:0.000375s ]
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'ajax',
+    2 => 'lang',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'keeplogin=1%7C86400%7C1605072779%7Cf41519a194da04be22144653880d28d8; PHPSESSID=j2p1hl2s6god24rq6dhnkq5a5s; Hm_lvt_407473d433e871de861cf818aa1405a1=1606523969; Hm_lpvt_407473d433e871de861cf818aa1405a1=1606555759',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.3.1:81/admin.php/stock/delivery?addtabs=1',
+  'accept' => '*/*',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36',
+  'connection' => 'keep-alive',
+  'host' => '192.168.3.1:81',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+  'callback' => 'define',
+  'controllername' => 'stock.delivery',
+  'v' => '1606730088',
+)
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @module_init [ RunTime:0.001279s ]
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin/lang/zh-cn/ajax.php
+[ info ] [ RUN ] app\admin\controller\Ajax->lang[ D:\WWW\zbjg\application\admin\controller\Ajax.php ]
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin/lang/zh-cn/stock/delivery.php
+[ info ] [ BEHAVIOR ] Run app\admin\behavior\AdminLog @app_end [ RunTime:0.000187s ]
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2020-11-30T17:54:49+08:00 ] 192.168.3.1 GET 192.168.3.1:81/admin.php/order/statistics/department_list
+[运行时间：0.197742s] [吞吐率：5.06req/s] [内存消耗：4,364.49kb] [文件加载：133]
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.000021s ]
+[ info ] [ CACHE ] INIT File
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.003502s ]
+[ info ] [ LANG ] D:\WWW\zbjg\thinkphp\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @app_dispatch [ RunTime:0.000327s ]
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'order.statistics',
+    2 => 'department_list',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'keeplogin=1%7C86400%7C1605072779%7Cf41519a194da04be22144653880d28d8; PHPSESSID=j2p1hl2s6god24rq6dhnkq5a5s; Hm_lvt_407473d433e871de861cf818aa1405a1=1606523969; Hm_lpvt_407473d433e871de861cf818aa1405a1=1606555759',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.3.1:81/admin.php/stock/delivery?addtabs=1',
+  'x-requested-with' => 'XMLHttpRequest',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'connection' => 'keep-alive',
+  'host' => '192.168.3.1:81',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @module_init [ RunTime:0.001719s ]
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\order\Statistics->department_list[ D:\WWW\zbjg\application\admin\controller\order\Statistics.php ]
+[ info ] [ BEHAVIOR ] Run app\admin\behavior\AdminLog @app_end [ RunTime:0.000225s ]
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2020-11-30T17:54:50+08:00 ] 192.168.3.1 GET 192.168.3.1:81/admin.php/stock/delivery/index?addtabs=1&sort=id&order=desc&offset=0&limit=10&filter=%7B%7D&op=%7B%7D&_=1606730088891
+[运行时间：0.433980s] [吞吐率：2.30req/s] [内存消耗：4,396.52kb] [文件加载：136]
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.000015s ]
+[ info ] [ CACHE ] INIT File
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.003960s ]
+[ info ] [ LANG ] D:\WWW\zbjg\thinkphp\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @app_dispatch [ RunTime:0.000389s ]
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'stock.delivery',
+    2 => 'index',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'keeplogin=1%7C86400%7C1605072779%7Cf41519a194da04be22144653880d28d8; PHPSESSID=j2p1hl2s6god24rq6dhnkq5a5s; Hm_lvt_407473d433e871de861cf818aa1405a1=1606523969; Hm_lpvt_407473d433e871de861cf818aa1405a1=1606555759',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.3.1:81/admin.php/stock/delivery?addtabs=1',
+  'content-type' => 'application/json',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'connection' => 'keep-alive',
+  'host' => '192.168.3.1:81',
+  'content-length' => '',
+)
+[ info ] [ PARAM ] array (
+  'addtabs' => '1',
+  'sort' => 'id',
+  'order' => 'desc',
+  'offset' => '0',
+  'limit' => '10',
+  'filter' => '{}',
+  'op' => '{}',
+  '_' => '1606730088891',
+)
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @module_init [ RunTime:0.002092s ]
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin/lang/zh-cn/stock/delivery.php
+[ info ] [ RUN ] app\admin\controller\stock\Delivery->index[ D:\WWW\zbjg\application\admin\controller\stock\Delivery.php ]
+[ info ] [ BEHAVIOR ] Run app\admin\behavior\AdminLog @app_end [ RunTime:0.000196s ]
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2020-11-30T17:54:52+08:00 ] 192.168.3.1 GET 192.168.3.1:81/admin.php/stock/deliverylog?addtabs=1
+[运行时间：0.216669s] [吞吐率：4.62req/s] [内存消耗：4,324.71kb] [文件加载：134]
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.000025s ]
+[ info ] [ CACHE ] INIT File
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.002690s ]
+[ info ] [ LANG ] D:\WWW\zbjg\thinkphp\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @app_dispatch [ RunTime:0.004384s ]
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'stock.deliverylog',
+    2 => NULL,
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'keeplogin=1%7C86400%7C1605072779%7Cf41519a194da04be22144653880d28d8; PHPSESSID=j2p1hl2s6god24rq6dhnkq5a5s; Hm_lvt_407473d433e871de861cf818aa1405a1=1606523969; Hm_lpvt_407473d433e871de861cf818aa1405a1=1606555759',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.3.1:81/admin.php/stock/deliverylog?ref=addtabs',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'keep-alive',
+  'host' => '192.168.3.1:81',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+  'addtabs' => '1',
+)
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @module_init [ RunTime:0.001823s ]
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin/lang/zh-cn/stock/deliverylog.php
+[ info ] [ RUN ] app\admin\controller\stock\Deliverylog->index[ D:\WWW\zbjg\application\admin\controller\stock\Deliverylog.php ]
+[ info ] [ VIEW ] D:\WWW\zbjg\public/../application/admin\view\stock\deliverylog\index.html [ array (
+  0 => 'breadcrumb',
+  1 => 'site',
+  2 => 'config',
+  3 => 'auth',
+  4 => 'admin',
+) ]
+[ info ] [ BEHAVIOR ] Run app\admin\behavior\AdminLog @app_end [ RunTime:0.000300s ]
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2020-11-30T17:54:52+08:00 ] 192.168.3.1 GET 192.168.3.1:81/admin.php/ajax/lang?callback=define&controllername=stock.deliverylog&v=1606730092
+[运行时间：0.194761s] [吞吐率：5.13req/s] [内存消耗：4,417.49kb] [文件加载：134]
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.000022s ]
+[ info ] [ CACHE ] INIT File
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.003711s ]
+[ info ] [ LANG ] D:\WWW\zbjg\thinkphp\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @app_dispatch [ RunTime:0.000346s ]
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'ajax',
+    2 => 'lang',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'keeplogin=1%7C86400%7C1605072779%7Cf41519a194da04be22144653880d28d8; PHPSESSID=j2p1hl2s6god24rq6dhnkq5a5s; Hm_lvt_407473d433e871de861cf818aa1405a1=1606523969; Hm_lpvt_407473d433e871de861cf818aa1405a1=1606555759',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.3.1:81/admin.php/stock/deliverylog?addtabs=1',
+  'accept' => '*/*',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36',
+  'connection' => 'keep-alive',
+  'host' => '192.168.3.1:81',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+  'callback' => 'define',
+  'controllername' => 'stock.deliverylog',
+  'v' => '1606730092',
+)
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @module_init [ RunTime:0.001490s ]
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin/lang/zh-cn/ajax.php
+[ info ] [ RUN ] app\admin\controller\Ajax->lang[ D:\WWW\zbjg\application\admin\controller\Ajax.php ]
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin/lang/zh-cn/stock/deliverylog.php
+[ info ] [ BEHAVIOR ] Run app\admin\behavior\AdminLog @app_end [ RunTime:0.000307s ]
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2020-11-30T17:54:53+08:00 ] 192.168.3.1 GET 192.168.3.1:81/admin.php/stock/deliverylog/department_list
+[运行时间：0.264983s] [吞吐率：3.77req/s] [内存消耗：4,321.41kb] [文件加载：134]
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.000021s ]
+[ info ] [ CACHE ] INIT File
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.004801s ]
+[ info ] [ LANG ] D:\WWW\zbjg\thinkphp\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @app_dispatch [ RunTime:0.000340s ]
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'stock.deliverylog',
+    2 => 'department_list',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'keeplogin=1%7C86400%7C1605072779%7Cf41519a194da04be22144653880d28d8; PHPSESSID=j2p1hl2s6god24rq6dhnkq5a5s; Hm_lvt_407473d433e871de861cf818aa1405a1=1606523969; Hm_lpvt_407473d433e871de861cf818aa1405a1=1606555759',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.3.1:81/admin.php/stock/deliverylog?addtabs=1',
+  'x-requested-with' => 'XMLHttpRequest',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'connection' => 'keep-alive',
+  'host' => '192.168.3.1:81',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @module_init [ RunTime:0.001709s ]
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin/lang/zh-cn/stock/deliverylog.php
+[ info ] [ RUN ] app\admin\controller\stock\Deliverylog->department_list[ D:\WWW\zbjg\application\admin\controller\stock\Deliverylog.php ]
+[ info ] [ BEHAVIOR ] Run app\admin\behavior\AdminLog @app_end [ RunTime:0.000191s ]
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2020-11-30T17:54:53+08:00 ] 192.168.3.1 GET 192.168.3.1:81/admin.php/stock/deliverylog/index?addtabs=1&sort=id&order=desc&offset=0&limit=10&filter=%7B%7D&op=%7B%7D&_=1606730092591
+[运行时间：0.346522s] [吞吐率：2.89req/s] [内存消耗：4,367.65kb] [文件加载：136]
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.000018s ]
+[ info ] [ CACHE ] INIT File
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.006121s ]
+[ info ] [ LANG ] D:\WWW\zbjg\thinkphp\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @app_dispatch [ RunTime:0.000394s ]
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'stock.deliverylog',
+    2 => 'index',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'keeplogin=1%7C86400%7C1605072779%7Cf41519a194da04be22144653880d28d8; PHPSESSID=j2p1hl2s6god24rq6dhnkq5a5s; Hm_lvt_407473d433e871de861cf818aa1405a1=1606523969; Hm_lpvt_407473d433e871de861cf818aa1405a1=1606555759',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.3.1:81/admin.php/stock/deliverylog?addtabs=1',
+  'content-type' => 'application/json',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'connection' => 'keep-alive',
+  'host' => '192.168.3.1:81',
+  'content-length' => '',
+)
+[ info ] [ PARAM ] array (
+  'addtabs' => '1',
+  'sort' => 'id',
+  'order' => 'desc',
+  'offset' => '0',
+  'limit' => '10',
+  'filter' => '{}',
+  'op' => '{}',
+  '_' => '1606730092591',
+)
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @module_init [ RunTime:0.001734s ]
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin/lang/zh-cn/stock/deliverylog.php
+[ info ] [ RUN ] app\admin\controller\stock\Deliverylog->index[ D:\WWW\zbjg\application\admin\controller\stock\Deliverylog.php ]
+[ info ] [ BEHAVIOR ] Run app\admin\behavior\AdminLog @app_end [ RunTime:0.000325s ]
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2020-11-30T17:54:57+08:00 ] 192.168.3.1 GET 192.168.3.1:81/admin.php/stock/check?addtabs=1
+[运行时间：0.202594s] [吞吐率：4.94req/s] [内存消耗：4,430.38kb] [文件加载：134]
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.000024s ]
+[ info ] [ CACHE ] INIT File
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.016386s ]
+[ info ] [ LANG ] D:\WWW\zbjg\thinkphp\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @app_dispatch [ RunTime:0.000841s ]
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'stock.check',
+    2 => NULL,
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'keeplogin=1%7C86400%7C1605072779%7Cf41519a194da04be22144653880d28d8; PHPSESSID=j2p1hl2s6god24rq6dhnkq5a5s; Hm_lvt_407473d433e871de861cf818aa1405a1=1606523969; Hm_lpvt_407473d433e871de861cf818aa1405a1=1606555759',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.3.1:81/admin.php/stock/check?ref=addtabs',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'keep-alive',
+  'host' => '192.168.3.1:81',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+  'addtabs' => '1',
+)
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @module_init [ RunTime:0.001854s ]
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin/lang/zh-cn/stock/check.php
+[ info ] [ RUN ] app\admin\controller\stock\Check->index[ D:\WWW\zbjg\application\admin\controller\stock\Check.php ]
+[ info ] [ VIEW ] D:\WWW\zbjg\public/../application/admin\view\stock\check\index.html [ array (
+  0 => 'breadcrumb',
+  1 => 'site',
+  2 => 'config',
+  3 => 'auth',
+  4 => 'admin',
+  5 => 'statusList',
+) ]
+[ info ] [ BEHAVIOR ] Run app\admin\behavior\AdminLog @app_end [ RunTime:0.000174s ]
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2020-11-30T17:54:58+08:00 ] 192.168.3.1 GET 192.168.3.1:81/admin.php/ajax/lang?callback=define&controllername=stock.check&v=1606730097
+[运行时间：0.372175s] [吞吐率：2.69req/s] [内存消耗：4,417.28kb] [文件加载：134]
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.000020s ]
+[ info ] [ CACHE ] INIT File
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.005704s ]
+[ info ] [ LANG ] D:\WWW\zbjg\thinkphp\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @app_dispatch [ RunTime:0.000317s ]
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'ajax',
+    2 => 'lang',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'keeplogin=1%7C86400%7C1605072779%7Cf41519a194da04be22144653880d28d8; PHPSESSID=j2p1hl2s6god24rq6dhnkq5a5s; Hm_lvt_407473d433e871de861cf818aa1405a1=1606523969; Hm_lpvt_407473d433e871de861cf818aa1405a1=1606555759',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.3.1:81/admin.php/stock/check?addtabs=1',
+  'accept' => '*/*',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36',
+  'connection' => 'keep-alive',
+  'host' => '192.168.3.1:81',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+  'callback' => 'define',
+  'controllername' => 'stock.check',
+  'v' => '1606730097',
+)
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @module_init [ RunTime:0.002852s ]
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin/lang/zh-cn/ajax.php
+[ info ] [ RUN ] app\admin\controller\Ajax->lang[ D:\WWW\zbjg\application\admin\controller\Ajax.php ]
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin/lang/zh-cn/stock/check.php
+[ info ] [ BEHAVIOR ] Run app\admin\behavior\AdminLog @app_end [ RunTime:0.000228s ]
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2020-11-30T17:54:59+08:00 ] 192.168.3.1 GET 192.168.3.1:81/admin.php/stock/check/index?addtabs=1&sort=id&order=desc&offset=0&limit=10&filter=%7B%7D&op=%7B%7D&_=1606730097706
+[运行时间：0.493549s] [吞吐率：2.03req/s] [内存消耗：4,386.85kb] [文件加载：134]
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.000021s ]
+[ info ] [ CACHE ] INIT File
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.002916s ]
+[ info ] [ LANG ] D:\WWW\zbjg\thinkphp\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @app_dispatch [ RunTime:0.000602s ]
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'stock.check',
+    2 => 'index',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'keeplogin=1%7C86400%7C1605072779%7Cf41519a194da04be22144653880d28d8; PHPSESSID=j2p1hl2s6god24rq6dhnkq5a5s; Hm_lvt_407473d433e871de861cf818aa1405a1=1606523969; Hm_lpvt_407473d433e871de861cf818aa1405a1=1606555759',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.3.1:81/admin.php/stock/check?addtabs=1',
+  'content-type' => 'application/json',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'connection' => 'keep-alive',
+  'host' => '192.168.3.1:81',
+  'content-length' => '',
+)
+[ info ] [ PARAM ] array (
+  'addtabs' => '1',
+  'sort' => 'id',
+  'order' => 'desc',
+  'offset' => '0',
+  'limit' => '10',
+  'filter' => '{}',
+  'op' => '{}',
+  '_' => '1606730097706',
+)
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @module_init [ RunTime:0.003462s ]
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin/lang/zh-cn/stock/check.php
+[ info ] [ RUN ] app\admin\controller\stock\Check->index[ D:\WWW\zbjg\application\admin\controller\stock\Check.php ]
+[ info ] [ BEHAVIOR ] Run app\admin\behavior\AdminLog @app_end [ RunTime:0.000186s ]
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2020-11-30T17:56:21+08:00 ] 192.168.3.1 GET 192.168.3.1:81/admin.php/order/order/index?addtabs=1&sort=id&order=desc&offset=0&limit=10&filter=%7B%7D&op=%7B%7D&_=1606729532554
+[运行时间：0.379645s] [吞吐率：2.63req/s] [内存消耗：4,638.92kb] [文件加载：142]
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.000036s ]
+[ info ] [ CACHE ] INIT File
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.038298s ]
+[ info ] [ LANG ] D:\WWW\zbjg\thinkphp\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @app_dispatch [ RunTime:0.000474s ]
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'order.order',
+    2 => 'index',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'keeplogin=1%7C86400%7C1605072779%7Cf41519a194da04be22144653880d28d8; PHPSESSID=j2p1hl2s6god24rq6dhnkq5a5s; Hm_lvt_407473d433e871de861cf818aa1405a1=1606523969; Hm_lpvt_407473d433e871de861cf818aa1405a1=1606555759',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.3.1:81/admin.php/order/order?addtabs=1',
+  'content-type' => 'application/json',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'connection' => 'keep-alive',
+  'host' => '192.168.3.1:81',
+  'content-length' => '',
+)
+[ info ] [ PARAM ] array (
+  'addtabs' => '1',
+  'sort' => 'id',
+  'order' => 'desc',
+  'offset' => '0',
+  'limit' => '10',
+  'filter' => '{}',
+  'op' => '{}',
+  '_' => '1606729532554',
+)
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @module_init [ RunTime:0.001464s ]
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin/lang/zh-cn/order/order.php
+[ info ] [ RUN ] app\admin\controller\order\Order->index[ D:\WWW\zbjg\application\admin\controller\order\Order.php ]
+[ info ] [ BEHAVIOR ] Run app\admin\behavior\AdminLog @app_end [ RunTime:0.000300s ]
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2020-11-30T17:56:24+08:00 ] 192.168.3.1 GET 192.168.3.1:81/admin.php/order/order/next2/ids/1?addtabs=1
+[运行时间：0.387738s] [吞吐率：2.58req/s] [内存消耗：4,626.23kb] [文件加载：136]
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.000020s ]
+[ info ] [ CACHE ] INIT File
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.003535s ]
+[ info ] [ LANG ] D:\WWW\zbjg\thinkphp\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @app_dispatch [ RunTime:0.000320s ]
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'order.order',
+    2 => 'next2',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'keeplogin=1%7C86400%7C1605072779%7Cf41519a194da04be22144653880d28d8; PHPSESSID=j2p1hl2s6god24rq6dhnkq5a5s; Hm_lvt_407473d433e871de861cf818aa1405a1=1606523969; Hm_lpvt_407473d433e871de861cf818aa1405a1=1606555759',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.3.1:81/admin.php/order/order/next2/ids/1?ref=addtabs',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'keep-alive',
+  'host' => '192.168.3.1:81',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+  'addtabs' => '1',
+  'ids' => '1',
+)
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @module_init [ RunTime:0.001406s ]
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin/lang/zh-cn/order/order.php
+[ info ] [ RUN ] app\admin\controller\order\Order->next2[ D:\WWW\zbjg\application\admin\controller\order\Order.php ]
+[ info ] [ VIEW ] D:\WWW\zbjg\public/../application/admin\view\order\order\next2.html [ array (
+  0 => 'breadcrumb',
+  1 => 'site',
+  2 => 'config',
+  3 => 'auth',
+  4 => 'admin',
+  5 => 'statusList',
+  6 => 'department_name',
+  7 => 'supplier_name',
+  8 => 'linkman',
+  9 => 'mobile',
+  10 => 'status',
+  11 => 'send_time',
+  12 => 'order_id',
+) ]
+[ info ] [ BEHAVIOR ] Run app\admin\behavior\AdminLog @app_end [ RunTime:0.000569s ]
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2020-11-30T17:56:25+08:00 ] 192.168.3.1 GET 192.168.3.1:81/admin.php/ajax/lang?callback=define&controllername=order.order&v=1606730184
+[运行时间：0.177989s] [吞吐率：5.62req/s] [内存消耗：4,417.68kb] [文件加载：134]
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.000018s ]
+[ info ] [ CACHE ] INIT File
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.002465s ]
+[ info ] [ LANG ] D:\WWW\zbjg\thinkphp\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @app_dispatch [ RunTime:0.000332s ]
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'ajax',
+    2 => 'lang',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'keeplogin=1%7C86400%7C1605072779%7Cf41519a194da04be22144653880d28d8; PHPSESSID=j2p1hl2s6god24rq6dhnkq5a5s; Hm_lvt_407473d433e871de861cf818aa1405a1=1606523969; Hm_lpvt_407473d433e871de861cf818aa1405a1=1606555759',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.3.1:81/admin.php/order/order/next2/ids/1?addtabs=1',
+  'accept' => '*/*',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36',
+  'connection' => 'keep-alive',
+  'host' => '192.168.3.1:81',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+  'callback' => 'define',
+  'controllername' => 'order.order',
+  'v' => '1606730184',
+)
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @module_init [ RunTime:0.001628s ]
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin/lang/zh-cn/ajax.php
+[ info ] [ RUN ] app\admin\controller\Ajax->lang[ D:\WWW\zbjg\application\admin\controller\Ajax.php ]
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin/lang/zh-cn/order/order.php
+[ info ] [ BEHAVIOR ] Run app\admin\behavior\AdminLog @app_end [ RunTime:0.000205s ]
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2020-11-30T17:56:26+08:00 ] 192.168.3.1 GET 192.168.3.1:81/admin.php/order/order/next2?sort=id&order=desc&offset=0&limit=10&filter=%7B%22order_id%22%3A%221%22%7D&op=%7B%22order_id%22%3A%22%3D%22%7D&_=1606730185055
+[运行时间：0.267894s] [吞吐率：3.73req/s] [内存消耗：4,507.05kb] [文件加载：135]
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.000023s ]
+[ info ] [ CACHE ] INIT File
+[ info ] [ BEHAVIOR ] Run Closure @app_init [ RunTime:0.007354s ]
+[ info ] [ LANG ] D:\WWW\zbjg\thinkphp\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @app_dispatch [ RunTime:0.000479s ]
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'order.order',
+    2 => 'next2',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'keeplogin=1%7C86400%7C1605072779%7Cf41519a194da04be22144653880d28d8; PHPSESSID=j2p1hl2s6god24rq6dhnkq5a5s; Hm_lvt_407473d433e871de861cf818aa1405a1=1606523969; Hm_lpvt_407473d433e871de861cf818aa1405a1=1606555759',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.3.1:81/admin.php/order/order/next2/ids/1?addtabs=1',
+  'content-type' => 'application/json',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36',
+  'x-requested-with' => 'XMLHttpRequest',
+  'accept' => 'application/json, text/javascript, */*; q=0.01',
+  'connection' => 'keep-alive',
+  'host' => '192.168.3.1:81',
+  'content-length' => '',
+)
+[ info ] [ PARAM ] array (
+  'sort' => 'id',
+  'order' => 'desc',
+  'offset' => '0',
+  'limit' => '10',
+  'filter' => '{"order_id":"1"}',
+  'op' => '{"order_id":"="}',
+  '_' => '1606730185055',
+)
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin\lang\zh-cn.php
+[ info ] [ BEHAVIOR ] Run app\common\behavior\Common @module_init [ RunTime:0.002929s ]
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ LANG ] D:\WWW\zbjg\public/../application/admin/lang/zh-cn/order/order.php
+[ info ] [ RUN ] app\admin\controller\order\Order->next2[ D:\WWW\zbjg\application\admin\controller\order\Order.php ]
+[ info ] [ BEHAVIOR ] Run app\admin\behavior\AdminLog @app_end [ RunTime:0.000210s ]
+[ info ] [ LOG ] INIT File

@@ -15,7 +15,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
             });
 
             var table = $("#table");
-
+            var LODOP=getLodop(document.getElementById('LODOP_OB'),document.getElementById('LODOP_EM'));
             // 初始化表格
             table.bootstrapTable({
                 url: $.fn.bootstrapTable.defaults.extend.index_url,
@@ -374,9 +374,9 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
                                 {
                                     name: 'click',
                                     text:"编辑",
-                                    hidden:function(row){
-                                        return row.status==1 || row.status==2 ? true : false;
-                                    },
+                                    // hidden:function(row){
+                                    //     return row.status==1 || row.status==2 ? true : false;
+                                    // },
                                     title: __('点击执行事件'),
                                     classname: 'btn btn-xs btn-info btn-click',
                                     icon: 'fa fa-leaf',

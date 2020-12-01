@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:67:"D:\WWW\zbjg\public/../application/admin\view\stock\check\index.html";i:1606790750;s:54:"D:\WWW\zbjg\application\admin\view\layout\default.html";i:1604979994;s:51:"D:\WWW\zbjg\application\admin\view\common\meta.html";i:1604979993;s:53:"D:\WWW\zbjg\application\admin\view\common\script.html";i:1604979993;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:66:"D:\WWW\zbjg\public/../application/admin\view\stock\check\edit.html";i:1606721664;s:54:"D:\WWW\zbjg\application\admin\view\layout\default.html";i:1604979994;s:51:"D:\WWW\zbjg\application\admin\view\common\meta.html";i:1604979993;s:53:"D:\WWW\zbjg\application\admin\view\common\script.html";i:1604979993;}*/ ?>
 <!DOCTYPE html>
 <html lang="<?php echo $config['language']; ?>">
     <head>
@@ -50,9 +50,65 @@
                             <!-- END RIBBON -->
                             <?php endif; ?>
                             <div class="content">
-                                <div class="panel panel-default panel-intro">
-    
+                                <style>
+    .panel.panel-default.panel-intro{
+        margin-left: -15px;
+    }
+    .change-input {
+        width: 100px;
+        text-align: center;
+    }
 
+    .commonsearch-table {
+        display: none;
+    }
+    form.form-horizontal .control-label {
+        font-weight: normal;
+        padding-right: 0;
+        padding-left: 0;
+    }
+    input:read-only{
+        background: none!important;
+        border: none;
+    }
+    .datetimepicker{
+        border: 1px solid #ccc!important;
+    }
+</style>
+<div class="panel panel-default panel-intro">
+
+    <div class="commonsearch-table" style="display: block;">
+        <form class="form-horizontal form-commonsearch nice-validator n-default n-bootstrap" novalidate="" method="post"
+              action="">
+            <div class="row">
+
+                <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <label for="department.name" class="control-label col-xs-4">
+                        盘点人
+                    </label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" value="<?php echo $check_admin; ?>" readonly>
+                    </div>
+                </div>
+                <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <label for="department.name" class="control-label col-xs-4">
+                        盘点时间
+                    </label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" value="<?php echo $createtime; ?>" readonly>
+                    </div>
+                </div>
+                <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <label for="department.name" class="control-label col-xs-4">
+                        状态
+                    </label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" value="<?php echo $status; ?>" readonly>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
 
     <div class="panel-body">
         <div id="myTabContent" class="tab-content">
@@ -60,14 +116,15 @@
                 <div class="widget-body no-padding">
                     <div id="toolbar" class="toolbar">
                         <a href="javascript:;" class="btn btn-primary btn-refresh" title="<?php echo __('Refresh'); ?>" ><i class="fa fa-refresh"></i> </a>
-                        <a href="javascript:;" data-area='["100%","100%"]' class="btn btn-success btn-add <?php echo $auth->check('stock/check/add')?'':'hide'; ?>" title="<?php echo __('Add'); ?>" ><i class="fa fa-plus"></i> <?php echo __('Add'); ?></a>
+                        <a href="/admin.php/stock/check/add?check_id=<?php echo $check_id; ?>"  id="next-btn" data-area='["100%","100%"]' class="btn btn-success btn-add <?php echo $auth->check('stock/check/add')?'':'hide'; ?>" title="<?php echo __('Add'); ?>" ><i class="fa fa-plus"></i> <?php echo __('新增'); ?></a>
 
-                        
+<!--                        <a class="btn btn-success btn-myexcel-export <?php echo $auth->check('lvtotals1/exportOrderExcel')?'':'hide'; ?>" href="javascript:;"><i class="fa fa-user"></i> 导出</a>-->
                     </div>
+                    <input type="hidden" id="check_id" value="<?php echo $check_id; ?>">
+                    <input type="hidden" id="next" value="<?php echo $status; ?>">
                     <table id="table" class="table table-striped table-bordered table-hover table-nowrap"
-                           data-operate-addtabs="<?php echo $auth->check('stock/check/edit'); ?>"
-                           data-operate-ajax="<?php echo $auth->check('stock/check/through'); ?>"
-                           data-operate-ajax2="<?php echo $auth->check('stock/check/reject'); ?>"
+                           data-operate-edit="<?php echo $auth->check('stock/check/edit'); ?>"
+                           data-operate-del="<?php echo $auth->check('stock/check/del'); ?>"
                            width="100%">
                     </table>
                 </div>

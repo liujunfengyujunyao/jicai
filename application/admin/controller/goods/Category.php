@@ -11,7 +11,7 @@ use think\Db;
  */
 class Category extends Backend
 {
-    
+    protected $noNeedRight = ['first_cate','second_cate','source1','source2'];
     /**
      * Category模型对象
      * @var \app\admin\model\goods\Category

@@ -12,7 +12,7 @@ use think\Db;
  */
 class Department extends Backend
 {
-    
+    protected $noNeedRight = ['select_list'];
     /**
      * Department模型对象
      * @var \app\admin\model\auth\Department

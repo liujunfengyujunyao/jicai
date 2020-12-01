@@ -13,7 +13,7 @@ use think\Db;
  */
 class Deliverygoods extends Backend
 {
-    
+    protected $noNeedRight = ['ajax_edit','delivery_add','delivery_add','next','ajax_add','ajax_del','ajax_edit','next_edit'];
     /**
      * Delivery_goods模型对象
      * @var \app\admin\model\stock\Deliverygoods
@@ -428,8 +428,8 @@ class Deliverygoods extends Backend
                     ->where(['id'=>$params['id']])
                     ->update($update);
             }
-            $delivery_orders = DB::name('delivery_order')
-                ->where(['delivery'=>$delivery_goods['delivery_id']])
+            $delivery_orders = DB::name('delivery_goods')
+                ->where(['delivery_id'=>$delivery_goods['delivery_id']])
                 ->select();
 
             $delivery_amount = 0;
@@ -461,8 +461,8 @@ class Deliverygoods extends Backend
             }else{
                 $result = DB::name('delivery_goods')->where(['id'=>$params['id']])->delete();
 
-                $delivery_orders = DB::name('delivery_order')
-                    ->where(['delivery'=>$delivery_goods['delivery_id']])
+                $delivery_orders = DB::name('delivery_goods')
+                    ->where(['delivery_id'=>$delivery_goods['delivery_id']])
                     ->select();
 
                 $delivery_amount = 0;
@@ -526,8 +526,8 @@ class Deliverygoods extends Backend
                 ];
                 $result = DB::name('delivery_goods')->insert($insert);
             }
-            $delivery_orders = DB::name('delivery_order')
-                ->where(['delivery'=>$delivery_goods['delivery_id']])
+            $delivery_orders = DB::name('delivery_goods')
+                ->where(['delivery_id'=>$delivery_goods['delivery_id']])
                 ->select();
 
             $delivery_amount = 0;

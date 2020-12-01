@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:67:"D:\WWW\zbjg\public/../application/admin\view\order\order\index.html";i:1605747686;s:54:"D:\WWW\zbjg\application\admin\view\layout\default.html";i:1604979994;s:51:"D:\WWW\zbjg\application\admin\view\common\meta.html";i:1604979993;s:53:"D:\WWW\zbjg\application\admin\view\common\script.html";i:1604979993;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:67:"D:\WWW\zbjg\public/../application/admin\view\order\order\index.html";i:1606795390;s:54:"D:\WWW\zbjg\application\admin\view\layout\default.html";i:1604979994;s:51:"D:\WWW\zbjg\application\admin\view\common\meta.html";i:1604979993;s:53:"D:\WWW\zbjg\application\admin\view\common\script.html";i:1604979993;}*/ ?>
 <!DOCTYPE html>
 <html lang="<?php echo $config['language']; ?>">
     <head>
@@ -87,8 +87,10 @@
                         
                     </div>
                     <table id="table" class="table table-striped table-bordered table-hover table-nowrap"
-                           data-operate-edit="<?php echo $auth->check('order/order/edit'); ?>" 
-                           data-operate-del="<?php echo $auth->check('order/order/del'); ?>" 
+
+                           data-operate-confirm_order="<?php echo $auth->check('order/order/confirm_order'); ?>"
+                           data-operate-cancel_order="<?php echo $auth->check('order/order/cancel_order'); ?>"
+                           data-operate-addtabs="<?php echo $auth->check('order/order/addtabs'); ?>"
                            width="100%">
                     </table>
                 </div>
@@ -97,7 +99,10 @@
         </div>
     </div>
 </div>
-
+<script src="/lodop/LodopFuncs.js"></script>
+<object  id="LODOP_OB" classid="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" width=0 height=0>
+    <embed id="LODOP_EM" type="application/x-print-lodop" width=0 height=0></embed>
+</object>
                             </div>
                         </div>
                     </div>

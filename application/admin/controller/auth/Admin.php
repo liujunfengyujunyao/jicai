@@ -18,7 +18,7 @@ use think\Validate;
  */
 class Admin extends Backend
 {
-
+    protected $noNeedRight = ['select_list'];
     /**
      * @var \app\admin\model\Admin
      */

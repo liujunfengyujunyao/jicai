@@ -12,7 +12,7 @@ use think\Db;
  */
 class Supplier extends Backend
 {
-    
+    protected $noNeedRight = ['select_list'];
     /**
      * Supplier模型对象
      * @var \app\admin\model\supplier\Supplier

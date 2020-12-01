@@ -13,7 +13,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
  */
 class Order extends Backend
 {
-
+    protected $noNeedRight = ['ajax_edit','ajax_add','ajax_del','next','next2','next3','next_add','ajax_time','department_list'];
     /**
      * Order模型对象
      * @var \app\admin\model\order\Order
@@ -599,9 +599,9 @@ class Order extends Backend
         $params = $this->request->param();
         $order_goods = DB::name('order_goods')->where(['id'=>$params['id']])->find();
         $order_id = $order_goods['order_id'];
-        if($order_goods['status'] != 0){
-            $this->error('此条详情不能修改');
-        }
+//        if($order_goods['status'] != 0){
+//            $this->error('此条详情不能修改');
+//        }
         if(!is_numeric($params['order_count'])||!is_numeric($params['price'])||!is_numeric($params['sendqty'])){
             $this->error('非法字符');
         }

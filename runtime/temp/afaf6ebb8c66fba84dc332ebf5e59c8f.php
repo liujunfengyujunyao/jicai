@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:70:"D:\WWW\zbjg\public/../application/admin\view\stock\delivery\index.html";i:1606290996;s:54:"D:\WWW\zbjg\application\admin\view\layout\default.html";i:1604979994;s:51:"D:\WWW\zbjg\application\admin\view\common\meta.html";i:1604979993;s:53:"D:\WWW\zbjg\application\admin\view\common\script.html";i:1604979993;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:70:"D:\WWW\zbjg\public/../application/admin\view\stock\delivery\index.html";i:1606799460;s:54:"D:\WWW\zbjg\application\admin\view\layout\default.html";i:1604979994;s:51:"D:\WWW\zbjg\application\admin\view\common\meta.html";i:1604979993;s:53:"D:\WWW\zbjg\application\admin\view\common\script.html";i:1604979993;}*/ ?>
 <!DOCTYPE html>
 <html lang="<?php echo $config['language']; ?>">
     <head>
@@ -67,8 +67,9 @@
                         
                     </div>
                     <table id="table" class="table table-striped table-bordered table-hover table-nowrap"
-                           data-operate-edit="<?php echo $auth->check('stock/delivery/edit'); ?>" 
-                           data-operate-del="<?php echo $auth->check('stock/delivery/del'); ?>" 
+                           data-operate-addtabs="<?php echo $auth->check('stock/deliverygoods/delivery_edit'); ?>"
+                           data-operate-ajax="<?php echo $auth->check('stock/delivery/through'); ?>"
+                           data-operate-ajax2="<?php echo $auth->check('stock/delivery/reject'); ?>"
                            width="100%">
                     </table>
                 </div>
