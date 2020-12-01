@@ -15,7 +15,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
             });
 
             var table = $("#table");
-            var LODOP=getLodop(document.getElementById('LODOP_OB'),document.getElementById('LODOP_EM'));
+            // var LODOP=getLodop(document.getElementById('LODOP_OB'),document.getElementById('LODOP_EM'));
             // 初始化表格
             table.bootstrapTable({
                 url: $.fn.bootstrapTable.defaults.extend.index_url,
@@ -97,6 +97,12 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
                                     classname: 'btn btn-xs btn-warning btn-addtabs',
                                     icon: 'fa fa-folder-o',
                                     url: 'order/order/next2',
+                                },{
+                                    name: 'addtabs',
+                                    text: __('打印'),
+                                    title: __('打印'),
+                                    classname: 'btn btn-xs btn-warning btn-addprint',
+                                    icon: 'fa fa-folder-o',
                                 }
                             ],
                             formatter: Table.api.formatter.buttons,
@@ -709,6 +715,67 @@ $("#table").on("blur",".change-input",function(e){
 
     }
 });
+
+$("#table").on("click",".btn-addprint",function(e){
+    const patent = $(e.target).parents("tr");
+    console.log(patent.find("td").eq(1).text());
+    Fast.api.ajax({
+        url:'order/order/pr_order',
+        data:{
+            id:patent.find("td").eq(1).text()
+        }
+    }, function(data, ret){
+        //成功的回调
+        console.log(data,ret);
+        printTable(data);
+        return false;
+    }, function(data, ret){
+        //失败的回调
+        alert(ret.msg);
+        return false;
+    });
+    setTimeout(()=>{
+
+    },300);
+
+});
+
+function printTable(data){
+
+    const list= data.info;
+    $("#printView tbody,.top-list-item>span").empty();
+    $(".top-list-item [data-type='收货部门']").text(data.department_name||"");
+    $(".top-list-item [data-type='下单时间']").text(renderDate(data.createtime)||"");
+    $(".top-list-item [data-type='送货时间']").text(renderDate(data.sendtime)||"");
+    $(".top-list-item [data-type='供应商名称']").text(data.supplier_name||"");
+    $(".top-list-item [data-type='联系人']").text(data.linkman||"");
+    $(".top-list-item [data-type='联系电话']").text(data.mobile||"");
+    let total = 0;
+    list.map((item,index)=>{
+        $("#printView tbody").append(`<tr>
+        <td>${index+1}</td>
+        <td>${item.scate_name}</td>
+        <td>${item.goods_sn}</td>
+        <td>${item.goods_name}</td>
+        <td>${item.spec}</td>
+        <td>${item.unit}</td>
+        <td>${item.needqty}</td>
+        <td>${item.sendqty}</td>
+        <td>${item.price}</td>
+        <td>${item.send_price}</td>
+        <td>${item.remark}</td>
+        </tr>`);
+        total += Number(item.send_price);
+    });
+    $("#printView tbody").append(`<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                        <td>合计：</td><td>${total}</td><td></td><tr/>`);
+    var newStr = $("#printView").html();//获取打印部分
+    var win = window.open("","新建打印窗口","height=500,width=700,top=100");//新建窗口
+    win.document.body.innerHTML = newStr;//打印内容写到新建窗口中
+    win.print();//执行打印
+    win.close();
+}
+
 function loadLoaction(local){
     local = window.location.search.substring(1);
     const localArr = local.split("&");
@@ -718,4 +785,12 @@ function loadLoaction(local){
         localObj[arr[0]] = arr[1];
     });
     return localObj;
+}
+
+function renderDate(datetime){
+    if(!datetime){
+        return "";
+    }
+    var day = new Date(datetime*1000);
+    return day.getFullYear()+"-" + (day.getMonth()<10?"0"+day.getMonth():day.getMonth()) + "-" + (day.getDate()<10?"0"+day.getDate():day.getDate());
 }

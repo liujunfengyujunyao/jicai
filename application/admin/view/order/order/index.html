@@ -46,8 +46,51 @@
 
         </div>
     </div>
+    <div id="printView" style="display: none;">
+        <style>
+           .top-title{text-align:center}
+           .top-list{float:left;width:100%;margin:20px 0}
+           .top-list-item{width:33.33%;float:left}
+           .bottom-list-item{width:45%;float:left}
+           .bottom-list-item>span{padding:0 20px}
+           .bottom-list-item>span:nth-child(1){padding-left:60px}
+           .layui-table{border-collapse:collapse;border-spacing:0;margin:10px 0;width:100%;background-color:#fff;color:#666}.layui-table th{white-space:pre-wrap}.layui-table td,.layui-table th{word-wrap:break-word;border:1px solid #999!important;text-align:center;padding:9px 5px}
+        </style>
+        <div class="top-title">客户订单</div>
+        <div class="top-list">
+          <div class="top-list-item">收货部门：<span data-type="收货部门"></span></div>
+          <div class="top-list-item">下单时间：<span data-type="下单时间"></span></div>
+          <div class="top-list-item">送货时间：<span data-type="送货时间"></span></div>
+          <div class="top-list-item">供应商名称：<span data-type="供应商名称"></span></div>
+          <div class="top-list-item">联系人：<span data-type="联系人"></span></div>
+          <div class="top-list-item">联系电话：<span data-type="联系电话"></span></div>
+        </div>
+        <table class="layui-table">
+          <thead>
+            <tr>
+              <th>序号</th>
+              <th>分类</th>
+              <th>商品编号</th>
+              <th>商品名称</th>
+              <th>规格</th>
+              <th>单位</th>
+              <th>下单数量</th>
+              <th>收货数量</th>
+              <th>单价</th>
+              <th>收货金额</th>
+              <th>备注</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+        <div class="top-list">
+            <div class="bottom-list-item">签 字：</div>
+            <div class="bottom-list-item">日 期：<span>年</span><span>月</span><span>日</span></div>
+        </div>
+      </div>
 </div>
-<script src="/lodop/LodopFuncs.js"></script>
+<!-- <script src="/lodop/LodopFuncs.js"></script>
 <object  id="LODOP_OB" classid="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" width=0 height=0>
     <embed id="LODOP_EM" type="application/x-print-lodop" width=0 height=0></embed>
-</object>
+</object> -->

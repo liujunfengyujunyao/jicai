@@ -13,7 +13,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
  */
 class Order extends Backend
 {
-    protected $noNeedRight = ['ajax_edit','ajax_add','ajax_del','next','next2','next3','next_add','ajax_time','department_list'];
+    protected $noNeedRight = ['ajax_edit','ajax_add','ajax_del','next','next2','next3','next_add','ajax_time','department_list','pr_order'];
     /**
      * Order模型对象
      * @var \app\admin\model\order\Order
@@ -829,5 +829,27 @@ class Order extends Backend
         $writer = IOFactory::createWriter($spreadsheet, "Xls");
         ob_end_clean();//解决乱码
         $writer->save("php://output");
+    }
+
+    /*
+     * 打印数据
+     * */
+    public function pr_order()
+    {
+        $params = $this->request->param();
+        $order = DB::name('order')->where(['id'=>$params['id']])->find();
+        $supplier = DB::name('supplier')->where(['id'=>$order['supplier_id']])->find();
+        $data['department_name'] = DB::name('department')->where(['id'=>$order['department_id']])->value('name');
+        $data['createtime'] = $order['createtime'];
+        $data['sendtime'] = $order['sendtime'];
+        $data['supplier_name'] = $supplier['supplier_name'];
+        $data['linkman'] = $supplier['linkman'];
+        $data['mobile'] = $supplier['mobile'];
+
+        $data['info'] = DB::name('order_goods')
+            ->field('scate_name,goods_sn,goods_name,spec,unit,needqty,sendqty,price,send_price,remark')
+            ->where(['order_id'=>$params['id']])
+            ->select();
+        $this->success('','',$data);
     }
 }
