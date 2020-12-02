@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:6:{s:61:"D:\WWW\zbjg\public/../application/admin\view\index\index.html";i:1604979994;s:51:"D:\WWW\zbjg\application\admin\view\common\meta.html";i:1604979993;s:53:"D:\WWW\zbjg\application\admin\view\common\header.html";i:1604979993;s:51:"D:\WWW\zbjg\application\admin\view\common\menu.html";i:1604979993;s:54:"D:\WWW\zbjg\application\admin\view\common\control.html";i:1604979993;s:53:"D:\WWW\zbjg\application\admin\view\common\script.html";i:1604979993;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:6:{s:67:"/www/wwwroot/zbjg/public/../application/admin/view/index/index.html";i:1606813927;s:57:"/www/wwwroot/zbjg/application/admin/view/common/meta.html";i:1606813927;s:59:"/www/wwwroot/zbjg/application/admin/view/common/header.html";i:1606813927;s:57:"/www/wwwroot/zbjg/application/admin/view/common/menu.html";i:1606813927;s:60:"/www/wwwroot/zbjg/application/admin/view/common/control.html";i:1606813927;s:59:"/www/wwwroot/zbjg/application/admin/view/common/script.html";i:1606813927;}*/ ?>
 <!DOCTYPE html>
 <html lang="<?php echo $config['language']; ?>">
     <head>

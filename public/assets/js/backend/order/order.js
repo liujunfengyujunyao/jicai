@@ -185,6 +185,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
                         {field: 'supplier.id', title: __('Supplier.id'),visible:false,operate:false},
                         {
                             field: 'order_count',
+                            class: 'order_count',
                             title: '下单数量',
                             operate:false,
                             formatter:(value)=>{
@@ -542,6 +543,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
                         {field: 'supplier.id', title: __('Supplier.id'),visible:false,operate:false},
                         {
                             field: 'order_count',
+                            class: 'order_count',
                             title: '下单数量',
                             operate:false,
                             formatter:(value)=>{
@@ -702,15 +704,17 @@ $("#table").on("blur",".change-input",function(e){
     console.log(value);
     const obj = loadLoaction();
     const parents = $(e.target).parents("tr");
+    const priceVal = parents.find("td.price input").val() || parents.find("td.price").text();
+    const ordercountVal = parents.find("td.order_count input").val() || parents.find("td.order_count").text();
     switch (type){
         case 'order_count':
-            parents.find("td.order_amount").text((Number(value)*parents.find("td.price input").val()));
+            parents.find("td.order_amount").text(Number(Number(value)*priceVal).toFixed(2));
             break;
         case 'price':
-            parents.find("td.order_amount").text((Number(value)*parents.find("td.order_count input").val()));
+            parents.find("td.order_amount").text(Number(Number(value)*ordercountVal).toFixed(2));
             break;
         case 'takeorder_count':
-            parents.find("td.takeorder_amount").text((Number(value)*parents.find("td.price input").val()));
+            parents.find("td.takeorder_amount").text(Number(Number(value)*priceVal).toFixed(2));
             break;
 
     }

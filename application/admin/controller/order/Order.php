@@ -717,8 +717,16 @@ class Order extends Backend
 //                ->group('t1.goods_id')
             ->select();
 
+		$results = DB::name('order_goods')
+            ->field('t1.goods_id,t2.goods_name,t1.sendqty,t1.price,t1.status')
+            ->alias('t1')
+            ->join('__GOODS__ t2','t1.goods_id=t2.id','LEFT')
+            ->where(['t1.order_id'=>$order_id])
+            // ->where(['t2.is_stock'=>"1"])
+//                ->group('t1.goods_id')
+            ->select();
 
-        foreach($result as $k => $v) {
+        foreach($results as $k => $v) {
             if ($v['status'] != "1") {
                 $this->error('存在未完成收货,不允许修改状态');
             }
