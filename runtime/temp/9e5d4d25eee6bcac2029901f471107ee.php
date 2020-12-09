@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:73:"/www/wwwroot/zbjg/public/../application/admin/view/order/order/next2.html";i:1606813927;s:60:"/www/wwwroot/zbjg/application/admin/view/layout/default.html";i:1606813927;s:57:"/www/wwwroot/zbjg/application/admin/view/common/meta.html";i:1606813927;s:59:"/www/wwwroot/zbjg/application/admin/view/common/script.html";i:1606813927;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:73:"/www/wwwroot/zbjg/public/../application/admin/view/order/order/next2.html";i:1607390866;s:60:"/www/wwwroot/zbjg/application/admin/view/layout/default.html";i:1606813927;s:57:"/www/wwwroot/zbjg/application/admin/view/common/meta.html";i:1606813927;s:59:"/www/wwwroot/zbjg/application/admin/view/common/script.html";i:1606813927;}*/ ?>
 <!DOCTYPE html>
 <html lang="<?php echo $config['language']; ?>">
     <head>
@@ -139,7 +139,7 @@
                     <div id="toolbar" class="toolbar">
 <!--                        <a href="javascript:;" class="btn btn-primary btn-refresh" title="<?php echo __('Refresh'); ?>" ><i class="fa fa-refresh"></i> </a>-->
 <!--                        <a href="javascript:;" class="btn btn-success btn-add <?php echo $auth->check('order/order/add')?'':'hide'; ?>" title="<?php echo __('Add'); ?>" ><i class="fa fa-plus"></i> <?php echo __('Add'); ?></a>-->
-                        <a href="/admin.php/order/order/next3?order_id=<?php echo $order_id; ?>"  id="next3" data-area='["100%","100%"]' class="btn btn-success btn-add <?php echo $auth->check('stock/check/add')?'':'hide'; ?>" title="<?php echo __('Add'); ?>" ><i class="fa fa-plus"></i> <?php echo __('新增'); ?></a>
+                        <a href="/admin.php/order/order/next3?order_id=<?php echo $order_id; ?>"  id="next3" data-area='["100%","100%"]' class="btn btn-success btn-add <?php echo $auth->check('stock/check/add')?'':'hide'; ?>" title="<?php echo __('Add'); ?>" ><i class="fa fa-plus"></i> <?php echo __('新增商品'); ?></a>
 
 
                     </div>

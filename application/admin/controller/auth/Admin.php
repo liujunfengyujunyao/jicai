@@ -135,9 +135,10 @@ class Admin extends Backend
 //                }
 
                 $params['salt'] = Random::alnum();
-                $params['password'] = "123456";
+                $params['password'] = $params['password'];
                 $params['password'] = md5(md5($params['password']) . $params['salt']);
                 $params['avatar'] = '/assets/img/avatar.png'; //设置新管理员默认头像。
+                $params['email'] = $params['email'] ? $params['email']:$params['username']."@qq.com";
                 $result = $this->model->validate('Admin.add')->save($params);
 
                 if ($result === false) {
@@ -207,10 +208,44 @@ class Admin extends Backend
                     'email'    => 'require|email|unique:admin,email,' . $row->id,
                     'password' => 'regex:\S{32}',
                 ]);
-                $result = $row->validate('Admin.edit')->save($params);
+                $user = DB::name('admin')->where(['username'=>$params['username']])->find();
+                if(!$user){
+                    $this->error('不允许修改用户名');
+                }
+                if($params['password'] == ""){
+                    $update = [
+                        'department_id' => $params['department_id'],
+                        'email' => $params['email'],
+                        'nickname' => $params['nickname'],
+                        'status' => $params['status']
+                    ];
+                }else{
+                    $params['salt'] = Random::alnum();
+                    $params['password'] = $params['password'];
+                    $params['password'] = md5(md5($params['password']) . $params['salt']);
+                    $update = [
+                        'department_id' => $params['department_id'],
+                        'email' => $params['email'],
+                        'nickname' => $params['nickname'],
+                        'status' => $params['status'],
+                        'password' => $params['password'],
+                        'salt' => $params['salt']
+                    ];
+                }
+
+                $result = DB::name('admin')->where(['username'=>$params['username']])->update($update);
+//                $result = $row->validate('Admin.edit')->save($params);
                 if ($result === false) {
                     $this->error($row->getError());
                 }
+                $admin = DB::name('admin')->where(['username'=>$params['username']])->find();
+                $edit = [
+                    'nickname' => $admin['nickname'],
+                    'email' => $admin['email'],
+                    'password' => $admin['password'],
+                    'salt' => $admin['salt']
+                ];
+                DB::name('user')->where(['username'=>$params['username']])->update($edit);
 
                 // 先移除所有权限
 //                model('AuthGroupAccess')->where('uid', $row->id)->delete();

@@ -39,8 +39,8 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                                     name: 'addtabs',
                                     title: __('添加领料商品'),
                                     text:'编辑',
-
-                                    classname: 'btn btn-xs btn-warning btn-addtabs',
+                                     extend: 'data-area= \'["100%", "100%"]\'',
+                                    classname: 'btn btn-xs btn-warning btn-dialog',
                                     icon: 'fa fa-folder-o',
 
                                     //url: 'example/bootstraptable/detail'
@@ -127,7 +127,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                     var url = ret.url+'?apply_admin='+obj.apply_admin+'&department_id='+obj.department_id;
                     // console.log(url)
                     // console.log(obj.send_time);//json name
-                    Backend.api.addtabs(url,{iframeForceRefresh: true});//新建选项卡
+                    Backend.api.addtabs(url,"添加领料出库","fa fa-circle-o fa-fw");//新建选项卡
                 });
             }
         }

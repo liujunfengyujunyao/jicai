@@ -37,8 +37,8 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                                     name: 'addtabs',
                                     title: __('添加领料商品'),
                                     text:'编辑',
-
-                                    classname: 'btn btn-xs btn-warning btn-addtabs',
+                                     extend: 'data-area= \'["100%", "100%"]\'',
+                                    classname: 'btn btn-xs btn-warning btn-dialog',
                                     icon: 'fa fa-folder-o',
 
                                     //url: 'example/bootstraptable/detail'
@@ -281,7 +281,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                             buttons: [
                                 {
                                     name: 'click',
-                                    text:'编辑',
+                                    text:'保存',
                                     hidden:function(row){
                                         return row.status=='1' || row.status=='2' ? true : false;
                                     },

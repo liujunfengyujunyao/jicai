@@ -9,7 +9,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                     index_url: 'auth/admin/index',
                     add_url: 'auth/admin/add',
                     edit_url: 'auth/admin/edit',
-                    del_url: 'auth/admin/del',
+                    // del_url: 'auth/admin/del',
                     multi_url: 'auth/admin/multi',
                 }
             });
@@ -44,6 +44,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                                 {
                                     name: '权限管理',
                                     title: __('权限管理'),
+                                    text:'权限管理',
                                     classname: 'btn btn-xs btn-primary btn-dialog',
                                     icon: 'fa fa-address-card',
                                     // url: 'example/bootstraptable/detail',

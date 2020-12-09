@@ -23,7 +23,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'jstree'], function (
                     "index_url": "auth/group/index",
                     "add_url": "auth/group/add",
                     "edit_url": "auth/group/edit",
-                    "del_url": "auth/group/del",
+                    // "del_url": "auth/group/del",
                     "multi_url": "auth/group/multi",
                     'table':"auth_group",
                 }

@@ -8,7 +8,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                     index_url: 'auth/department/index' + location.search,
                     add_url: 'auth/department/add',
                     edit_url: 'auth/department/edit',
-                    del_url: 'auth/department/del',
+                    // del_url: 'auth/department/del',
                     multi_url: 'auth/department/multi',
                     table: 'department',
                 }

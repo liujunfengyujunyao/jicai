@@ -1,11 +1,15 @@
 <?php
 
 namespace app\admin\controller\order;
-
+use Complex\Exception;
 use app\common\controller\Backend;
+use PhpOffice\PhpSpreadsheet\Writer\Xls\Parser;
 use think\Db;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
+use PhpOffice\PhpSpreadsheet\Reader\Xls;
+use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 /**
  * 订单管理
  *
@@ -13,7 +17,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
  */
 class Order extends Backend
 {
-    protected $noNeedRight = ['ajax_edit','ajax_add','ajax_del','next','next2','next3','next_add','ajax_time','department_list','pr_order'];
+    protected $noNeedRight = ['ajax_edit','ajax_add','ajax_del','next','next2','next3','next_add','ajax_time','department_list','pr_order','cate_list'];
     /**
      * Order模型对象
      * @var \app\admin\model\order\Order
@@ -58,7 +62,7 @@ class Order extends Backend
                 return $this->selectpage();
             }
             list($where, $sort, $order, $offset, $limit) = $this->buildparams();
-
+            $order = "asc";
             $total = $this->model
                 ->with(['department', 'supplier'])
                 ->where($where)
@@ -102,12 +106,14 @@ class Order extends Backend
 //
 //            $send_time = strtotime()
             $params = $this->request->param();
+
             $arr['send_time'] = strtotime($params['row']['sendtime']);
 //            halt($params);
             $arr['department_id'] = $params['row']['department_id'];
             $arr['supplier_id'] = $params['row']['supplier_id'];
+            $arr['cate_id'] = $params['row']['cate_id'];
             $data = json_encode($arr, JSON_UNESCAPED_UNICODE);
-
+//            halt($data);
             $this->success('', url("order/order/next"), $data);
         }
         return $this->view->fetch();
@@ -130,6 +136,7 @@ class Order extends Backend
         }
 
         @$this->assignconfig('supplier_id',$params['supplier_id']);
+        @$this->assignconfig('cate_id',$params['cate_id']);
 
         //当前是否为关联查询
         $this->relationSearch = true;
@@ -161,6 +168,7 @@ class Order extends Backend
                 ->alias('t1')
                 ->join('__GOODS__ t2', 't1.goods_id=t2.id', 'LEFT')
                 ->where(['t1.supplier_id' => $params['supplier_id'], 't2.status' => '1'])
+                ->where(['t2.cate_id'=>$params['cate_id']])
                 ->where($like)
                 ->limit($offset, $limit)
                 ->select();
@@ -169,6 +177,7 @@ class Order extends Backend
                 ->join('__GOODS__ t2', 't1.goods_id=t2.id', 'LEFT')
                 ->where(['t1.supplier_id' => $params['supplier_id'], 't2.status' => '1'])
                 ->where($like)
+                ->where(['t2.cate_id'=>$params['cate_id']])
                 ->count();
 
 //            foreach ($list as $row) {
@@ -845,19 +854,218 @@ class Order extends Backend
     public function pr_order()
     {
         $params = $this->request->param();
-        $order = DB::name('order')->where(['id'=>$params['id']])->find();
+        $order = DB::name('order')->where(['order_sn'=>$params['id']])->find();
+        $start_time = strtotime(date('Y-m-d',$order['createtime']));
+
+        $end_time = $order['createtime'];
+        $where['createtime'] =  ['between time', [$start_time, $end_time]];
+
+        $count = DB::name('order')->where($where)->count();
+
         $supplier = DB::name('supplier')->where(['id'=>$order['supplier_id']])->find();
         $data['department_name'] = DB::name('department')->where(['id'=>$order['department_id']])->value('name');
-        $data['createtime'] = $order['createtime'];
-        $data['sendtime'] = $order['sendtime'];
+        $data['createtime'] = date('Y-m-d',$order['createtime']);
         $data['supplier_name'] = $supplier['supplier_name'];
-        $data['linkman'] = $supplier['linkman'];
-        $data['mobile'] = $supplier['mobile'];
-
+        $order_good = DB::name('order_goods')->where(['order_id'=>$order['id']])->find();
+//        $data['cate_name'] = $order_good['cate_name'];
+        $data['cate_name'] = $order['cate_name'];
+        $data['order_sn'] = "WJ-" . $data['createtime'] . "-" . $count;
+        $data['amount'] = DB::name('order_goods')->where(['order_id'=>$order['id']])->sum('send_price');
+        $data['cn_amount'] = num_to_rmb( $data['amount']);
         $data['info'] = DB::name('order_goods')
-            ->field('scate_name,goods_sn,goods_name,spec,unit,needqty,sendqty,price,send_price,remark')
-            ->where(['order_id'=>$params['id']])
+            ->field('goods_name,unit,needqty,sendqty,price,send_price')
+            ->where(['order_id'=>$order['id']])
             ->select();
+        foreach($data['info'] as $key => &$value){
+            if(is_null($value['sendqty'])){
+                $value['sendqty'] = "0.00";
+            }
+        }
         $this->success('','',$data);
     }
+
+    public function cate_list()
+    {
+        $list = DB::name('goodscategory')->field('id,category_name as name')->where(['status'=>'1','pid'=>0])->select();
+
+        return json(['list'=>$list,'total'=>count($list)]);
+    }
+    public function daoru()
+    {
+        if ($this->request->isAjax()) {
+//            $params = $this->request->param();
+//            $send_time = strtotime($params['sendtime']);
+//
+//            $send_time = strtotime()
+            $params = $this->request->param();
+//            halt($params);
+            $arr['send_time'] = strtotime($params['row']['sendtime']);
+//            halt($params);
+            $arr['department_id'] = $params['row']['department_id'];
+            $arr['supplier_id'] = $params['row']['supplier_id'];
+            $arr['cate_id'] = $params['row']['cate_id'];
+            $arr['excel_path'] = $_SERVER['DOCUMENT_ROOT'] . $params['row']['client_path'];
+            $data = json_encode($arr, JSON_UNESCAPED_UNICODE);
+            $result = $this->importExecl($arr['excel_path']);
+//            halt($result);
+            $goods_names = DB::name('supplier_goods')
+                ->alias('t1')
+                ->join('__GOODS__ t2','t1.goods_id=t2.id','LEFT')
+                ->where(['t1.supplier_id'=>$arr['supplier_id']])
+//                ->where(['t2.cate_id'=>$arr['cate_id']])
+                ->column('t2.goods_name');
+//halt($goods_names);
+            unset($result[1]);//删除标题行
+
+            //判断该供应商是否已经维护该商品价格
+            foreach($result as $key => $value){
+                if(!in_array($value["B"],$goods_names)){
+                    $this->error($value["B"]."-->尚未维护价格");
+                }
+            }
+
+            //创建订单
+            $order_insert = [
+                'order_sn' => date('Ymd') . str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT),
+                'department_id' => $arr['department_id'],
+                'supplier_id' => $arr['supplier_id'],
+                'order_amount' => 0,//order_goods表插入完成后需要修改
+                'createtime' => time(),
+                'sendtime' => $arr['send_time'],
+                'status' => "0",
+                'cate_name' => DB::name('goodscategory')->where(['id'=>$arr['cate_id']])->value('category_name'),
+            ];
+            $order_id = DB::name('order')->insertGetId($order_insert);
+            $amount = 0;
+            foreach($result as $k => $v){
+                $goods = DB::name('goods')->where(['goods_name'=>$v["B"]])->find();
+
+                $supplier_goods = DB::name('supplier_goods')->where(['goods_id'=>$goods['id']])->find();
+
+                $insert = [
+                    'order_id' => $order_id,
+                    'goods_id' => $goods['id'],
+                    'needqty' => $v["E"],
+                    'remark' => $v["F"],
+                    'goods_name' => $goods['goods_name'],
+                    'spec' => $goods['spec'],
+                    'unit' => $goods['unit'],
+                    'price' => $supplier_goods['price'],
+                    'order_price' => $supplier_goods['price'] * $v["E"],
+                    'goods_sn' => $goods['goods_sn'],
+                    'status' => 0,
+                    'back_price' => 0,
+                    'send_price' => 0,
+                    'cate_id' => $arr['cate_id'],
+                    'scate_id' => $goods['scate_id'],
+                    'cate_name' => DB::name('goodscategory')->find($goods['cate_id'])['category_name'],
+                    'scate_name' => DB::name('goodscategory')->find($goods['scate_id'])['category_name']
+                ];
+                DB::name('order_goods')->insert($insert);
+                $amount += $insert['order_price'];
+            }
+            $res = DB::name('order')->where(['id'=>$order_id])->update(['order_amount'=>$amount]);
+            $this->success('导入完成');
+        }else{
+            return $this->view->fetch();
+        }
+
+    }
+    public function importExecl($filePath = '',$sheet = 0,$columnCnt = 0, &$options = [])
+    {
+        try {
+            /* 转码 */
+            $filePath = iconv("utf-8", "gb2312", $filePath);
+
+            if (empty($filePath) or !file_exists($filePath)) {
+//                throw new \Exception('文件不存在!');
+                $this->error('文件不存在!');
+            }
+
+            /** @var Xlsx $objRead */
+            $objRead = IOFactory::createReader('Xlsx');
+
+            if (!$objRead->canRead($filePath)) {
+                /** @var Xls $objRead */
+                $objRead = IOFactory::createReader('Xls');
+
+                if (!$objRead->canRead($filePath)) {
+//                    throw new \Exception('只支持导入Excel文件！');
+                    $this->error('只支持导入Excel文件！');
+                }
+            }
+
+            /* 如果不需要获取特殊操作，则只读内容，可以大幅度提升读取Excel效率 */
+            empty($options) && $objRead->setReadDataOnly(true);
+            /* 建立excel对象 */
+            $obj = $objRead->load($filePath);
+            /* 获取指定的sheet表 */
+            $currSheet = $obj->getSheet($sheet);
+
+            if (isset($options['mergeCells'])) {
+                /* 读取合并行列 */
+                $options['mergeCells'] = $currSheet->getMergeCells();
+            }
+
+            if (0 == $columnCnt) {
+                /* 取得最大的列号 */
+                $columnH = $currSheet->getHighestColumn();
+                /* 兼容原逻辑，循环时使用的是小于等于 */
+                $columnCnt = Coordinate::columnIndexFromString($columnH);
+            }
+
+            /* 获取总行数 */
+            $rowCnt = $currSheet->getHighestRow();
+            $data   = [];
+
+            /* 读取内容 */
+            for ($_row = 1; $_row <= $rowCnt; $_row++) {
+                $isNull = true;
+
+                for ($_column = 1; $_column <= $columnCnt; $_column++) {
+                    $cellName = Coordinate::stringFromColumnIndex($_column);
+                    $cellId   = $cellName . $_row;
+                    $cell     = $currSheet->getCell($cellId);
+
+                    if (isset($options['format'])) {
+                        /* 获取格式 */
+                        $format = $cell->getStyle()->getNumberFormat()->getFormatCode();
+                        /* 记录格式 */
+                        $options['format'][$_row][$cellName] = $format;
+                    }
+
+                    if (isset($options['formula'])) {
+                        /* 获取公式，公式均为=号开头数据 */
+                        $formula = $currSheet->getCell($cellId)->getValue();
+
+                        if (0 === strpos($formula, '=')) {
+                            $options['formula'][$cellName . $_row] = $formula;
+                        }
+                    }
+
+                    if (isset($format) && 'm/d/yyyy' == $format) {
+                        /* 日期格式翻转处理 */
+                        $cell->getStyle()->getNumberFormat()->setFormatCode('yyyy/mm/dd');
+                    }
+
+                    $data[$_row][$cellName] = trim($currSheet->getCell($cellId)->getFormattedValue());
+
+                    if (!empty($data[$_row][$cellName])) {
+                        $isNull = false;
+                    }
+                }
+
+                /* 判断是否整行数据为空，是的话删除该行数据 */
+                if ($isNull) {
+                    unset($data[$_row]);
+                }
+            }
+
+            return $data;
+        } catch (\Exception $e) {
+            throw $e;
+        }
+    }
+
+
 }

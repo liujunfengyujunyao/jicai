@@ -13,7 +13,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
  */
 class Statistics extends Backend
 {
-
+    protected $noNeedRight = ['department_list','supplier_list','exportOrderExcel'];
     /**
      * Order模型对象
      * @var \app\admin\model\order\Order
@@ -66,7 +66,7 @@ class Statistics extends Backend
                 ->select();
             foreach($order_goods as $key => &$value){
 
-                if($value['sendqty']=='0.00'){
+                if($value['sendqty']=='0.00' || is_null($value['sendqty'])){
                     $value['mean'] = 0;
                 }else{
                     $value['mean'] = round($value['send_price'] / $value['sendqty'],2);

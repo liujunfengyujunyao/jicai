@@ -8,7 +8,8 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                     index_url: 'goods/goods/index' + location.search,
                     add_url: 'goods/goods/add',
                     edit_url: 'goods/goods/edit',
-                    del_url: 'goods/goods/del',
+                    daoru_url: 'goods/goods/daoru',
+                    // del_url: 'goods/goods/del',
                     multi_url: 'goods/goods/multi',
                     table: 'goods',
                 }
@@ -61,9 +62,18 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                 searchFormVisible: true,
                 exportTypes:['excel']
             });
+            $(document).on("click", ".btn-daoru", function () { //监听刚刚的按钮btn-myexcel-export的动作
 
+                //直接url访问，不能使用ajax，因为ajax要求返回数据，和PHPExcel一会浏览器输出冲突！将数据作为参数
+                top.location.href="goods/daoru";
+            });
             // 为表格绑定事件
             Table.api.bindevent(table);
+        },
+        daoru: function () {
+
+            Controller.api.bindevent();
+
         },
         add: function () {//一级分类发生改变清空二级分类
             $('#c-cate_id').on('change',function () {

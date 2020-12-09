@@ -7,6 +7,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
                 extend: {
                     index_url: 'order/order/index' + location.search,
                     add_url: 'order/order/add',
+                    daoru_url: 'order/order/daoru',
                     // edit_url: 'order/order/edit',
                     // del_url: 'order/order/del',
                     multi_url: 'order/order/multi',
@@ -24,7 +25,10 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
                 columns: [
                     [
                         {checkbox: true},
-                        {field: 'id', title: __('Id'),operate:false},
+                        {field: 'index_id', title: __('序号'), formatter: function(value, row, index){
+                                return ++index;
+                            },operate:false,class:"index_id"},
+                        {field: 'id', title: __('Id'),operate:false,visible:false},
                         {field: 'order_sn', title: __('Order_sn'),operate:false},
                         {field: 'department.id', title: __('Department.name'),searchList: $.getJSON("order/order/department_list")},
                         {field: 'supplier.supplier_name', title: __('Supplier.supplier_name'),operate:false},
@@ -32,7 +36,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
                         {field: 'supplier.mobile', title: __('Supplier.mobile'),operate:false},
                         {field: 'order_amount', title: __('Order_amount'), operate:'BETWEEN'},
                         {field: 'createtime', title: __('Createtime'), operate:'RANGE', addclass:'datetimerange', formatter: Table.api.formatter.datetime},
-                        {field: 'sendtime', title: __('Sendtime'), operate:'RANGE', addclass:'datetimerange', formatter: Table.api.formatter.datetime,datetimeFormat:'YYYY-MM-DD'},
+                        {field: 'sendtime', title: __('Sendtime'), operate:'RANGE', addclass:'datetimerange', formatter: Table.api.formatter.datetime,datetimeFormat:'YYYY-MM-DD',defaultValue:this.today(0)+' 00:00:00 - '+this.today(0)+' 23:59:59'},
                         {field: 'status', title: __('Status'), searchList: {"0":__('Status 0'),"1":__('Status 1'),"2":__('Status 2')}, formatter: Table.api.formatter.status},
                         {field: 'department_id', title: __('Department_id'),visible:false,operate:false},
                         {field: 'supplier_id', title: __('Supplier_id'),visible:false,operate:false},
@@ -94,7 +98,8 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
                                     name: 'addtabs',
                                     text: __('编辑'),
                                     title: __('编辑'),
-                                    classname: 'btn btn-xs btn-warning btn-addtabs',
+                                     extend: 'data-area= \'["100%", "100%"]\'',
+                                    classname: 'btn btn-xs btn-warning btn-dialog',
                                     icon: 'fa fa-folder-o',
                                     url: 'order/order/next2',
                                 },{
@@ -132,10 +137,20 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
                 //直接url访问，不能使用ajax，因为ajax要求返回数据，和PHPExcel一会浏览器输出冲突！将数据作为参数
                 top.location.href="order/exportOrderExcel?data="+myexceldata;
             });
+            $(document).on("click", ".btn-daoru", function () { //监听刚刚的按钮btn-myexcel-export的动作
+
+                //直接url访问，不能使用ajax，因为ajax要求返回数据，和PHPExcel一会浏览器输出冲突！将数据作为参数
+                top.location.href="order/daoru";
+            });
             // 为表格绑定事件
             Table.api.bindevent(table);
         },
         add: function () {
+
+            Controller.api.bindevent();
+
+        },
+        daoru: function () {
 
             Controller.api.bindevent();
 
@@ -218,6 +233,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
                                 {
                                     name: 'click',
                                     title: __('点击执行事件'),
+                                    text:'保存',
                                     classname: 'btn btn-xs btn-info btn-click',
                                     icon: 'fa fa-leaf',
                                     // dropdown: '更多',//如果包含dropdown，将会以下拉列表的形式展示
@@ -274,6 +290,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
                     //filter.后跟的是在ajax里使用的名称只需修改这两行
                     filter.order_id = $("#order_id").val();
                     filter.supplier_id = Config.supplier_id
+                    filter.cate_id = Config.cate_id
                     //opop后跟的也是ajax里使用的名称，后面是条件
                     op.order_id = '=';
                     params.filter = JSON.stringify(filter);
@@ -380,7 +397,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
                             buttons: [
                                 {
                                     name: 'click',
-                                    text:"编辑",
+                                    text:"保存",
                                     // hidden:function(row){
                                     //     return row.status==1 || row.status==2 ? true : false;
                                     // },
@@ -420,7 +437,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
                                                     var order_id = ret.data.order_id
                                                     console.log(order_id);
                                                     $("#order_id").val(order_id);
-
+                                                    table.bootstrapTable('refresh', {});
                                                     return false;
                                                 }, function(data, ret){
                                                     //失败的回调
@@ -463,6 +480,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
                                                 }, function(data, ret){
                                                     //成功的回调
                                                     alert(ret.msg);
+                                                    table.bootstrapTable('refresh', {});
                                                     return false;
                                                 }, function(data, ret){
                                                     //失败的回调
@@ -655,20 +673,54 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form','bootstrap-datetimepic
                     console.log(data);//需要携带的参数
                     // console.log(ret);
                     var obj = new Function("return" + data)();//转换后的JSON对象
-                    var url = ret.url+'?send_time='+obj.send_time+'&department_id='+obj.department_id+'&supplier_id='+obj.supplier_id;
+                    var url = ret.url+'?send_time='+obj.send_time+'&department_id='+obj.department_id+'&supplier_id='+obj.supplier_id+'&cate_id='+obj.cate_id;
                     // console.log(url)
                     // console.log(obj.send_time);//json name
-                    Backend.api.addtabs(url,{iframeForceRefresh: true});//新建选项卡
+                    Backend.api.addtabs(url,"新增订单","fa fa-circle-o fa-fw");//新建选项卡
                 });
+                Form.api.bindevent($("#add-form"), function(data, ret){//绑定时间
+                    //给表单绑定新的回调函数 接收 控制器 success(msg,url,data)或者error(msg,url,data)
+                    
+                    Fast.api.close(data);//在这里关闭当前弹窗
+                    parent.location.reload();//这里刷新父页面，可以换其他代码
+                    // parent.$("#table").bootstrapTable('refresh',{});
+                    alert(ret.msg);
+                }, function(data, ret){
+                   console.error("错误");
+                });
+            }   
+        },
+         today:function(AddDayCount){
+            var dd = new Date();
+            dd.setDate(dd.getDate()+AddDayCount);
+            var y = dd.getFullYear();
+            var m = dd.getMonth()+1;
+            var d= dd.getDate();
+            //判断 月
+            if(m < 10){
+                m = "0" + m;
+            }else{
+                m = m;
             }
+            //判断 日
+            if (d < 10){
+                d = "0" + d;
+            }else{
+                d = d;
+            }
+            return y+"-"+m+"-"+d;
         }
     };
-    var day = new Date();
+      var day = new Date();
     day.setTime(day.getTime()+24*60*60*1000);
     day = day.getFullYear()+"-" + (day.getMonth()+1) + "-" + day.getDate()+" 00:00";
-    $("#c-sendtime").attr("data-date-min-date",day);
+    var day1 = new Date();
+    day1.setTime(day1.getTime());
+    var s1 = day1.getFullYear()+"-" + (day1.getMonth()+1) + "-" + day1.getDate()+" 00:00";
+    $("#c-sendtime").attr("data-date-min-date",s1);
+    $("#c-sendtime").attr("data-date-default-date",day);
     $("#c-sendtime").datetimepicker({
-        format: 'YYYY-MM-DD HH:mm'
+        format: 'YYYY-MM-DD'
     });
 
     $("#c-sendtime2").datetimepicker({
@@ -704,17 +756,17 @@ $("#table").on("blur",".change-input",function(e){
     console.log(value);
     const obj = loadLoaction();
     const parents = $(e.target).parents("tr");
-    const priceVal = parents.find("td.price input").val() || parents.find("td.price").text();
-    const ordercountVal = parents.find("td.order_count input").val() || parents.find("td.order_count").text();
+    const priceVal = parents.find("td.price input").val()||parents.find("td.price").text();
+    const ordercountVal = parents.find("td.order_count input").val()||parents.find("td.order_count").text();
     switch (type){
         case 'order_count':
-            parents.find("td.order_amount").text(Number(Number(value)*priceVal).toFixed(2));
+            parents.find("td.order_amount").text((Number(value)*priceVal));
             break;
         case 'price':
-            parents.find("td.order_amount").text(Number(Number(value)*ordercountVal).toFixed(2));
+            parents.find("td.order_amount").text((Number(value)*ordercountVal));
             break;
         case 'takeorder_count':
-            parents.find("td.takeorder_amount").text(Number(Number(value)*priceVal).toFixed(2));
+            parents.find("td.takeorder_amount").text((Number(value)*priceVal));
             break;
 
     }
@@ -722,11 +774,13 @@ $("#table").on("blur",".change-input",function(e){
 
 $("#table").on("click",".btn-addprint",function(e){
     const patent = $(e.target).parents("tr");
-    console.log(patent.find("td").eq(1).text());
+    console.log(patent.find("td").eq(2).text());
+     console.log(patent.find("td").eq(1).text());
     Fast.api.ajax({
         url:'order/order/pr_order',
         data:{
-            id:patent.find("td").eq(1).text()
+            index_id:patent.find("td").eq(1).text(),
+            id:patent.find("td").eq(2).text()
         }
     }, function(data, ret){
         //成功的回调
@@ -748,31 +802,46 @@ function printTable(data){
 
     const list= data.info;
     $("#printView tbody,.top-list-item>span").empty();
-    $(".top-list-item [data-type='收货部门']").text(data.department_name||"");
-    $(".top-list-item [data-type='下单时间']").text(renderDate(data.createtime)||"");
-    $(".top-list-item [data-type='送货时间']").text(renderDate(data.sendtime)||"");
-    $(".top-list-item [data-type='供应商名称']").text(data.supplier_name||"");
-    $(".top-list-item [data-type='联系人']").text(data.linkman||"");
-    $(".top-list-item [data-type='联系电话']").text(data.mobile||"");
-    let total = 0;
-    list.map((item,index)=>{
+    $(".top-list-item [data-type='部门']").text(data.department_name||"");
+    $(".top-list-item [data-type='下单时间']").text(data.createtime||"");
+    // $(".top-list-item [data-type='送货时间']").text(renderDate(data.sendtime)||"");
+    $(".top-list-item [data-type='供应商']").text(data.supplier_name||"");
+    // $(".top-list-item [data-type='联系人']").text(data.linkman||"");
+    // $(".top-list-item [data-type='联系电话']").text(data.mobile||"");
+    $(".top-list-item [data-type='类别']").text(data.cate_name||"");
+    $("[data-type='order_sn']").text(data.order_sn||"");
+    // let total = 0;
+    if(list.length>0){
+        list.map((item,index)=>{
+           $("#printView tbody").append(`<tr>
+            <td>${index+1}</td>
+            <td>${item.goods_name}</td>
+            <td>${item.unit}</td>
+            <td>${item.needqty}</td>
+            <td>${item.sendqty}</td>
+            <td colspan="2">${item.price}</td>
+            <td>${item.send_price}</td>
+            </tr>`);
+            // total += Number(item.send_price);
+        });
+    }else{
         $("#printView tbody").append(`<tr>
-        <td>${index+1}</td>
-        <td>${item.scate_name}</td>
-        <td>${item.goods_sn}</td>
-        <td>${item.goods_name}</td>
-        <td>${item.spec}</td>
-        <td>${item.unit}</td>
-        <td>${item.needqty}</td>
-        <td>${item.sendqty}</td>
-        <td>${item.price}</td>
-        <td>${item.send_price}</td>
-        <td>${item.remark}</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td colspan="2"></td>
+        <td></td>
         </tr>`);
-        total += Number(item.send_price);
-    });
-    $("#printView tbody").append(`<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                        <td>合计：</td><td>${total}</td><td></td><tr/>`);
+
+    }
+    $("#printView tbody").append(`<tr>
+        <td>小计大写</td>
+        <td colspan="4" style="text-align: left;">${data.cn_amount}</td>
+        <td>小计:</td>
+        <td colspan="3">${data.amount}</td>
+        </tr>`);
     var newStr = $("#printView").html();//获取打印部分
     var win = window.open("","新建打印窗口","height=500,width=700,top=100");//新建窗口
     win.document.body.innerHTML = newStr;//打印内容写到新建窗口中

@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:6:{s:67:"/www/wwwroot/zbjg/public/../application/admin/view/index/index.html";i:1606813927;s:57:"/www/wwwroot/zbjg/application/admin/view/common/meta.html";i:1606813927;s:59:"/www/wwwroot/zbjg/application/admin/view/common/header.html";i:1606813927;s:57:"/www/wwwroot/zbjg/application/admin/view/common/menu.html";i:1606813927;s:60:"/www/wwwroot/zbjg/application/admin/view/common/control.html";i:1606813927;s:59:"/www/wwwroot/zbjg/application/admin/view/common/script.html";i:1606813927;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:6:{s:67:"/www/wwwroot/zbjg/public/../application/admin/view/index/index.html";i:1606813927;s:57:"/www/wwwroot/zbjg/application/admin/view/common/meta.html";i:1606813927;s:59:"/www/wwwroot/zbjg/application/admin/view/common/header.html";i:1606966669;s:57:"/www/wwwroot/zbjg/application/admin/view/common/menu.html";i:1606813927;s:60:"/www/wwwroot/zbjg/application/admin/view/common/control.html";i:1606813927;s:59:"/www/wwwroot/zbjg/application/admin/view/common/script.html";i:1606813927;}*/ ?>
 <!DOCTYPE html>
 <html lang="<?php echo $config['language']; ?>">
     <head>
@@ -33,7 +33,8 @@
     <!-- 迷你模式下Logo的大小为50X50 -->
     <span class="logo-mini"><?php echo htmlentities(mb_strtoupper(mb_substr($site['name'],0,4,'utf-8'),'utf-8')); ?></span>
     <!-- 普通模式下Logo -->
-    <span class="logo-lg"><b><?php echo htmlentities(mb_substr($site['name'],0,4,'utf-8')); ?></b><?php echo htmlentities(mb_substr($site['name'],4,null,'utf-8')); ?></span>
+    <!--<span class="logo-lg"><b><?php echo htmlentities(mb_substr($site['name'],0,4,'utf-8')); ?></b><?php echo htmlentities(mb_substr($site['name'],4,null,'utf-8')); ?></span>-->
+    <span class="logo-lg"><b>无线智能验菜系统</b></span>
 </a>
 
 <!-- 顶部通栏样式 -->
@@ -54,43 +55,43 @@
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
 
-                <li>
-                    <a href="/" target="_blank"><i class="fa fa-home" style="font-size:14px;"></i></a>
-                </li>
+                <!--<li>-->
+                <!--    <a href="/" target="_blank"><i class="fa fa-home" style="font-size:14px;"></i></a>-->
+                <!--</li>-->
 
                 <!-- 清除缓存 -->
-                <li>
-                    <a href="javascript:;" data-toggle="dropdown" title="<?php echo __('Wipe cache'); ?>">
-                        <i class="fa fa-trash"></i>
-                    </a>
-                    <ul class="dropdown-menu wipecache">
-                        <li><a href="javascript:;" data-type="all"><i class="fa fa-trash"></i> <?php echo __('Wipe all cache'); ?></a></li>
-                        <li class="divider"></li>
-                        <li><a href="javascript:;" data-type="content"><i class="fa fa-file-text"></i> <?php echo __('Wipe content cache'); ?></a></li>
-                        <li><a href="javascript:;" data-type="template"><i class="fa fa-file-image-o"></i> <?php echo __('Wipe template cache'); ?></a></li>
-                        <li><a href="javascript:;" data-type="addons"><i class="fa fa-rocket"></i> <?php echo __('Wipe addons cache'); ?></a></li>
-                    </ul>
-                </li>
+                <!--<li>-->
+                <!--    <a href="javascript:;" data-toggle="dropdown" title="<?php echo __('Wipe cache'); ?>">-->
+                <!--        <i class="fa fa-trash"></i>-->
+                <!--    </a>-->
+                <!--    <ul class="dropdown-menu wipecache">-->
+                <!--        <li><a href="javascript:;" data-type="all"><i class="fa fa-trash"></i> <?php echo __('Wipe all cache'); ?></a></li>-->
+                <!--        <li class="divider"></li>-->
+                <!--        <li><a href="javascript:;" data-type="content"><i class="fa fa-file-text"></i> <?php echo __('Wipe content cache'); ?></a></li>-->
+                <!--        <li><a href="javascript:;" data-type="template"><i class="fa fa-file-image-o"></i> <?php echo __('Wipe template cache'); ?></a></li>-->
+                <!--        <li><a href="javascript:;" data-type="addons"><i class="fa fa-rocket"></i> <?php echo __('Wipe addons cache'); ?></a></li>-->
+                <!--    </ul>-->
+                <!--</li>-->
 
                 <!-- 多语言列表 -->
-                <?php if(\think\Config::get('lang_switch_on')): ?>
-                <li class="hidden-xs">
-                    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-language"></i></a>
-                    <ul class="dropdown-menu">
-                        <li class="<?php echo $config['language']=='zh-cn'?'active':''; ?>">
-                            <a href="?ref=addtabs&lang=zh-cn">简体中文</a>
-                        </li>
-                        <li class="<?php echo $config['language']=='en'?'active':''; ?>">
-                            <a href="?ref=addtabs&lang=en">English</a>
-                        </li>
-                    </ul>
-                </li>
-                <?php endif; ?>
+                <!--<?php if(\think\Config::get('lang_switch_on')): ?>-->
+                <!--<li class="hidden-xs">-->
+                <!--    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-language"></i></a>-->
+                <!--    <ul class="dropdown-menu">-->
+                <!--        <li class="<?php echo $config['language']=='zh-cn'?'active':''; ?>">-->
+                <!--            <a href="?ref=addtabs&lang=zh-cn">简体中文</a>-->
+                <!--        </li>-->
+                <!--        <li class="<?php echo $config['language']=='en'?'active':''; ?>">-->
+                <!--            <a href="?ref=addtabs&lang=en">English</a>-->
+                <!--        </li>-->
+                <!--    </ul>-->
+                <!--</li>-->
+                <!--<?php endif; ?>-->
 
                 <!-- 全屏按钮 -->
-                <li class="hidden-xs">
-                    <a href="#" data-toggle="fullscreen"><i class="fa fa-arrows-alt"></i></a>
-                </li>
+                <!--<li class="hidden-xs">-->
+                <!--    <a href="#" data-toggle="fullscreen"><i class="fa fa-arrows-alt"></i></a>-->
+                <!--</li>-->
 
                 <!-- 账号信息下拉框 -->
                 <li class="dropdown user user-menu">
@@ -122,9 +123,9 @@
                     </ul>
                 </li>
                 <!-- 控制栏切换按钮 -->
-                <li class="hidden-xs">
-                    <a href="javascript:;" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-                </li>
+                <!--<li class="hidden-xs">-->
+                <!--    <a href="javascript:;" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>-->
+                <!--</li>-->
             </ul>
         </div>
     </div>

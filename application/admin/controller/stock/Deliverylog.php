@@ -11,7 +11,7 @@ use think\Db;
  */
 class Deliverylog extends Backend
 {
-    
+    protected $noNeedRight = ['department_list'];
     /**
      * Deliverylog模型对象
      * @var \app\admin\model\stock\Deliverylog

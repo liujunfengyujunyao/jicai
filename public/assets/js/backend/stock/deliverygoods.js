@@ -92,7 +92,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         },
                         {
                             field: '添加',
-                            text:'添加',
+                            text:'保存',
                             width: "150px",
                             title: '添加',
                             table: table,
@@ -235,7 +235,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                             buttons: [
                                 {
                                     name: 'click',
-                                    text:'编辑',
+                                    text:'保存',
                                     hidden:function(row){
                                         return row.status=="1" || row.status=="2" ? true : false;
                                     },

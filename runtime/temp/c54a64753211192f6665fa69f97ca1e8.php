@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:71:"/www/wwwroot/zbjg/public/../application/admin/view/order/order/add.html";i:1606813927;s:60:"/www/wwwroot/zbjg/application/admin/view/layout/default.html";i:1606813927;s:57:"/www/wwwroot/zbjg/application/admin/view/common/meta.html";i:1606813927;s:59:"/www/wwwroot/zbjg/application/admin/view/common/script.html";i:1606813927;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:71:"/www/wwwroot/zbjg/public/../application/admin/view/order/order/add.html";i:1607392766;s:60:"/www/wwwroot/zbjg/application/admin/view/layout/default.html";i:1606813927;s:57:"/www/wwwroot/zbjg/application/admin/view/common/meta.html";i:1606813927;s:59:"/www/wwwroot/zbjg/application/admin/view/common/script.html";i:1606813927;}*/ ?>
 <!DOCTYPE html>
 <html lang="<?php echo $config['language']; ?>">
     <head>
@@ -69,7 +69,13 @@
     <div class="form-group">
         <label class="control-label col-xs-12 col-sm-2"><?php echo __('Sendtime'); ?>:</label>
         <div class="col-xs-12 col-sm-8">
-            <input id="c-sendtime" class="form-control datetimepicker" data-use-current="true" name="row[sendtime]" type="text">
+            <input id="c-sendtime" class="form-control datetimepicker" data-use-current="true" name="row[sendtime]" type="text" autocomplete="off">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"><?php echo __('一级分类'); ?>:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-cate_id" data-rule="required" data-source="order/order/cate_list" class="form-control selectpage" name="row[cate_id]" type="text" value="">
         </div>
     </div>
 

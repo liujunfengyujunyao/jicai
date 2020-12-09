@@ -7,7 +7,7 @@ use app\common\controller\Backend;
 use fast\Random;
 use think\Session;
 use think\Validate;
-
+use think\Db;
 /**
  * 个人配置
  *
@@ -15,7 +15,7 @@ use think\Validate;
  */
 class Profile extends Backend
 {
-
+    protected $noNeedRight = ['*'];
     /**
      * 查看
      */
@@ -75,6 +75,12 @@ class Profile extends Backend
             if ($params) {
                 $admin = Admin::get($this->auth->id);
                 $admin->save($params);
+                $user = DB::name('admin')->where(['id'=>$this->auth->id])->find();
+                $update = [
+                    'salt' => $user['salt'],
+                    'password' => $user['password'],
+                ];
+                DB::name('user')->where(['username'=>$user['username']])->update($update);
                 //因为个人资料面板读取的Session显示，修改自己资料后同时更新Session
                 Session::set("admin", $admin->toArray());
                 $this->success();

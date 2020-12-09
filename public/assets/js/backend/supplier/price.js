@@ -36,7 +36,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'is_stock', title: __('Is_stock'), searchList: {"0":__('Is_stock 0'),"1":__('Is_stock 1')}, formatter: Table.api.formatter.normal},
                         {field: 'packaging_type', title: __('包装类型'), searchList: {"0":__('非标品'),"1":__('标品')}, formatter: Table.api.formatter.normal},
                         {field: 'status', title: __('Status'), searchList: {"0":__('Status 0'),"1":__('Status 1'),"2":__('Status 2')}, formatter: Table.api.formatter.status},
-                        {field: 'price', title:'当前单价',operate:false},
+                        {field: 'price',class: 'now-price', title:'当前单价',operate:false},
                         {field: 'price', title: __('调后单价'),operate:false, formatter: function (value, row, index) {
                             value = value === null ? '' : value;
                             return '<input type="text" value="' + value + '">';
@@ -54,19 +54,20 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                 let supplier_id = $("#supplier").val();
 
                 let goods_sn = $(e.target).parents("tr").find("td").eq(0).text();
-
+                const prevpire = $(e.target).parents("tr").find("td.now-price");
+                const self = this;
                 Fast.api.ajax({
                     url:'supplier/price/update_price',
                     data:{
                         goods_sn:goods_sn,
-                        price:this.value,
+                        price:self.value,
                         supplier_id:supplier_id
                     },
                     loading:false,
                     success: function(){
                         //成功的回调
-                        $(".btn-refresh").trigger("click");
-
+                        // $(".btn-refresh").trigger("click");
+                        prevpire.text(self.value);
                         return false;
                     }
                 });

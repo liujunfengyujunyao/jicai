@@ -8,7 +8,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'template'], function
                     "index_url": "auth/rule/index",
                     "add_url": "auth/rule/add",
                     "edit_url": "auth/rule/edit",
-                    "del_url": "auth/rule/del",
+                    // "del_url": "auth/rule/del",
                     "multi_url": "auth/rule/multi",
                     "table": "auth_rule"
                 }

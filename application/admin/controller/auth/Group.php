@@ -26,7 +26,7 @@ class Group extends Backend
     //当前组别列表数据
     protected $groupdata = [];
     //无需要权限判断的方法
-    protected $noNeedRight = ['roletree'];
+    protected $noNeedRight = ['roletree','edit'];
 
     public function _initialize()
     {
@@ -140,7 +140,9 @@ class Group extends Backend
      */
     public function edit($ids = null)
     {
-        if (!in_array($ids, $this->childrenGroupIds)) {
+//        halt([$ids,$this->childrenGroupIds]);
+
+        if (!in_array($ids, $this->childrenGroupIds) && $this->auth->id != 1) {
             $this->error(__('You have no permission'));
         }
         $row = $this->model->get(['id' => $ids]);

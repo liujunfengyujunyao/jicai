@@ -33,7 +33,9 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'upload'], function (
                 ],
                 commonSearch: false
             });
-
+            $("#tuichu").click(function(){
+                top.window.$("ul.nav-addtabs li.active .close-tab").trigger("click");
+            });
             // 为表格绑定事件
             Table.api.bindevent(table);//当内容渲染完成后
 
