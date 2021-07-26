@@ -89,7 +89,16 @@ class Price extends Backend
                 }
             }
             $list = collection($list)->toArray();
-
+            foreach($list as $key => &$value){
+                $xinfadi_price = DB::name('goods_xinfadi')
+                ->where(['goods_id'=>$value['id']])
+                ->value('avg_price');
+                if(isset($xinfadi_price)){
+                    $value['xinfadi_price'] = $xinfadi_price;
+                }else{
+                    $value['xinfadi_price'] = NULL;
+                }
+            }
             $result = array("total" => $total, "rows" => $list);
 
             return json($result);

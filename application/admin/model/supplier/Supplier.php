@@ -42,6 +42,10 @@ class Supplier extends Model
     {
         return ['0' => __('Status 0'), '1' => __('Status 1'), '2' => __('Status 2')];
     }
+    public function getLoginLIst()
+    {
+        return ['0' => '关闭', '1' => '开启'];
+    }
 
 
     public function getStatusTextAttr($value, $data)

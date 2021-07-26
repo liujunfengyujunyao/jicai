@@ -1,0 +1,58 @@
+<style>
+.order-list > label{
+   display: block;
+}
+</style>
+<form id="edit-form" class="form-horizontal form-ajax" role="form" method="POST" action="">
+    {:token()}
+    <input type="hidden" name="row[rules]" value="" />
+    <div class="form-group" hidden>
+        <label class="control-label col-xs-12 col-sm-2">{:__('Parent')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            {:build_select('row[pid]', $groupdata, $row['pid'], ['class'=>'form-control selectpicker', 'data-rule'=>'required', 'data-id'=>$row['id'], 'data-pid'=>$row['pid']])}
+        </div>
+    </div>
+    <!--    <div class="form-group">-->
+    <!--        <label for="c-type" class="control-label col-xs-12 col-sm-2">所属部门:</label>-->
+    <!--        <div class="col-xs-12 col-sm-8">-->
+
+    <!--            <select id="c-type" data-rule="required" class="form-control selectpicker" name="row[department_id]">-->
+    <!--                {foreach name="departmentList" item="vo"}-->
+    <!--                <option value="{$vo.id}" {in name="$vo.id" value="$row.department_id"}selected{/in}>{$vo.name}</option>-->
+    <!--                {/foreach}-->
+    <!--            </select>-->
+
+    <!--        </div>-->
+    <!--    </div>-->
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">可查看供应商:</label>
+        <div class="col-xs-12 col-sm-8">
+
+            <div class="radio">
+                {foreach name="supplierList" item="v"}
+                <label for="row[status]-{$key}"><input id="row[status]-{$key}" name="row[supplier_ids][]" type="checkbox" value="{$v.id}" {in name="$v.id" value="$supplier_checked"}checked{/in} /> {$v.supplier_name}</label>
+                {/foreach}
+            </div>
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">可查看部门订单:</label>
+        <div class="col-xs-12 col-sm-8">
+
+            <div class="radio order-list">
+                {foreach name="departmentList" item="vo"}
+                <label for="row[status]-{$key}"><input id="row[status]-{$key}" name="row[department_ids][]" type="checkbox" value="{$vo.id}" {in name="$vo.id" value="$department_checked"}checked{/in} /> {$vo.name}</label>
+                {/foreach}
+            </div>
+
+        </div>
+    </div>
+    <div class="form-group hidden layer-footer">
+        <label class="control-label col-xs-12 col-sm-2 col-xs-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>

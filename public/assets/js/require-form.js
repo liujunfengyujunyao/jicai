@@ -180,6 +180,7 @@ define(['jquery', 'bootstrap', 'upload', 'validator'], function ($, undefined, U
                         var ranges = {};
                         ranges[__('Today')] = [Moment().startOf('day'), Moment().endOf('day')];
                         ranges[__('Yesterday')] = [Moment().subtract(1, 'days').startOf('day'), Moment().subtract(1, 'days').endOf('day')];
+                        ranges["明天"] = [Moment().subtract(-1, 'days').startOf('day'), Moment().subtract(-1, 'days').endOf('day')];
                         ranges[__('Last 7 Days')] = [Moment().subtract(6, 'days').startOf('day'), Moment().endOf('day')];
                         ranges[__('Last 30 Days')] = [Moment().subtract(29, 'days').startOf('day'), Moment().endOf('day')];
                         ranges[__('This Month')] = [Moment().startOf('month'), Moment().endOf('month')];

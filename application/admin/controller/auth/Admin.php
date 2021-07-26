@@ -78,13 +78,13 @@ class Admin extends Backend
             $authGroupList = AuthGroupAccess::where('group_id', 'in', $childrenGroupIds)
                 ->field('uid,group_id')
                 ->select();
-
             $adminGroupName = [];
             foreach ($authGroupList as $k => $v) {
                 if (isset($groupName[$v['group_id']])) {
                     $adminGroupName[$v['uid']][$v['group_id']] = $groupName[$v['group_id']];
                 }
             }
+
             $groups = $this->auth->getGroups();
 
             foreach ($groups as $m => $n) {
@@ -107,15 +107,28 @@ class Admin extends Backend
                 ->select();
 
             foreach ($list as $k => &$v) {
-                $v['department'] = DB::name('department')->where('id',$v['department_id'])->value('name');
+                $v['department'] = implode(",",DB::name('department')->where('id','in',$v['department_id'])->column('name'));
+//                halt($v);
                 $groups = isset($adminGroupName[$v['id']]) ? $adminGroupName[$v['id']] : [];
+//                halt($v);
+                $jobs_ids = DB::name('jobs_group_access')->where(['uid'=>$v['id']])->column('jobs_id');
+                $groups = DB::name('jobs')->where('id','in',$jobs_ids)->column('name');
+
                 $v['groups'] = implode(',', array_keys($groups));
                 $v['groups_text'] = implode(',', array_values($groups));
             }
+
             unset($v);
 
+            //隐藏岗位为供应商的人员
+            foreach($list as $key => &$value){
+                if(!is_null($value['supplier_id'])){
+                    unset($list[$key]);
+                }
+            }
+            $list = array_values($list);
             $result = array("total" => $total, "rows" => $list);
-
+// halt($result);
             return json($result);
         }
         return $this->view->fetch();
@@ -154,7 +167,9 @@ class Admin extends Backend
                     'salt' => $params['salt'],
                     'email' => $params['email']
                 ];
+
                 DB::name('user')->insert($insert);
+
 //                $group = $this->request->post("group/a");
 //
 //                //过滤不允许的组别,避免越权
@@ -344,25 +359,38 @@ class Admin extends Backend
                 return $this->selectpage();
             }
 
-            $total = DB::name('auth_group')
+            // $total = DB::name('auth_group')
 
-                ->where('id','>',1)
+            //     ->where('id','>',1)
+
+            //     ->count();
+            $total = DB::name('jobs')
+
+                
 
                 ->count();
+            // $list = DB::name('auth_group')
+            //     ->alias('t1')
+            //     ->field('t1.id a_id,t1.name a_name,t1.department_id,t1.status,t2.id t_id,t2.name department_name,t1.commit')
+            //     ->where('t1.id','>',1)
 
-            $list = DB::name('auth_group')
+            //     ->join('__DEPARTMENT__ t2','t1.department_id=t2.id','LEFT')
+            //     ->select();
+
+            $list = DB::name('jobs')
                 ->alias('t1')
                 ->field('t1.id a_id,t1.name a_name,t1.department_id,t1.status,t2.id t_id,t2.name department_name,t1.commit')
-                ->where('t1.id','>',1)
-
                 ->join('__DEPARTMENT__ t2','t1.department_id=t2.id','LEFT')
                 ->select();
-
+// halt($list);
             //已任职职位
 
-            $groups = DB::name('auth_group_access')
+            // $groups = DB::name('auth_group_access')
+            //     ->where(['uid'=>$admin_id])
+            //     ->column('group_id');
+            $groups = DB::name('jobs_group_access')
                 ->where(['uid'=>$admin_id])
-                ->column('group_id');
+                ->column('jobs_id');
             foreach($list as $key => &$value){
                 if(in_array($value['a_id'],$groups)){
                     $value['state'] = true;
@@ -370,9 +398,16 @@ class Admin extends Backend
                     $value['state'] = false;
                 }
             }
+            //隐藏供应商岗位
+            // foreach($list as $k => &$v){
+            //     if($v['a_id'] == 5){
+            //         unset($list[$k]);
+            //     }
+            // }
+            $list = array_values($list);
 
             $result = array("total" => $total, "rows" => $list);
-
+// halt($result);
             return json($result);
         }
 //        $group_id = DB::name('auth_group_access')
@@ -390,12 +425,23 @@ class Admin extends Backend
     public function admin_auth()
     {
         $params = request()->param();
+
         DB::name('auth_group_access')
             ->where('uid',$params['admin_id'])
             ->delete();
+
+        DB::name('jobs_group_access')
+            ->where('uid',$params['admin_id'])
+            ->delete();
+//        halt(1);
         if(!empty($params['id'])){
-            foreach($params['id'] as $k => $v){
+            $group_ids = array_unique(explode(',',implode(',',DB::name('jobs')->where('id','in',$params['id'])->column('auth_ids'))));
+//            halt($group_ids);
+            foreach($group_ids as $k => $v){
                 DB::name('auth_group_access')->insert(['uid'=>$params['admin_id'],'group_id'=>$v]);
+            }
+            foreach($params['id'] as $k => $v){
+                DB::name('jobs_group_access')->insert(['uid'=>$params['admin_id'],'jobs_id'=>$v]);
             }
         }
         $this->success('权限重置完成');

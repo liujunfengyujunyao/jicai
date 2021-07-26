@@ -64,6 +64,13 @@ class Statistics extends Backend
 //                ->order($sort, $order)
                 ->limit($offset, $limit)
                 ->select();
+            $count = DB::name('order_goods')
+                ->field('goods_id,cate_name,scate_name,goods_sn,goods_name,spec,unit,sum(needqty) as needqty,sum(order_price) as order_price,sum(sendqty) as sendqty,sum(send_price) as send_price')
+                ->where("order_id","in",$order_ids)
+                ->group('goods_id')
+//                ->order($sort, $order)
+
+                ->count();
             foreach($order_goods as $key => &$value){
 
                 if($value['sendqty']=='0.00' || is_null($value['sendqty'])){
@@ -73,7 +80,7 @@ class Statistics extends Backend
                 }
 
             }
-            $result = array("total" => count($order_goods), "rows" => $order_goods);
+            $result = array("total" => $count, "rows" => $order_goods);
 
             return json($result);
 

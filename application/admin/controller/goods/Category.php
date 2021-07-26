@@ -56,7 +56,7 @@ class Category extends Backend
                 ->limit($offset, $limit)
                 ->select();
             foreach($list as $key => &$value){
-                $value['pid'] = DB::name('goodscategory')->find($value['pid'])['category_name'];
+                @$value['pid'] = DB::name('goodscategory')->find($value['pid'])['category_name'];
                 $value['update_admin'] = DB::name('admin')->where(['id'=>$value['update_admin']])->value('nickname');
                 $value['create_admin'] = DB::name('admin')->find($value['create_admin'])['nickname'];
             }
@@ -198,7 +198,7 @@ class Category extends Backend
             ]);
         }
 
-        $list = DB::name('goodscategory')->where(['pid'=>0])->select();
+        $list = DB::name('goodscategory')->where(['pid'=>0])->where(['status'=>"1"])->select();
 
         return json(['list'=>$list,'total'=>count($list)]);
     }

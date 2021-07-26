@@ -1689,7 +1689,16 @@
         var rePosition = function () {
             if (el.container.css('position') === 'static') {
                 // position: static
+                console.log("here");
                 var offset = el.combo_input.offset();
+                var parent_bodyheight = $("body").height();
+                if(parent_bodyheight<=400){
+                    el.result_area.css({
+                       'max-height': parent_bodyheight - offset.top+ 'px',
+                       'overflow-y':scroll
+                    })
+                }
+               
                 el.result_area.css({
                     top: offset.top + el.combo_input.outerHeight() + 'px',
                     left: offset.left + 'px'

@@ -38,6 +38,7 @@ class Rule extends Backend
         unset($v);
         Tree::instance()->init($ruleList);
         $this->rulelist = Tree::instance()->getTreeList(Tree::instance()->getTreeArray(0), 'title');
+
         $ruledata = [0 => __('None')];
         foreach ($this->rulelist as $k => &$v) {
             if (!$v['ismenu']) {
@@ -46,6 +47,7 @@ class Rule extends Backend
             $ruledata[$v['id']] = $v['title'];
         }
         unset($v);
+//        halt($ruledata);
         $this->view->assign('ruledata', $ruledata);
     }
 
@@ -57,9 +59,30 @@ class Rule extends Backend
         if ($this->request->isAjax()) {
             $list = $this->rulelist;
             $total = count($this->rulelist);
-
+            /*
+             * 1:控制台
+             * 10:系统日志
+             * 2:常规管理
+             * 3:分类管理
+             * 4:插件管理
+             * 66:会员管理
+             * 85:在线命令管理
+             *
+             *
+             * */
+                $hide_ids = [
+                    1,13,14,166,15,16,17,111,93,112,118,122,124,126,130,134,138,142,146,151,155,10,2,6,7,8,3,4,66,67,73,79,92
+                ];
+                foreach($list as $key => &$value){
+                    if(in_array($value['id'],$hide_ids)){
+                        unset($list[$key]);
+                    $total--;
+                    }
+                }
+                $list = array_values($list);
+//halt($list);
             $result = array("total" => $total, "rows" => $list);
-
+//halt($result);
             return json($result);
         }
         return $this->view->fetch();

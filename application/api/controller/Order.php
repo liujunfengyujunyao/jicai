@@ -1,6 +1,7 @@
 <?php
 
 namespace app\api\controller;
+set_time_limit(0);
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Methods", "*");//允许任何method
 header("Access-Control-Allow-Headers", "*");//允许任何自定义header
@@ -14,12 +15,29 @@ use think\Validate;
  */
 class Order extends Api
 {
-    protected $noNeedLogin = [];//不需要登录
+    protected $noNeedLogin = ['test','test2','consignee_sign','delivery_sign'];//不需要登录
     protected $noNeedRight = '*';//不需要鉴权
 
     public function _initialize()
     {
         parent::_initialize();
+        $user = $this->auth->getUserinfo();
+        //username
+//        halt($user);
+        if($user['id'] != 1){
+            $uid = DB::name('admin')
+                ->where(['username'=>$user['username']])
+                ->value('id');
+
+            $group_ids = DB::name('auth_group_access')->where(['uid'=>$uid])->column('group_id');
+            $this->department_ids = implode(',',array_filter(DB::name('auth_group')->where("id","in",$group_ids)->column('department_ids')));
+            $this->supplier_ids = implode(',',array_filter(DB::name('auth_group')->where("id","in",$group_ids)->column('supplier_ids')));
+
+//            halt($this->department_ids);
+        }else{
+            $where1 = "1=1";
+            $hwere2 = "1=1";
+        }
     }
 
     /**
@@ -37,15 +55,40 @@ class Order extends Api
      * */
     public function static_file()
     {
+        $user = $this->auth->getUserinfo();
+        if($user['user_id'] != 1){
+                $where1['id'] = ['in',$this->department_ids];
+                $where2['id'] = ['in',$this->supplier_ids];
+        }else{
+                $where1 = "1=1";
+                $where2 = "1=1";
+        }
+       
+        
+        // if($user['id'] != 1){
+        //     $group_ids = DB::name('auth_group_access')->where(['uid'=>$user['user_id']])->column('group_id');
+        //     $department_ids = implode(',',array_filter(DB::name('auth_group')->where("id","in",$group_ids)->column('department_ids')));
+        //     $supplier_ids = implode(',',array_filter(DB::name('auth_group')->where("id","in",$group_ids)->column('supplier_ids')));
+      
+        //     $where1['id'] = ['in',$department_ids];
+        //     $where2['id'] = ['in',$supplier_ids];
+        // }else{
+        //     $where1 = "1=1";
+        //     $hwere2 = "1=1";
+        // }
+        // halt($group_ids);
         //部门列表
-        $result['department_list'] = DB::name('department')->field('id as department_id,name as department_name')->where(['status'=>"1"])->select();
+        $result['department_list'] = DB::name('department')->field('id as department_id,name as department_name')->where($where1)->where(['status'=>"1"])->select();
         //供应商列表
-        $result['supplier_list'] = DB::name('supplier')->field('id as supplier_id,supplier_name')->where(['status'=>"1"])->select();
+        $result['supplier_list'] = DB::name('supplier')->field('id as supplier_id,supplier_name')->where($where2)->where(['status'=>"1"])->select();
 
         $result['goods_category'] = DB::name('goodscategory')->field("id as cate_id,category_name")->where(['pid'=>0,'status'=>"1"])->select();
         foreach($result['goods_category'] as $key => &$value){
             $value['second_cate'] = DB::name('goodscategory')->field("id as scate_id,category_name")->where(['pid'=>$value['cate_id'],'status'=>"1"])->select();
         }
+
+        $result['cate_name'] = DB::name('order')->where(['status'=>"0"])->column('cate_name');
+        $result['cate_name'] = array_values(array_unique($result['cate_name']));
         $this->success('', $result);
     }
 
@@ -65,12 +108,22 @@ class Order extends Api
         isset($params['send_time']) ? $where['sendtime'] = ['between',[strtotime($params['send_time']),strtotime($params['send_time'])+60*60*24-1]]:$where['sendtime'] = ['between',[$start_time, $end_time]];
         isset($params['department_id']) ? $where['department_id'] = $params['department_id'] : NULL;
         isset($params['supplier_id']) ? $where['supplier_id'] = $params['supplier_id'] : NULL;
-
+        isset($params['cate_name']) ? $where['cate_name'] = $params['cate_name'] : NULL;
+        // if($)
         //部门,供应商,送货时间(date),订单金额,商品总数,收货进度10/20
+        $user = $this->auth->getUserinfo();
+        if($user['user_id'] != 1){
+                $where1['supplier_id'] = ['in',$this->supplier_ids];
+                $where1['department_id'] = ['in',$this->department_ids];
+        }else{
+                $where1 = "1=1";
+        }
+       
         $result = DB::name('order')
-            ->field('id as order_id,department_id,supplier_id,sendtime,order_amount')
+            ->field('id as order_id,department_id,supplier_id,sendtime,order_amount,cate_name')
             ->where(['status'=>"0"])
             ->where($where)
+            ->where($where1)
             ->select();
 
         foreach($result as $key => &$value){
@@ -100,7 +153,7 @@ class Order extends Api
 
         $result['info'] = DB::name('order')
             ->alias('t1')
-            ->field('t2.name as department_name,t3.supplier_name,t3.linkman,t3.mobile,t1.sendtime,t1.status')
+            ->field('t2.name as department_name,t3.supplier_name,t3.linkman,t3.mobile,t1.sendtime,t1.status,t1.count_sn,t1.consignee_sign,delivery_sign')
 
             ->join('__DEPARTMENT__ t2','t1.department_id=t2.id','LEFT')
             ->join('__SUPPLIER__ t3','t1.supplier_id=t3.id','LEFT')
@@ -185,6 +238,115 @@ class Order extends Api
 
     }
 
+ /*
+     * 上传订单收货人签名
+     * */
+    public function consignee_sign()
+    {
+        
+        $params = $this->request->param();
+        if(!isset($params['order_id']) || is_null(request()->file('sign'))){
+            $this->error('缺少参数');
+        }
+        $order_id = $params['order_id'];
 
+        $file = request()->file('sign');
+
+        $info = $file->move(ROOT_PATH.'public'.DS.'uploads');
+        if(!$order_id){
+            $this->error('缺少订单号');
+        }
+        
+        if($info){
+            $path = "http://" . $_SERVER['HTTP_HOST'] . DS . 'uploads' . DS . $info->getSaveName();
+            $update = ['consignee_sign' => $path];
+            DB::name('order')->where(['id'=>$order_id])->update($update);
+            $this->success($path); 
+        }else{
+            $this->error($file->getError());
+        }
+    }
+    /*
+     * 上传订单送货人签名
+     * */
+    public function delivery_sign()
+    {
+
+        $params = $this->request->param();
+        if(!isset($params['order_id']) || is_null(request()->file('sign'))){
+            $this->error('缺少参数');
+        }
+        $order_id = $params['order_id'];
+
+        $file = request()->file('sign');
+
+        $info = $file->move(ROOT_PATH.'public'.DS.'uploads');
+        if(!$order_id){
+            $this->error('缺少订单号');
+        }
+
+        if($info){
+            $path = "http://" . $_SERVER['HTTP_HOST'] . DS . 'uploads' . DS . $info->getSaveName();
+            $update = ['delivery_sign' => $path];
+            DB::name('order')->where(['id'=>$order_id])->update($update);
+            $this->success($path);
+        }else{
+            $this->error($file->getError());
+        }
+    }
+public function test()
+    {
+        ini_set('max_execution_time', 6000);
+        $sendtime = [
+//            '1609776000','1609948800','1610208000'
+            '1609776000'
+        ];
+        $list = DB::name('order')
+//            ->where(['sendtime'=>'1610208000'])
+//            ->field('id')
+            ->where('sendtime','in',$sendtime)
+//            ->whereOr(['sendtime'=>'1609948800'])
+//            ->whereOr(['sendtime'=>'1610208000'])
+            ->column('id');
+//        halt($list);
+        $data = DB::name('order_goods')
+            ->field('id,price,order_id,goods_id,order_price,needqty,sendqty')
+            ->where('order_id','in',$list)
+            ->select();
+  $diff_order_id = [];
+        $diff_order_goods_id = [];
+        foreach($data as $key => $value){
+            $supplier_id = DB::name('order')->where(['id'=>$value['order_id']])->value('supplier_id');
+            $price = DB::name('supplier_goods')->where(['supplier_id'=>$supplier_id])->where(['goods_id'=>$value['goods_id']])->value('price');
+
+
+            if($price != $value['price']){
+                halt([$value['price'],$price,$value['id']]);
+                array_push($diff_order_id,$value['order_id']);
+                array_push($diff_order_goods_id,$value['id']);
+                $update_price = (float)$price * $value['needqty'];
+                $update_price2 = (float)$price * $value['sendqty'];
+
+                DB::name('order_goods')->where(['id'=>$value['id']])->update(['order_price'=>$update_price,'send_price'=>$update_price2,'price'=>$price]);
+            }
+        }
+halt(111);
+        foreach($list as $k => $v){
+            $order_amount = DB::name('order_goods')
+                ->where(['order_id'=>$v])
+                ->sum('order_price');
+            
+            DB::name('order')->where(['id'=>$v])->update(['order_amount'=>$order_amount]);
+        }
+        dump($diff_order_goods_id);
+
+        halt($diff_order_id);
+    }
+
+    public function test2()
+    {
+        $data = 123456;
+        echo md5(md5($data).null);
+    }
 
 }

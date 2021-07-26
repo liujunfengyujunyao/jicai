@@ -54,7 +54,6 @@ trait Backend
                 ->where($where)
                 ->order($sort, $order)
                 ->count();
-
             $list = $this->model
                 ->where($where)
                 ->order($sort, $order)

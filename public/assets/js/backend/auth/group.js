@@ -51,16 +51,31 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'jstree'], function (
                         {field: 'state', checkbox: true,},
                         {field: 'id', title: 'ID'},
                         // {field: 'pid', title: __('Parent')},
-                        {field: 'department_name', title: __('所属部门')},
-                        {field: 'name', title: __('岗位名称'), align: 'left'},
+                        // {field: 'department_name', title: __('所属部门')},
+                        {field: 'name', title: __('角色名称'), align: 'center'},
                         {field: 'status', title: __('Status'), formatter: Table.api.formatter.status},
                         {
-                            field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: function (value, row, index) {
+                            field: 'operate',
+                            title: __('Operate'),
+                            table: table, events: Table.api.events.operate, formatter: function (value, row, index) {
                                 if (Config.admin.group_ids.indexOf(parseInt(row.id)) > -1) {
                                     return '';
                                 }
                                 return Table.api.formatter.operate.call(this, value, row, index);
-                            }
+                            },
+                            buttons: [
+                                {
+                                    name: 'addtabs',
+                                    text: __('权限范围'),
+                                    title: __('权限范围'),
+                                    extend: 'data-area= \'["100%", "100%"]\'',
+                                    classname: 'btn btn-xs btn-warning btn-dialog',
+                                    icon: 'fa fa-folder-o',
+                                    //url: 'example/bootstraptable/detail'
+                                    url: "auth/group/scope?auth_group_id="+Fast.api.query("")
+                                    //url: "supplier/price/index"
+                                }
+                            ],
                         }
                     ]
                 ],
@@ -78,6 +93,9 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'jstree'], function (
             Controller.api.bindevent();
         },
         edit: function () {
+            Controller.api.bindevent();
+        },
+        scope: function () {
             Controller.api.bindevent();
         },
         api: {

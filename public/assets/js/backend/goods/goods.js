@@ -49,7 +49,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'is_stock', title: __('Is_stock'), searchList: {"0":__('Is_stock 0'),"1":__('Is_stock 1')}, formatter: Table.api.formatter.normal},
                         {field: 'packaging_type', title: __('包装类型'), searchList: {"0":__('非标品'),"1":__('标品')}, formatter: Table.api.formatter.normal},
                         {field: 'status', title: __('Status'), searchList: {"0":__('Status 0'),"1":__('Status 1'),"2":__('Status 2')}, formatter: Table.api.formatter.status},
-                        {field: 'remark', title: __('Remark'),operate:false},
+                        // {field: 'remark', title: __('Remark'),operate:false},
                         {field: 'createtime', title: __('Createtime'), operate:'RANGE', addclass:'datetimerange', formatter: Table.api.formatter.datetime,operate:false},
                         {field: 'updatetime', title: __('Updatetime'), operate:'RANGE', addclass:'datetimerange', formatter: Table.api.formatter.datetime,operate:false},
                         //{field: 'goodscategory.category_name', title: __('Goodscategory.category_name')},

@@ -2,6 +2,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
 
     var Controller = {
         index: function () {
+            console.log(sessionStorage.getItem("matchingName"))
             // 初始化表格参数配置
             Table.api.init({
                 extend: {

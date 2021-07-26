@@ -34,6 +34,7 @@ class AdminLog extends Model
         $admin_id = $auth->isLogin() ? $auth->id : 0;
         $username = $auth->isLogin() ? $auth->username : __('Unknown');
         $content = self::$content;
+
         if (!$content) {
             $content = request()->param('', null, 'trim,strip_tags,htmlspecialchars');
             foreach ($content as $k => $v) {
@@ -50,6 +51,9 @@ class AdminLog extends Model
                 $title[] = $v['title'];
             }
             $title = implode(' ', $title);
+        }
+        if($title = '系统中心 系统日志 删除'){
+            return false;
         }
         self::create([
             'title'     => $title,

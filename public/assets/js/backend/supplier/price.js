@@ -37,6 +37,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'packaging_type', title: __('包装类型'), searchList: {"0":__('非标品'),"1":__('标品')}, formatter: Table.api.formatter.normal},
                         {field: 'status', title: __('Status'), searchList: {"0":__('Status 0'),"1":__('Status 1'),"2":__('Status 2')}, formatter: Table.api.formatter.status},
                         {field: 'price',class: 'now-price', title:'当前单价',operate:false},
+                        {field: 'xinfadi_price',class: 'now-price', title:'新发地平均价格',operate:false},
                         {field: 'price', title: __('调后单价'),operate:false, formatter: function (value, row, index) {
                             value = value === null ? '' : value;
                             return '<input type="text" value="' + value + '">';
@@ -54,7 +55,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                 let supplier_id = $("#supplier").val();
 
                 let goods_sn = $(e.target).parents("tr").find("td").eq(0).text();
-                const prevpire = $(e.target).parents("tr").find("td.now-price");
+                const prevpire = $(e.target).parents("tr").find("td.now-price").eq(0);
                 const self = this;
                 Fast.api.ajax({
                     url:'supplier/price/update_price',

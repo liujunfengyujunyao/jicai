@@ -1,38 +1,48 @@
 <form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
 
-
+    <style>
+        .add-item-group>i{
+            font-size: 25px;
+            color: #18bc9c;
+            margin-top: 3px;
+        }
+        .form-group {
+          margin-bottom: 25px;
+        }
+    </style>
     <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Department_id')}:</label>
-        <div class="col-xs-12 col-sm-8">
+        <label class="control-label col-xs-2 col-sm-2">{:__('Department_id')}:</label>
+        <div class="col-xs-8 col-sm-8">
             <input id="c-department_id" data-rule="required" data-source="auth/department/select_list" class="form-control selectpage" name="row[department_id]" type="text" value="">
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('供应商')}:</label>
-        <div class="col-xs-12 col-sm-8">
+        <label class="control-label col-xs-2 col-sm-2">{:__('供应商')}:</label>
+        <div class="col-xs-8 col-sm-8">
             <input id="c-supplier_id" data-rule="required" data-source="supplier/supplier/select_list" class="form-control selectpage" name="row[supplier_id]" type="text" value="">
         </div>
     </div>
 
     <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('Sendtime')}:</label>
-        <div class="col-xs-12 col-sm-8">
+        <label class="control-label col-xs-2 col-sm-2">{:__('Sendtime')}:</label>
+        <div class="col-xs-8 col-sm-8">
             <input id="c-sendtime" class="form-control datetimepicker" data-use-current="true" name="row[sendtime]" type="text" autocomplete="off">
         </div>
     </div>
 
     <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">{:__('一级分类')}:</label>
-        <div class="col-xs-12 col-sm-8">
+        <label class="control-label col-xs-2 col-sm-2">{:__('一级分类')}:</label>
+        <div class="col-xs-8 col-sm-8">
             <input id="c-cate_id" data-rule="required" data-source="order/order/cate_list" class="form-control selectpage" name="row[cate_id]" type="text" value="">
         </div>
+    <span class="add-item-group"><i class="fa fa-plus-circle add-item-btn" aria-hidden="true"></i></span>    
     </div>
 
     <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-2">导入文件:</label>
-        <div class="col-xs-12 col-sm-8">
+        <label class="control-label col-xs-2 col-sm-2">导入文件:</label>
+        <div class="col-xs-8 col-sm-8">
             <div class="input-group">
-                <input id="c-client_path"   class="form-control"  size="50" name="row[client_path]" type="text" value="">
+                <input id="c-client_path" data-rule="required"  class="form-control"  size="100" name="row[client_path]" type="text" value="">
                 <div class="input-group-addon no-border no-padding">
                     <span><button type="button" id="plupload-client_path" class="btn btn-danger plupload" data-input-id="c-client_path" data-mimetype="*" data-multiple="false" data-preview-id="p-client_path"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
 <!--                    <span><button type="button" id="fachoose-client_path" class="btn btn-primary fachoose" data-input-id="c-client_path" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>-->

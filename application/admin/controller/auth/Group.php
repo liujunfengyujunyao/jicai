@@ -70,6 +70,7 @@ class Group extends Backend
             $list = DB::name('auth_group')
                 ->alias('t1')
                 ->field('t1.*,t2.name department_name')
+                ->where('t1.id !=5')
                 ->join('__DEPARTMENT__ t2','t1.department_id = t2.id','LEFT')
                 ->order('t1.id asc')
                 ->select();
@@ -87,6 +88,12 @@ class Group extends Backend
 //            }
 
             $total = count($list);
+            // foreach($list as $key => &$value){
+            //     if($value['id'] == 5){
+            //         unset($list[$key]);
+            //     }
+            // }
+            $list = array_values($list);
             $result = array("total" => $total, "rows" => $list);
 
             return json($result);
@@ -94,6 +101,62 @@ class Group extends Backend
         return $this->view->fetch();
     }
 
+     public function index2()
+    {
+        
+            if($this->request->request("keyValue") === "0"){
+            return json(['total'=>1, 'list'=>[
+                ['id'=>0, 'name'=>""]
+            ]
+            ]);
+        }
+           if($this->request->request("keyValue")){
+
+
+            $auth_name = DB::name('auth_group')->field('id,name')->where('id','in',$this->request->request("keyValue"))->select();
+//            halt($name);
+//            $list = DB::name('goods_category')->where(['category_id'=>$this->request->request("keyValue")])->select();
+            return json(['total'=>count($auth_name), 'list'=>
+                $auth_name
+            ]);
+        }
+            $list = AuthGroup::all(array_keys($this->groupdata));
+
+            $list2 = collection($list)->toArray();
+            $list = DB::name('auth_group')
+                ->alias('t1')
+                ->field('t1.*,t2.name department_name')
+                ->where('t1.status','normal')
+                ->where('t1.id != 1')
+                ->join('__DEPARTMENT__ t2','t1.department_id = t2.id','LEFT')
+                ->order('t1.id asc')
+                ->select();
+            //三级权限
+//            $groupList = [];
+//            foreach ($list as $k => $v) {
+//                $groupList[$v['id']] = $v;
+//            }
+//            $list = [];
+//            foreach ($this->groupdata as $k => $v) {
+//                if (isset($groupList[$k])) {
+//                    $groupList[$k]['name'] = $v;
+//                    $list[] = $groupList[$k];
+//                }
+//            }
+
+            $total = count($list);
+            foreach($list as $key => &$value){
+                if($value['id'] == 5){
+                    unset($list[$key]);
+                }
+            }
+            $list = array_values($list);
+            $result = array("total" => $total, "rows" => $list);
+
+            return json($result);
+    
+       
+    }
     /**
      * 添加
      */
@@ -276,10 +339,22 @@ class Group extends Backend
         $currentGroupModel = null;
         if ($id) {
             $currentGroupModel = $model->get($id);
+//            halt($currentGroupModel);
         }
         if (($pid || $parentGroupModel) && (!$id || $currentGroupModel)) {
             $id = $id ? $id : null;
             $ruleList = collection(model('AuthRule')->order('weigh', 'desc')->order('id', 'asc')->select())->toArray();
+            $hide_ids = [
+                1,13,14,166,15,16,17,111,93,112,118,122,124,126,130,134,138,142,146,151,155,10,2,6,7,8,3,4,66,67,73,79,85,92,35,36,12
+            ];
+            foreach($ruleList as $key => &$value){
+                if(in_array($value['id'],$hide_ids)){
+                    unset($ruleList[$key]);
+
+                }
+            }
+            $list = array_values($ruleList);
+//            halt($ruleList);
             //读取父类角色所有节点列表
             $parentRuleList = [];
             if (in_array('*', explode(',', $parentGroupModel->rules))) {
@@ -336,5 +411,98 @@ class Group extends Backend
         } else {
             $this->error(__('Group not found'));
         }
+    }
+
+     /**
+     * 权限范围
+     */
+    public function scope($ids = null)
+    {
+//        halt([$ids,$this->childrenGroupIds]);
+
+        $department_list = null;
+        $supplier_list = null;
+        $row = $this->model->get(['id' => $ids]);
+//         halt($row['rules']);
+        if(in_array(247,explode(',',$row['rules'])))
+        {
+            //订单管理
+            $department_list = DB::name('department')->field('id,name')->where(['status'=>1])->select();
+            $department_list = collection(DB::name('department')->order('weigh DESC,id ASC')->select())->toArray();
+//            halt($ruleList);
+            foreach ($department_list as $k => &$v) {
+                $v['title'] = __($v['name']);
+            }
+
+            unset($v);
+
+            Tree::instance()->init($department_list);
+
+            $department_list = Tree::instance()->getTreeList(Tree::instance()->getTreeArray(0), 'title');
+            foreach ($department_list as $k => &$v) {
+                $v['name'] = __($v['title']);
+            }
+
+        }
+
+        if(in_array(240,explode(',',$row['rules']))){
+            //供应商管理
+            $supplier_list = DB::name('supplier')->field('id,supplier_name')->where(['status'=>1])->select();
+        }
+        if(in_array(261,explode(',',$row['rules']))){
+            //仓库管理
+            // $row['']
+        }
+        if (!$row) {
+            $this->error(__('No Results were found'));
+        }
+        if ($this->request->isPost()) {
+            $this->token();
+            $params = $this->request->post("row/a", [], 'strip_tags');
+//            dump($ids);
+//            halt($params);
+//            dump($params);
+            if(isset($params['supplier_ids'])){
+                $save['supplier_ids'] = implode(',',$params['supplier_ids']);
+            }else{
+                $save['supplier_ids'] = NULL;
+            }
+
+            if(isset($params['department_ids'])){
+                $save['department_ids'] = implode(',',$params['department_ids']);
+            }else{
+                $save['department_ids'] = NULL;
+            }
+//            halt($save);
+            if ($params) {
+                Db::startTrans();
+                try {
+//                    $row->save($params);
+                    DB::name('auth_group')->where(['id'=>$ids])->update($save);
+                    Db::commit();
+                    $this->success();
+                }catch (Exception $e){
+                    Db::rollback();
+                    $this->error($e->getMessage());
+                }
+            }
+            $this->error();
+            return;
+        }
+        $department = DB::name('department')
+            ->field('id,name')
+            ->where(['status'=>1])
+            ->select();
+//halt($department_list);
+
+        $this->view->assign("departmentList", $department_list);
+        $this->view->assign('supplierList',$supplier_list);
+
+//halt($supplier_list);
+//        $this->view->assign('department', $department);
+        $this->view->assign('supplier_checked',$row['supplier_ids']);
+        $this->view->assign('department_checked',$row['department_ids']);
+        $this->view->assign("row", $row);
+        return $this->view->fetch();
     }
 }

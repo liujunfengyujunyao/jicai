@@ -62,8 +62,11 @@ class Stock extends Backend
                 ->where($where)
                 ->select();
             foreach($list as $key =>&$value){
-                $value['cate_name'] = DB::name('goodscategory')->find($value['cate_id'])['category_name'];
-                $value['scate_name'] = DB::name('goodscategory')->find($value['scate_id'])['category_name'];
+                
+                @$value['cate_name'] = DB::name('goodscategory')->find($value['cate_id'])['category_name'];
+                @$value['scate_name'] = DB::name('goodscategory')->find($value['scate_id'])['category_name'];
+                
+                
                 $value['t2.goods_name'] = $value['goods_name'];
 
             }

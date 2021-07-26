@@ -34,7 +34,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'id', title: 'ID'},
                         {field: 'username', title: __('登录账号')},
                         {field: 'nickname', title: __('用户名称')},
-                        {field: 'department', title: __('所属部门')},
+                        {field: 'department', title: __('所属部门'), operate:false, formatter: Table.api.formatter.label},
                         {field: 'groups_text', title: __('岗位'), operate:false, formatter: Table.api.formatter.label},
                         // {field: 'email', title: __('Email')},
                         {field: 'status', title: __("Status"), formatter: Table.api.formatter.status},
@@ -42,16 +42,14 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'operate', title: __('Operate'), table: table,
                             buttons: [
                                 {
-                                    name: '权限管理',
-                                    title: __('权限管理'),
-                                    text:'权限管理',
+                                    name: '分配岗位',
+                                    title: __('分配岗位'),
+                                    text:'分配岗位',
                                     classname: 'btn btn-xs btn-primary btn-dialog',
                                     icon: 'fa fa-address-card',
                                     // url: 'example/bootstraptable/detail',
                                     url:'auth/admin/auth',
-                                    callback: function (data) {
-                                        Layer.alert("接收到回传数据：" + JSON.stringify(data), {title: "回传数据"});
-                                    }
+
                                 }
                             ],
                             events: Table.api.events.operate, formatter: function (value, row, index) {
@@ -108,7 +106,13 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                     // edit_url: 'auth/admin/edit',
                     // del_url: 'auth/admin/del',
                     // multi_url: 'auth/admin/multi',
-                }
+                },
+                commonSearch: false,
+                visible: false,
+                showToggle: false,
+                showColumns: false,
+                search:false,
+                showExport: false,
             });
 
             var table = $("#table");

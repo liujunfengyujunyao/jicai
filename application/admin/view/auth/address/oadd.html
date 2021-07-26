@@ -1,0 +1,147 @@
+<!-- <div class="input-row">
+    <input type="radio" class="input-row" id="input-1"><label for="input-1">地址1</label>
+</div>
+<div class="input-row">
+    <input type="radio" class="input-row" id="input-2"><label for="input-2">地址2</label>
+</div> -->
+<style>
+    form.form-horizontal .control-label{
+        font-weight: normal;
+        text-align: right;
+        margin-bottom: 0;
+        margin-top: 0;
+        padding-top: 7px;
+    }
+    label{
+        margin: 10px;
+    }
+    @media screen and (max-height: 800px){
+        .sp_result_area {
+            max-height: 200px;
+            overflow-y: scroll;
+        }
+    }
+</style>
+<div class="input-row">
+    <input type="radio" name="input-row" id="input-own" onclick="addMet.confirmAdress()"><label for="input-own">使用新地址</label>
+</div>
+<form id="add-form" class="form-horizontal" role="form" style="display:none;">
+    <div class="form-group">
+        <label class="control-label col-xs-2 col-sm-2">商户名称:</label>
+        <div class="col-xs-8 col-sm-8">
+            <input id="c-first_department" data-rule="required" data-source="auth/department/first_department"
+                class="form-control selectpage" name="row[first_department]" type="text" value="" autocomplete="off">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-2 col-sm-2">收货人:</label>
+        <div class="col-xs-8 col-sm-8">
+            <input id="receiver" data-rule="required"
+            class="form-control" name="row[receiver]" type="text" value="" autocomplete="off">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-2 col-sm-2">收货人电话:</label>
+        <div class="col-xs-8 col-sm-8">
+            <input id="phone" maxlength="11" class="form-control" name="row[phone]" type="text" value="" autocomplete="off" data-rule="required;phone" data-rule-phone="[/^(1(([3456789][0-9])|(47)))\d{8}$/,'手机号格式错误']">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-2 col-sm-2">地 址:</label>
+        <div class="col-xs-8 col-sm-8">
+            <input id="c-city" class="form-control" data-toggle="city-picker" name="row[city]" type="text" value="" data-responsive="true"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-2 col-sm-2">详细地址:</label>
+        <div class="col-xs-8 col-sm-8">
+            <input id="address" data-rule="required"
+                class="form-control" name="row[address]" type="text" value="" autocomplete="off">
+        </div>
+    </div>
+    <div class="form-group" style="display:none">
+        <label class="control-label col-xs-2 col-sm-2">部门ID:</label>
+        <div class="col-xs-8 col-sm-8">
+            <input id="department_id"
+                   class="form-control" name="row[department_id]" type="text" value="{$department_id}" autocomplete="off">
+        </div>
+    </div>
+
+
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <!--            <button  class="btn btn-success btn-embossed">{:__('OK')}</button>-->
+            <button id="next" class="btn btn-success btn-embossed">{:__('OK')}</button>
+            <!--            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>-->
+        </div>
+    </div>
+</form>
+<script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+     $("#next").click(function(){
+        if($("#input-own").is(":checked")){
+            const obj = {
+                address: $("#address").val(),
+                department_id: $("#c-first_department").val(),
+                phone: $("#phone").val(),
+                receiver: $("#receiver").val(),
+            }
+             $.ajax({
+                url: "auth/address/new_add",
+                type: "post",
+                data:obj,
+                success: (res) => {
+                    if(res.msg!=""){
+                        parent.tableArr.addAdress(res.msg,$("#address").val()); 
+                    }
+                }
+            });
+            //
+
+        }else{
+           parent.tableArr.addAdress(addMet.adress.id,addMet.adress.address); 
+        }
+    });
+
+    var addMet = {
+        adress:{},
+        data: [],
+        init() {
+            $.ajax({
+                url: "index",
+                type: "post",
+                success: (res) => {
+                    if (res.rows.length > 0) {
+                        this.data = res.rows;
+                        const ownRow = $("#input-own").parent(".input-row");
+                        res.rows.map((v, index) => {
+                            ownRow.prepend(`<div class="input-row">
+                            <input type="radio" name="input-row" id="input-${index}" onclick="addMet.confirmAdress(${index})"><label for="input-${index}">${v.department_id} , ${v.receiver} , ${v.phone} , ${v.address}</label>
+                        </div>`);
+                        });
+                    }
+                }
+            });
+        },
+        confirmAdress(index){
+         if(index || index === 0){
+            
+            this.adress =  this.data[index];
+            console.log(this.adress);
+            // $("#next").removeClass("disabled");
+            $("#add-form").hide();
+         }else{
+            $("#add-form").show();
+            // $("#next").addClass("disabled");
+            this.adress = {};
+            $("#c-city").on("cp:updated", function() {
+                $("#address").val($("#c-city").val().replace(/\//g,""));
+            });
+         }
+          
+        }
+    }
+    addMet.init();
+</script>
